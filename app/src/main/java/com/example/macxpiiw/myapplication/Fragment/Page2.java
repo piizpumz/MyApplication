@@ -58,7 +58,7 @@ public class Page2 extends Fragment {
 
 //        populaterecyclerView(filter);
 
-        searchView.setQueryHint("หมู่บ้าน,หมู่ที่,ตำบล,จังหวัด qw[]f kofwep;gnolgdcfghjklwgwegwg");
+        searchView.setQueryHint("หมู่บ้าน,หมู่ที่,ตำบล,จังหวัด,testGit ");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
