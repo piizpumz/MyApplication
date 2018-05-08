@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+    <item
+        android:id="@+id/home_menu"
+        android:icon="@drawable/menu_video_label"
+        android:title="โฮม"
+        />
+
+    <item
+        android:id="@+id/farm_menu"
+        android:icon="@drawable/menu_terrain"
+        android:title="แปลงสำรวจ"
+        />
+
+    <item
+        android:id="@+id/survey_menu"
+        android:icon="@drawable/menu_zoom"
+        android:title="การสำรวจ"
+        />
+
+    <item
+        android:id="@+id/download_menu"
+        android:icon="@drawable/download_menu"
+        android:title="ดาวน์โหลด"
+        />
+
+    <item
+        android:id="@+id/upload_menu"
+        android:icon="@drawable/upload_menu"
+        android:title="อัพโหลด"
+        />
+
+
+
+
+
+</menu>

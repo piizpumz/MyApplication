@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+    tools:context="com.example.macxpiiw.myapplication.UpdateSurveyRecord">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="1dp">
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/updateDMY"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="วันเดือนปีที่สำรวจ (วว/ดด/ปป)"
+                    android:inputType="phone"
+                    android:layout_marginBottom="20dp"/>
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/updateTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="เวลาที่สำรวจ(ชช.นน)"
+                    android:inputType="phone"
+                    android:layout_marginBottom="20dp"/>
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/updateIncidence"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Incidence"
+                    android:inputType="text"
+                    android:layout_marginBottom="20dp"/>
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/updateSeverity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Severity"
+                    android:inputType="text"
+                    android:layout_marginBottom="20dp"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ประเภทนา :"
+                    android:layout_margin ="5dp"
+                    android:textSize="18dp"/>
+                <Spinner
+                    android:id="@+id/spinner_update_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:entries="@array/type_Rice">
+                </Spinner>
+
+
+
+            </LinearLayout>
+
+            <GridLayout
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/black_overlay">
+            </GridLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/updateTemp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="อุณหภูมิ"
+                    android:inputType="number"
+                    android:layout_marginBottom="20dp"/>
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/updateMoisture"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="ความชื้นในอากาศ"
+                    android:inputType="text"
+                    android:layout_marginBottom="20dp"/>
+            </android.support.design.widget.TextInputLayout>
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/updateRain"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="ปริมาณน้ำฝน"
+                    android:inputType="number"
+                    android:layout_marginBottom="20dp"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/updateLight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="ความเข้มแสง"
+                    android:inputType="number"
+                    android:layout_marginBottom="20dp"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/updateDew"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="ปริมาณน้ำค้าง"
+                    android:inputType="number"
+                    android:layout_marginBottom="20dp"/>
+            </android.support.design.widget.TextInputLayout>
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/updateSamplePoint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="จุดเก็บตัวอย่าง"
+                    android:inputType="number"
+                    android:layout_marginBottom="20dp"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/updatePoint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="จำนวนกอ"
+                    android:inputType="number"
+                    android:layout_marginBottom="20dp"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/btn_updateSurvey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/bottomNavigationView"
+                android:layout_alignParentStart="true"
+                android:gravity="center"
+                android:layout_margin="5dp"
+                android:text="เพิ่ม"
+                android:textColor="#000"
+                android:background="@color/colorPrimaryDark"
+                android:textSize="20sp" />
+
+
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</ScrollView>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_alignParentStart="true"
+    android:layout_gravity="center">
+
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <EditText
+            android:id="@+id/edit_nameplant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="พันธุ์ข้าว"
+            android:inputType="text"
+            android:layout_marginBottom="20dp"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_foradd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="เพิ่ม"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:background="@color/colorPrimary"/>
+
+</LinearLayout>

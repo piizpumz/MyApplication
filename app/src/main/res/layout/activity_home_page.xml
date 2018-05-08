@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:design="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.macxpiiw.myapplication.HomePage">
+
+
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#D3D3D3"
+        design:menu="@menu/menu_navigation"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="450dp"
+        tools:ignore="MissingConstraints"
+        android:layout_alignParentBottom="true"/>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_above="@id/bottomNavigationView">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="208dp"
+        android:layout_height="72dp"
+        android:text="ยินดีตอนรับ"
+        android:textSize="36dp"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="88dp"
+        tools:layout_editor_absoluteY="16dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="ขั้นตอนการเพิ่มข้อมูลการสำรวจ"
+        android:textSize="22dp"
+        tools:layout_editor_absoluteX="10dp"
+        tools:layout_editor_absoluteY="88dp"
+        tools:ignore="MissingConstraints" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="1.เพิ่มแปลงสำรวจพื้นฐาน"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="1.1 พื้นที่สำรวจ"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="1.2 แปลง"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="1.3 เพาะปลูก"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:textSize="20dp"
+        android:text="ขั้นตอนกลางเพิ่มแปลงสำรวจ"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:textSize="16dp"
+            android:text="1.ดาวน์โหลดพันธ์ุข้าว ในเมนูดาวน์โหลด"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/pink"
+            android:textSize="22dp"
+            android:text="(จำเป็น!!)"/>
+
+
+</LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:textSize="16dp"
+        android:text="2.เลือกแปลงสำรวจในแทบเมนูด้านล่าง"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:layout_marginLeft="40dp"
+        android:text="3.เริ่มบันทึกข้อมูล โดยกรอก พื่นที่สำรวจ -> แปลง -> เพาะปลูก ตามลำดับ"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:text="2.เพิ่มการสำรวจ"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:textSize="20dp"
+        android:text="ขั้นตอนการเพิ่มการสำรวจ"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:textSize="16dp"
+        android:text="1.โดยการเพิ่มการสำรวจนั้นให้เลือก รายการเพาะปลูกที่ต้องการจะเพิ่มการสำรวจ และเลือก 'เพิ่มการสำรวจ'"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:text="3.เพิ่มรูปภาพ"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:textSize="20dp"
+        android:text="ขั้นตอนการเพิ่มรูปภาพ"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:textSize="16dp"
+        android:text="1.หากต้องการเพิ่มรูปภาพ ให้เข้าที่เมนูการสำรวจ --> คลิกเลือกรายการสำรวจที่ต้องการจะเพิ่มรูปภาพ และเลือก 'เพิ่มรูปภาพ'"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:text="การลบ และ แก้ไขรายการ"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:textSize="20dp"
+        android:text="การลบและแก้ไขรายการนั้นสามารถทำได้โดย เลือกรายการที่ต้องการลบหรือแก้ไขได้เลย"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="36dp"
+        android:text="ลงแอพพลิเคชั่นไม่ได้!!!"
+        android:textColor="@color/pink"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:textSize="24dp"
+        android:text="หากไม่สามารถติดตั้งแอพพลิเคชันได้ ให้เข้าไปในการตั้งค่า --> ความปลอดภัย --> ลือกติ้กถูกติดตั้งแอพจากแหล่งที่ไม่รู้จัก "/>
+
+
+</LinearLayout>
+
+</ScrollView>
+
+
+
+
+</RelativeLayout>

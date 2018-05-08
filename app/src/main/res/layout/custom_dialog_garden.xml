@@ -1,0 +1,55 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:background="#FFF">
+
+        <TextView
+            android:id="@+id/option0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24dp"
+            android:textColor="#000"
+            android:background="#FFF"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
+
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/option1"
+            android:background="#FFF"
+            android:text="เพิ่มเพาะปลูก"
+            android:textAlignment="textStart"
+            android:textSize="18dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/option2"
+            android:background="#FFF"
+            android:text="แก้ไข"
+            android:textAlignment="textStart"
+            android:textSize="18dp"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/option3"
+            android:background="#FFF"
+            android:text="ลบ"
+            android:textAlignment="textStart"
+            android:textSize="18dp"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
