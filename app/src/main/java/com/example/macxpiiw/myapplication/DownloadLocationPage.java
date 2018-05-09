@@ -84,22 +84,27 @@ public class DownloadLocationPage extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.farm_menu){
                     Intent intent1 = new Intent(DownloadLocationPage.this , FarmPage.class);
+                    intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent1);
 
                 } else if (item.getItemId() == R.id.survey_menu){
                     Intent intent1 = new Intent(DownloadLocationPage.this , SurveyPage.class);
+                    intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent1);
 
                 } else if (item.getItemId() == R.id.home_menu){
                     Intent intent1 = new Intent(DownloadLocationPage.this , HomePage.class);
+                    intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent1);
 
                 } else if (item.getItemId() == R.id.download_menu){
                     Intent intent1 = new Intent(DownloadLocationPage.this , DownloadPage.class);
+                    intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent1);
 
                 } else if (item.getItemId() == R.id.upload_menu){
                     Intent intent1 = new Intent(DownloadLocationPage.this , UploadPage.class);
+                    intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent1);
 
                 }

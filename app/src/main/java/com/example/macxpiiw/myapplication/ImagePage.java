@@ -61,22 +61,27 @@ public class ImagePage extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.farm_menu){
                     Intent intent1 = new Intent(ImagePage.this , FarmPage.class);
+                    intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent1);
 
                 } else if (item.getItemId() == R.id.survey_menu){
                     Intent intent2 = new Intent(ImagePage.this , SurveyPage.class);
+                    intent2.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent2);
 
                 } else if (item.getItemId() == R.id.home_menu){
                     Intent intent3 = new Intent(ImagePage.this , HomePage.class);
+                    intent3.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent3);
 
                 } else if (item.getItemId() == R.id.download_menu){
                     Intent intent4 = new Intent(ImagePage.this , DownloadPage.class);
+                    intent4.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent4);
 
                 } else if (item.getItemId() == R.id.upload_menu){
                     Intent intent5 = new Intent(ImagePage.this , Login.class);
+                    intent5.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent5);
 
                 }

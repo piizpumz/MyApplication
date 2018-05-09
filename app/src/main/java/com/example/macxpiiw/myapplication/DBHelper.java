@@ -40,6 +40,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE_image = "image";
     public static final String TABLE_plant_last_update = "plant_last_update" ;
     public static final String TABLE_location_last_update = "location_last_update" ;
+    public static final String TABLE_disease_plant = "disease_plant";
 
 
     public static final String COL_Location_ID = "_id";
@@ -104,6 +105,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String COL_location_last_update_ID = "_id" ;
     public static final String COL_location_last_update_time = "location_last_update_time" ;
+
+    public static final String COL_Disease_Plant_ID = "_id";
+    public static final String COL_Disease_Plant_Name = "Disease_Plant_Name";
+    public static final String COL_Disease_Plant_Eng = "Disease_Plant_Eng";
 
 
     public DBHelper(Context context) {
@@ -172,13 +177,16 @@ public class DBHelper extends SQLiteOpenHelper {
                 + COL_Image_Status +" TEXT ," +
                 "FOREIGN KEY(" + COL_SurveyID+ " ) REFERENCES " +TABLE_survey + "("+COL_Survey_ID+"));");
 
+        db.execSQL("CREATE TABLE " +  TABLE_disease_plant + " ( " + COL_Disease_Plant_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COL_Disease_Plant_Name + " TEXT , "
+                + COL_Disease_Plant_Eng +" TEXT );");
+
         db.execSQL("CREATE TABLE " +  TABLE_plant_last_update + " ( " + COL_plant_last_update_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COL_plant_last_update_time + " DATE )");
 
         db.execSQL("CREATE TABLE " +  TABLE_location_last_update + " ( " + COL_location_last_update_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COL_location_last_update_time + " DATE )");
-
-
+        
 
         Log.d("CREATE TABLE" , "Create Table Success");
 
