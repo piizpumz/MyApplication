@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +27,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 public class DownloadPlantPage extends AppCompatActivity {
@@ -39,7 +42,16 @@ public class DownloadPlantPage extends AppCompatActivity {
     private List<JSONObject> collectItems;
     private List<String> showItems;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
+
     private DBHelper dbHelper ;
+
+
+    private ExpandableListView listView;
+    private ExpandableListAdapter listAdapter;
+    private List<String> listDataHeader;
+    private HashMap<String,List<String>> listHash;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +61,16 @@ public class DownloadPlantPage extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Intent refresh = new Intent(DownloadPlantPage.this, DownloadPlantPage.class);
+                refresh.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(refresh);
+            }
+        });
+
 
 //        btn_importAll = (Button) findViewById(R.id.import_all);
         addButt = (Button) findViewById(R.id.addButt);
@@ -57,6 +79,12 @@ public class DownloadPlantPage extends AppCompatActivity {
         mySQLConnect = new MySQLConnect(DownloadPlantPage.this);
         items = mySQLConnect.getData(1);
         update();
+
+
+        listView = (ExpandableListView)findViewById(R.id.lvExp);
+        showPlant(items);
+        listAdapter = new ExpandableListAdapter(this,listDataHeader,listHash);
+       listView.setAdapter(listAdapter);
 
 
 
@@ -217,6 +245,152 @@ public class DownloadPlantPage extends AppCompatActivity {
     private void goBackHome(){
         startActivity(new Intent(DownloadPlantPage.this, FarmPage.class));
     }
+
+
+//    public void showUpload(){
+//        DBHelper dbHelper = new DBHelper(this);
+//        String selectQuery = "SELECT "+dbHelper.COL_Province+ " FROM " + dbHelper.TABLE_location_survey + " group by " + dbHelper.COL_Province;
+//        SQLiteDatabase db = dbHelper.getReadableDatabase();
+//        Cursor cursor = db.rawQuery(selectQuery, null);
+//
+//        listDataHeader = new ArrayList<String>() ;
+//        ArrayList<String> count2 = new ArrayList<String>() ;
+//        listHash = new HashMap<>();
+//        int loopaom = 0 ;
+//
+//
+//        if(cursor.getCount() > 0){
+//            while (cursor.moveToNext()){
+//
+//                String selectQuery4 = "SELECT "+dbHelper.COL_Province+ " FROM " + dbHelper.TABLE_location_survey + " where " + dbHelper.COL_Province + " = '"+cursor.getString(cursor.getColumnIndex(dbHelper.COL_Province))+"'";
+//                SQLiteDatabase db4 = dbHelper.getReadableDatabase();
+//                Cursor cursor4 = db4.rawQuery(selectQuery4, null);
+//
+//
+//                listDataHeader.add(cursor.getString(cursor.getColumnIndex(dbHelper.COL_Province))+" ("+cursor4.getCount()+")");
+//
+//
+//                String selectQuery2 = "SELECT * FROM " + dbHelper.TABLE_location_survey + " where " + dbHelper.COL_Province + " = '"+cursor.getString(cursor.getColumnIndex(dbHelper.COL_Province))+"' group by "+dbHelper.COL_Amphur;
+//                SQLiteDatabase db2 = dbHelper.getReadableDatabase();
+//                Cursor cursor2 = db2.rawQuery(selectQuery2, null);
+//                List<String> amphur = new ArrayList<>();
+//                if(cursor2.getCount() > 0){
+//                    while (cursor2.moveToNext()) {
+//
+//                        amphur.add(cursor2.getString(cursor2.getColumnIndex(dbHelper.COL_Amphur))) ;
+//
+//                        String selectQuery3 = "SELECT * FROM " + dbHelper.TABLE_location_survey + " where " + dbHelper.COL_Amphur + " = '"+cursor2.getString(cursor2.getColumnIndex(dbHelper.COL_Amphur))+"' AND "+ dbHelper.COL_Province + " = '"+cursor.getString(cursor.getColumnIndex(dbHelper.COL_Province))+"'";
+//                        SQLiteDatabase db3 = dbHelper.getReadableDatabase();
+//                        Cursor cursor3 = db3.rawQuery(selectQuery3, null);
+//                        int count = 0 ;
+//                        if(cursor3.getCount() > 0) {
+//                            while (cursor3.moveToNext()) {
+//
+//
+//                                count++;
+//
+//
+//                            }
+//                        }
+//                        count2.add(String.valueOf(count)) ;
+//
+//                    }
+//                }
+////                else
+////                {
+////                    count2.add(String.valueOf(0)) ;
+////                }
+//
+//
+//                List<String> result = new ArrayList<String>() ;
+//                for(int i = 0 ;  i < amphur.size(); i++){
+//
+//                    result.add(amphur.get(i)+" ("+count2.get(i)+")") ;
+//
+//                }
+//
+//
+//                listHash.put(listDataHeader.get(loopaom),result);
+//                loopaom++ ;
+//                Log.d("amphur", String.valueOf(amphur));
+//            }
+//        }
+//
+//
+////        ArrayAdapter arrayAdapter;
+////        arrayAdapter = new ArrayAdapter(this,R.layout.setlanguage, R.id.tvName,showUpload());
+////        listAll.setAdapter(arrayAdapter) ;
+//
+////        ArrayList<String> result = new ArrayList<String>() ;
+////        for(int i = 0 ;  i < listDataHeader.size(); i++){
+////
+////            result.add(listDataHeader.get(i)+" มีจำนวน "+count2.get(i)+" พื้นที่ในเครื่อง") ;
+////
+////        }
+//
+//
+//        Log.d("string", String.valueOf(listDataHeader));
+//        Log.d("count2", String.valueOf(count2));
+//
+////        return result ;
+//
+//    }
+
+    public void showPlant(List<JSONObject> items) {
+        DBHelper dbHelper = new DBHelper(this);
+        String selectQuery = "SELECT " + dbHelper.COL_Plant_Common_Name + " FROM " + dbHelper.TABLE_plant;
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+
+
+        listDataHeader = new ArrayList<String>();
+        ArrayList<String> plantName = new ArrayList<String>();
+        ArrayList<String> plantName2 = new ArrayList<String>();
+        listHash = new HashMap<>();
+
+
+
+        collectItems = new ArrayList<JSONObject>();
+        showItems = new ArrayList<String>();
+        for (int i = 0; i < items.size(); i++) {
+
+            collectItems.add(items.get(i));
+
+        }
+        Log.d("size", String.valueOf(items.size()));
+
+        for (int j = 0; j < collectItems.size(); j++) {
+
+            try {
+                plantName2.add(collectItems.get(j).getString("Plant_Common_Name"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                plantName.add(cursor.getString(cursor.getColumnIndex(dbHelper.COL_Plant_Common_Name)));
+                String test = cursor.getString(cursor.getColumnIndex(dbHelper.COL_Plant_Common_Name)) ;
+                Log.d("showplant", test);
+            }
+
+        }
+
+        listDataHeader.add("พันธุ์ข้าวในเครื่อง ("+cursor.getCount()+")");
+        listDataHeader.add("พันธุ์ข้าวในเซิฟ ("+(collectItems.size()-1)+")");
+
+
+
+        listHash.put(listDataHeader.get(0), plantName);
+        listHash.put(listDataHeader.get(1), plantName2);
+
+
+    }
+
 
 }
 
