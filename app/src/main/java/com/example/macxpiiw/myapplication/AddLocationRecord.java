@@ -50,6 +50,7 @@ public class AddLocationRecord extends AppCompatActivity {
         String amphur = mamphur.getText().toString().trim();
         String province = spinprovince.getSelectedItem().toString().trim();
         String postcode = mpostcode.getText().toString().trim();
+        String status = null;
        dbHelper = new DBHelper(this);
 
         if(location_name.isEmpty()){
@@ -59,7 +60,7 @@ public class AddLocationRecord extends AppCompatActivity {
         }
 
         if (Empty) {
-            Location locaion = new Location(location_name, moo, tumbon, amphur, province, postcode);
+            Location locaion = new Location(location_name, moo, tumbon, amphur, province, postcode , status);
             dbHelper.saveNewLocation(locaion);
             finish();
 //            goBackHome();

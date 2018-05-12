@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +33,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         public TextView locationAmphurTxtV;
         public TextView locationProvinceTxtV;
         public TextView locationPostCodeTxtV;
+        public CardView cardView;
 
 
         public View layout;
@@ -45,6 +48,12 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
             locationAmphurTxtV = (TextView) v.findViewById(R.id.amphur);
             locationProvinceTxtV = (TextView) v.findViewById(R.id.province);
 //          locationPostCodeTxtV = (TextView) v.findViewById(R.id.postcode);
+            cardView = (CardView) v.findViewById(R.id.cardView);
+
+
+
+
+
 
         }
     }
@@ -74,6 +83,9 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         holder.locationTumbonTxtV.setText("ตำบล : " + location.getTumbon());
         holder.locationAmphurTxtV.setText("อำเภอ : "+ location.getAmphur());
         holder.locationProvinceTxtV.setText("จังหวัด : "+ location.getProvince());
+
+        holder.cardView.setCardBackgroundColor(Color.parseColor("#ffbf80"));
+
 //        holder.locationPostCodeTxtV.setText("รหัสไปรษณีย์ : " + location.getPost_code());
 
 //        holder.layout.setOnClickListener(new View.OnClickListener() {
@@ -114,10 +126,11 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 //            }
 //        });
 
+        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
 
-        holder.layout.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View view) {
+            public boolean onLongClick(View view)  {
                 final Dialog dialog = new Dialog(mContext);
                 dialog.setContentView(R.layout.custom_dialog_location);
                 dialog.setCancelable(true);
@@ -181,6 +194,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
                 });
 
                 dialog.show();
+                return false;
             }
         });
 

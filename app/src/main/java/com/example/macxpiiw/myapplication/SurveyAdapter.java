@@ -108,8 +108,9 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
 
         DBHelper dbHelper = new DBHelper(mContext);
         String NameLocation = dbHelper.getLocationNameforSurvey(position , survey) ;
+        int CountPic = dbHelper.getCountImage(survey.getId());
 
-        holder.surveySurveyID.setText("การสำรวจที่ : " + survey.getId());
+        holder.surveySurveyID.setText("การสำรวจที่ : " + survey.getId() + " (" +CountPic+" รูป)");
         holder.surveyFarmingIDTxtV.setText("เกษตกร : " + NameLocation);
         holder.surveyDMYTxtV.setText("วันที่สำรวจ : " + survey.getD_m_y_survey());
         holder.surveyTimeTxtV.setText("เวลาที่สำรวจ : " + survey.getTime_survey());

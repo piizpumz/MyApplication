@@ -52,9 +52,18 @@ public class Page2 extends Fragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         searchView = (SearchView) view.findViewById(R.id.searchView);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
 
-//        swipeRefreshLayout.setOnRefreshListener((SwipeRefreshLayout.OnRefreshListener) getContext());
+
+
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                populaterecyclerView(filter);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
 
 //        populaterecyclerView(filter);
 

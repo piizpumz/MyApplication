@@ -109,31 +109,6 @@ public class FarmPage extends AppCompatActivity /*implements View.OnClickListene
             }
         });
 
-
-
-
-
     }
 
-
-
-//    @Override
-//    public void onClick(View view) {
-//        Intent i;
-//
-//        switch (view.getId()) {
-//            case R.id.to_farming:
-//                i = new Intent(this, FarmingPage.class);startActivity(i);
-//                break;
-//            case R.id.to_garden:
-//                i = new Intent(this, GardenPage.class);startActivity(i);
-//                break;
-//            case R.id.to_location:
-//                i = new Intent(this, LocationPage.class);startActivity(i);
-//                break;
-//
-//        }
-//
-//
-//    }
 }

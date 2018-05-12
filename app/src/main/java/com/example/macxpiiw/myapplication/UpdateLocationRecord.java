@@ -75,9 +75,10 @@ public class UpdateLocationRecord extends AppCompatActivity {
         String amphur = mAmphurlText.getText().toString().trim();
         String province = mProvinceText.getSelectedItem().toString().trim();
         String postcode = mPostCodeText.getText().toString().trim();
+        String status = null;
 
 
-        Location updatedLocation = new Location(location_name , moo , tumbon , amphur , province , postcode);
+        Location updatedLocation = new Location(location_name , moo , tumbon , amphur , province , postcode , status);
 
         dbHelper.updateLocationRecord(receivedLocationId , this ,  updatedLocation);
         finish();

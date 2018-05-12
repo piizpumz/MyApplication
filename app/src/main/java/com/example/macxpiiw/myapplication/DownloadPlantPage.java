@@ -13,6 +13,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -61,16 +62,6 @@ public class DownloadPlantPage extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Intent refresh = new Intent(DownloadPlantPage.this, DownloadPlantPage.class);
-                refresh.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(refresh);
-            }
-        });
-
 
 //        btn_importAll = (Button) findViewById(R.id.import_all);
         addButt = (Button) findViewById(R.id.addButt);
@@ -86,10 +77,26 @@ public class DownloadPlantPage extends AppCompatActivity {
         listAdapter = new ExpandableListAdapter(this,listDataHeader,listHash);
        listView.setAdapter(listAdapter);
 
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                showPlant(items);
+                listAdapter = new ExpandableListAdapter(DownloadPlantPage.this,listDataHeader,listHash);
+                listView.setAdapter(listAdapter);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
 
 
         addButt.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
+
+                listView = (ExpandableListView)findViewById(R.id.lvExp);
+                showPlant(items);
+                listAdapter = new ExpandableListAdapter(DownloadPlantPage.this,listDataHeader,listHash);
+                listView.setAdapter(listAdapter);
 
                 collectItems = new ArrayList<JSONObject>();
                 showItems = new ArrayList<String>();

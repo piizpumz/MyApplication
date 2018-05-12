@@ -53,13 +53,14 @@ public class page3 extends Fragment{
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         searchView = (SearchView) view.findViewById(R.id.searchView);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
 
+
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 populaterecyclerView(filter);
-                swipeRefreshLayout.stopNestedScroll();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 

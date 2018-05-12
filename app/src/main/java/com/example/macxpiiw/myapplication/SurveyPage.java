@@ -3,6 +3,7 @@ package com.example.macxpiiw.myapplication;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ public class SurveyPage extends AppCompatActivity {
     private SurveyAdapter adapter;
     private String filter = "";
     private SearchView searchView ;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,16 @@ public class SurveyPage extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         searchView = (SearchView) findViewById(R.id.searchView);
+
+
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                populaterecyclerView(filter);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         populaterecyclerView(filter);
 

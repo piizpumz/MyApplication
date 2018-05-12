@@ -1319,6 +1319,28 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
+    //get count pic
+    public int getCountImage(Long surveyid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        int selectID;
+        String query;
+        Long id = surveyid;
+        int Count = 0;
+
+        query = "SELECT * FROM " + TABLE_image + " WHERE " + COL_SurveyID + " = " + surveyid;
+
+        Cursor cursor = db.rawQuery(query,null);
+        if (cursor.moveToFirst()) {
+            do {
+               Count++;
+            } while (cursor.moveToNext());
+        }
+
+        return Count;
+
+    }
+
+
 
 
 

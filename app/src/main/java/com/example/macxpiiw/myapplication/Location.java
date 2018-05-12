@@ -13,17 +13,28 @@ public class Location {
     private String province;
     private String post_code;
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    private String status;
+
 
     public Location() {
     }
 
-    public Location(String location_name, String moo, String tumbon, String amphur , String province , String post_code) {
+    public Location(String location_name, String moo, String tumbon, String amphur , String province , String post_code , String status) {
         this.location_name=location_name;
         this.moo = moo;
         this.tumbon=tumbon;
         this.amphur = amphur ;
         this.province = province;
         this.post_code = post_code;
+        this.status = status;
     }
 
     public long getId() {
