@@ -16,13 +16,14 @@ public class Garden {
 
     public Garden(){}
 
-    public Garden(String garden_name, String longitude, String latitude, String level_sea, String garden_size, String locationID) {
+    public Garden(String garden_name, String longitude, String latitude, String level_sea, String garden_size, String locationID , String garden_status) {
         this.garden_name = garden_name;
         this.longitude = longitude;
         this.latitude = latitude;
         this.level_sea = level_sea;
         this.garden_size = garden_size;
         this.locationID = locationID;
+        this.garden_satatus = garden_status;
     }
 
 

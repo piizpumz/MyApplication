@@ -3,10 +3,13 @@
 
 
 
+
+
+
     <item
-        android:id="@+id/home_menu"
-        android:icon="@drawable/menu_video_label"
-        android:title="โฮม"
+        android:id="@+id/download_menu"
+        android:icon="@drawable/download_menu"
+        android:title="ดาวน์โหลด"
         />
 
     <item
@@ -22,15 +25,15 @@
         />
 
     <item
-        android:id="@+id/download_menu"
-        android:icon="@drawable/download_menu"
-        android:title="ดาวน์โหลด"
-        />
-
-    <item
         android:id="@+id/upload_menu"
         android:icon="@drawable/upload_menu"
         android:title="อัพโหลด"
+        />
+
+    <item
+        android:id="@+id/home_menu"
+        android:icon="@drawable/ic_info_outline_black_24dp"
+        android:title="แนะนำการใช้"
         />
 
 

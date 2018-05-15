@@ -19,6 +19,18 @@ public class Survey {
     private Long farmingID ;
     private String incidence;
     private String severity;
+    private String status;
+
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+
 
     public String getIncidence() {
         return incidence;
@@ -38,7 +50,7 @@ public class Survey {
 
     public Survey(){}
 
-    public Survey(String d_m_y_survey, String time_survey, String temp, String moisture, String rain, String light, String dew, String category, String sample_point, String point, Long farmingID , String incidence , String severity) {
+    public Survey(String d_m_y_survey, String time_survey, String temp, String moisture, String rain, String light, String dew, String category, String sample_point, String point, Long farmingID , String incidence , String severity , String status) {
         this.d_m_y_survey = d_m_y_survey;
         this.time_survey = time_survey;
         this.temp = temp;
@@ -52,6 +64,7 @@ public class Survey {
         this.farmingID = farmingID;
         this.incidence = incidence;
         this.severity = severity;
+        this.status = status;
     }
 
     public long getId() {

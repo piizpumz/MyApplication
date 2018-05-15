@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +31,6 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
 
 
 
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView surveySurveyID;
         public TextView surveyDMYTxtV;
@@ -45,6 +46,11 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
         public TextView surveyFarmingIDTxtV;
         public TextView surveyIncidenceTxtV;
         public TextView surveySeverityTxtV;
+
+        public CardView cardView;
+        private Button btn1;
+        private Button btn2;
+        private Button btn3;
 
         public View layout;
 
@@ -67,6 +73,12 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
 //            surveySamplePointTxtV = (TextView) v.findViewById(R.id.sample_point);
 //            surveyPointTxtV = (TextView) v.findViewById(R.id.point);
             surveyFarmingIDTxtV = (TextView) v.findViewById(R.id.farmingid);
+
+
+            cardView = (CardView) v.findViewById(R.id.cardView);
+            btn1= (Button) v.findViewById(R.id.btn1);
+            btn2= (Button) v.findViewById(R.id.btn2);
+            btn3= (Button) v.findViewById(R.id.btn3);
 
         }
     }
@@ -107,138 +119,157 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
         final Survey survey = mSurveyList.get(position);
 
         DBHelper dbHelper = new DBHelper(mContext);
-        String NameLocation = dbHelper.getLocationNameforSurvey(position , survey) ;
+        String NameLocation = dbHelper.getLocationNameforSurvey(position, survey);
         int CountPic = dbHelper.getCountImage(survey.getId());
 
-        holder.surveySurveyID.setText("การสำรวจที่ : " + survey.getId() + " (" +CountPic+" รูป)");
+        holder.surveySurveyID.setText("การสำรวจที่ : " + survey.getId() + " (" + CountPic + " รูป)");
         holder.surveyFarmingIDTxtV.setText("เกษตกร : " + NameLocation);
         holder.surveyDMYTxtV.setText("วันที่สำรวจ : " + survey.getD_m_y_survey());
         holder.surveyTimeTxtV.setText("เวลาที่สำรวจ : " + survey.getTime_survey());
         holder.surveyIncidenceTxtV.setText("Incidence : " + survey.getIncidence());
         holder.surveySeverityTxtV.setText("Severity :  " + survey.getSeverity());
 
-//        holder.surveyTempTxtV.setText("อุณหภูมิ(*C) : " + survey.getTemp());
-//        holder.surveyMoistureTxtV.setText("ความชื้นสัมพัทธ์(%) : " + survey.getMoisture());
-//        holder.surveyRainTxtV.setText("ปริมาณน้ำฝน(mm) : " + survey.getRain());
-//        holder.surveyLightTxtV.setText("ปริมาณแสง(uM/m^2s) : " + survey.getLight());
-//        holder.surveyDewTxtV.setText("จุดน้ำค้าง(*C) : " + survey.getDew());
-//        holder.surveyCategoryTxtV.setText("ประเภทนา :" + survey.getCategory());
-//        holder.surveySamplePointTxtV.setText("จุดเก็บตัวอย่างต่อ1W : " +survey.getSample_point());
-//        holder.surveyPointTxtV.setText("จำนวนกอ : " + survey.getPoint());
+//
 
-//        holder.layout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                AlertDialog.Builder builder =  new AlertDialog.Builder(mContext);
-//                builder.setTitle("Choose option");
-//                builder.setMessage("Update or Delete Location?");
-//                builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        goToUpdateSurvey(survey.getId());
+        holder.btn2.setVisibility(View.INVISIBLE);
+        holder.btn3.setVisibility(View.INVISIBLE);
+        holder.cardView.setCardBackgroundColor(Color.parseColor("#CCCCCC"));
+
+
 //
-//                    }
-//                });
-//                builder.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog , int whiich) {
-//                        DBHelper dbHelper = new DBHelper(mContext);
-//                        dbHelper.deleteSurveyRecord(survey.getId(),mContext);
-//
-//                        mSurveyList.remove(position);
-//                        mRecyclerV.removeViewAt(position);
-//                        notifyItemRemoved(position);
-//                        notifyItemRangeChanged(position, mSurveyList.size());
-//                        notifyDataSetChanged();
-//
-//                    }
-//                });
-//                builder.setNegativeButton("Add Image", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        goToAddImage(survey.getId());
-//
-//                    }
-//                });
-//                builder.create().show();
-//            }
-//        });
+        if (survey.getStatus() != null) {
+            if (survey.getStatus().equals("1")) {
+
+                holder.cardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                holder.btn1.setVisibility(View.VISIBLE);
+                holder.btn2.setVisibility(View.VISIBLE);
+                holder.btn3.setVisibility(View.VISIBLE);
+            }
+        }
+
+
+        holder.btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToAddImage(survey.getId());
+            }
+        });
+
+        holder.btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToUpdateSurvey(survey.getId());
+            }
+        });
+
+        holder.btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle("ยืนยันการลบ");
+                builder.setMessage("หากลบการสำรวจ รุปภาพที่อยู่ในการสำรวจนี้จะถูกลบออกด้วย ท่านแน่ใจที่จะลบ?");
+
+                builder.setPositiveButton("ยกเลิก", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+
+                    }
+                });
+
+                builder.setNegativeButton("ยืนยน", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        goToDelete(position, survey.getId());
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
+            }
+        });
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Dialog dialog = new Dialog(mContext);
-
-                dialog.setContentView(R.layout.custom_dialog);
-                dialog.setCancelable(true);
-                TextView DialogOption0 = (TextView) dialog.findViewById(R.id.option0);
-                Button DialogOption1 = (Button) dialog.findViewById(R.id.option1);
-                Button DialogOption2 = (Button) dialog.findViewById(R.id.option2);
-                Button DialogOption3 = (Button) dialog.findViewById(R.id.option3);
-                final Button DialogOption4 = (Button) dialog.findViewById(R.id.option4);
-
-
-                DialogOption0.setText("การสำรวจที่ : " + survey.getId());
-
-                DialogOption1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        goToViewImage(survey.getId());
-                        dialog.dismiss();
-                    }
-                });
-
-                DialogOption2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        goToAddImage(survey.getId());
-                        dialog.dismiss();
-                    }
-                });
-
-                DialogOption3.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        goToUpdateSurvey(survey.getId());
-                        dialog.dismiss();
-                    }
-                });
-
-                DialogOption4.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        final AlertDialog.Builder builder =  new AlertDialog.Builder(mContext);
-                        builder.setTitle("ยืนยันการลบ");
-                        builder.setMessage("หากลบการสำรวจ รุปภาพที่อยู่ในการสำรวจนี้จะถูกลบออกด้วย ท่านแน่ใจที่จะลบ?");
-
-                        builder.setPositiveButton("ยกเลิก", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-
-
-                            }
-                        });
-
-                        builder.setNegativeButton("ยืนยน", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                goToDelete(position , survey.getId());
-                                dialog.dismiss();
-                            }
-                        });
-                        builder.create().show();
-                        dialog.dismiss();
-
-                    }
-                });
-
-                dialog.show();
+                goToViewImage(survey.getId());
             }
         });
-
     }
+//        holder.layout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                final Dialog dialog = new Dialog(mContext);
+//
+//                dialog.setContentView(R.layout.custom_dialog);
+//                dialog.setCancelable(true);
+//                TextView DialogOption0 = (TextView) dialog.findViewById(R.id.option0);
+//                Button DialogOption1 = (Button) dialog.findViewById(R.id.option1);
+//                Button DialogOption2 = (Button) dialog.findViewById(R.id.option2);
+//                Button DialogOption3 = (Button) dialog.findViewById(R.id.option3);
+//                final Button DialogOption4 = (Button) dialog.findViewById(R.id.option4);
+//
+//
+//                DialogOption0.setText("การสำรวจที่ : " + survey.getId());
+//
+//                DialogOption1.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        goToViewImage(survey.getId());
+//                        dialog.dismiss();
+//                    }
+//                });
+//
+//                DialogOption2.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        goToAddImage(survey.getId());
+//                        dialog.dismiss();
+//                    }
+//                });
+//
+//                DialogOption3.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        goToUpdateSurvey(survey.getId());
+//                        dialog.dismiss();
+//                    }
+//                });
+//
+//                DialogOption4.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//
+//                        final AlertDialog.Builder builder =  new AlertDialog.Builder(mContext);
+//                        builder.setTitle("ยืนยันการลบ");
+//                        builder.setMessage("หากลบการสำรวจ รุปภาพที่อยู่ในการสำรวจนี้จะถูกลบออกด้วย ท่านแน่ใจที่จะลบ?");
+//
+//                        builder.setPositiveButton("ยกเลิก", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//
+//
+//                            }
+//                        });
+//
+//                        builder.setNegativeButton("ยืนยน", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                goToDelete(position , survey.getId());
+//                                dialog.dismiss();
+//                            }
+//                        });
+//                        builder.create().show();
+//                        dialog.dismiss();
+//
+//                    }
+//                });
+//
+//                dialog.show();
+//            }
+//        });
+//
+//    }
 
 
 

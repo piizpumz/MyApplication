@@ -27,7 +27,7 @@ public class UpdateLocationRecord extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_location_record);
-        getSupportActionBar().setTitle("แก้ไขพื้นที่สำรวจ");
+
 
         //init
         mLocationNameText = (EditText)findViewById(R.id.updateLocation_Name);
@@ -63,6 +63,9 @@ public class UpdateLocationRecord extends AppCompatActivity {
                 updateLocation();
             }
         });
+
+
+        getSupportActionBar().setTitle("แก้ไข " + queriedLocation.getLocation_name());
 
 
 

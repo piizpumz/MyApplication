@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,9 +37,17 @@ public class GardenAdapter extends RecyclerView.Adapter<GardenAdapter.ViewHolder
         public TextView gardenLevelseaTxtV;
         public TextView gardenGardenSizeTxtV;
         public TextView gardenLocationTxtV;
+        public CardView cardView;
+        private Button btn1;
+        private Button btn2;
+        private Button btn3;
+
 
 
         public View layout;
+
+
+
 
 
         public ViewHolder(View v) {
@@ -50,6 +60,12 @@ public class GardenAdapter extends RecyclerView.Adapter<GardenAdapter.ViewHolder
             gardenLevelseaTxtV = (TextView) v.findViewById(R.id.levelsea);
             gardenGardenSizeTxtV = (TextView) v.findViewById(R.id.gardensize);
             gardenLocationTxtV = (TextView) v.findViewById(R.id.locationid);
+
+            cardView = (CardView) v.findViewById(R.id.cardView);
+
+            btn1= (Button) v.findViewById(R.id.btn1);
+            btn2= (Button) v.findViewById(R.id.btn2);
+            btn3= (Button) v.findViewById(R.id.btn3);
         }
     }
 
@@ -92,51 +108,82 @@ public class GardenAdapter extends RecyclerView.Adapter<GardenAdapter.ViewHolder
         String NameLocation = dbHelper.getNameLocation(position , garden);
         String tumbonLocation = dbHelper.getTumbonLocation(position , garden);
 
+        int Count = dbHelper.CountFarming(garden.getId());
 
-        holder.gardenGardenNameTxtV.setText("ชื่อเกษตรกร : " + garden.getGarden_name());
+
+        holder.gardenGardenNameTxtV.setText("ชื่อเกษตรกร : " + garden.getGarden_name() + " (" + Count + " เพาะปลูก)");
         holder.gardenLocationTxtV.setText("หมู่บ้าน : " + NameLocation + " (ตำบล:" + tumbonLocation +")" );
         holder.gardenLongitudeTxtV.setText("ลองติจูด : " + garden.getLongitude());
         holder.gardenLatitudeTxtV.setText("ละติจูด : " + garden.getLatitude());
         holder.gardenGardenSizeTxtV.setText("พื้นที่ระบาด : " + garden.getGarden_size());
         holder.gardenLevelseaTxtV.setText("ความสูงจากน้ำทะเล : " + garden.getLevel_sea());
 
-//        holder.layout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                AlertDialog.Builder builder =  new AlertDialog.Builder(mContext);
-//                builder.setTitle("แปลงสำรวจ " + garden.getGarden_name());
-//                builder.setMessage("ต้องการจะลบหรือแก้ไข แปลงสำรวจ ?");
-//                builder.setPositiveButton("แก้ไข", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        gotoUpdateGarden(garden.getId());
+
+        holder.btn2.setVisibility(View.INVISIBLE);
+        holder.btn3.setVisibility(View.INVISIBLE);
+        holder.cardView.setCardBackgroundColor(Color.parseColor("#CCCCCC"));
+
+
 //
-//                    }
-//                });
-//                builder.setNeutralButton("ลบ", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog , int whiich) {
-//                        DBHelper dbHelper = new DBHelper(mContext);
-//                        dbHelper.deleteGardenRecord(garden.getId(),mContext);
-//
-//                        mGardenList.remove(position);
-//                        mRecyclerV.removeViewAt(position);
-//                        notifyItemRemoved(position);
-//                        notifyItemRangeChanged(position, mGardenList.size());
-//                        notifyDataSetChanged();
-//
-//                    }
-//                });
-//                builder.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//
-//                    }
-//                });
-//                builder.create().show();
-//            }
-//        });
+        if (garden.getGarden_satatus()!=null) {
+            if (garden.getGarden_satatus().equals("1")) {
+
+                holder.cardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                holder.btn1.setVisibility(View.VISIBLE);
+                holder.btn2.setVisibility(View.VISIBLE);
+                holder.btn3.setVisibility(View.VISIBLE);
+            }
+        }
+
+
+        holder.btn1.setVisibility(Button.VISIBLE);
+
+        holder.btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToAddFarming(garden.getId());
+            }
+        });
+
+        holder.btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gotoUpdateGarden(garden.getId());
+            }
+        });
+
+        holder.btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final AlertDialog.Builder builder =  new AlertDialog.Builder(mContext);
+                builder.setTitle("ยืนยันการลบ");
+                builder.setMessage("ท่าแแน่ใจที่จะลบแปลง " +garden.getGarden_name()+ " หรือไม่ ?");
+
+                builder.setPositiveButton("ยกเลิก", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.setNegativeButton("ยืนยน", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DBHelper dbHelper = new DBHelper(mContext);
+                        dbHelper.deleteGardenRecord(garden.getId(),mContext);
+                        mGardenList.remove(position);
+                        mRecyclerV.removeViewAt(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, mGardenList.size());
+                        notifyDataSetChanged();
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
+            }
+        });
+
+
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -17,10 +17,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.macxpiiw.myapplication.AddGardenRecord;
-import com.example.macxpiiw.myapplication.AddLocationRecord;
 import com.example.macxpiiw.myapplication.DBHelper;
 import com.example.macxpiiw.myapplication.GardenAdapter;
-import com.example.macxpiiw.myapplication.LocationAdapter;
 import com.example.macxpiiw.myapplication.R;
 
 /**

@@ -34,7 +34,7 @@ public class UpdateFarmingRecord extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_farming_record);
-        getSupportActionBar().setTitle("แก้ไขการเพาะปลูก");
+
 
         mDMY_FarmingText = (EditText) findViewById(R.id.updateDMY_Farming);
 
@@ -80,7 +80,7 @@ public class UpdateFarmingRecord extends AppCompatActivity {
 
 
 
-
+        getSupportActionBar().setTitle("แก้ไขการเพาะปลูกที่ " + receivedFarmingId);
 
     }
 
@@ -89,12 +89,12 @@ public class UpdateFarmingRecord extends AppCompatActivity {
         String dmy_farming = mDMY_FarmingText.getText().toString().trim();
         String gardenname = mGardenSpinner.getSelectedItem().toString().trim();
         String plant = mPlantSpinner.getSelectedItem().toString().trim();
-
+        String status = null ;
 
         String[] namegarden = gardenname.split(",");
 
 
-        Farming updateFarming = new Farming(dmy_farming , namegarden[0] , plant);
+        Farming updateFarming = new Farming(dmy_farming , namegarden[0] , plant , status);
         dbHelper.updateFarmingRecord(receivedFarmingId , this , updateFarming);
         finish();
 

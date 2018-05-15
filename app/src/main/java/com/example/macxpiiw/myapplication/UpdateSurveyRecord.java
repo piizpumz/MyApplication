@@ -101,9 +101,10 @@ public class UpdateSurveyRecord extends AppCompatActivity {
         String point = mPointEditText.getText().toString().trim();
         String incidence = mIncidenceEditText.getText().toString().trim();
         String severity = mSeverity.getText().toString().trim();
+        String status = null;
         Long farmingID =mFarmingIDEditText ;
 
-        Survey updatedSurvey = new Survey(d_m_y_survey , time_survey ,temp , moisture , rain , light , dew , category , sample_point , point ,farmingID , incidence , severity);
+        Survey updatedSurvey = new Survey(d_m_y_survey , time_survey ,temp , moisture , rain , light , dew , category , sample_point , point ,farmingID , incidence , severity , status);
 
         dbHelper.updateSurveyRecord(receivedSurveyId , this ,updatedSurvey);
         finish();

@@ -95,10 +95,11 @@ public class AddSurveyRecord extends AppCompatActivity {
         String point = mPointEditText.getText().toString().trim();
         String incidence = mIncidence.getText().toString().trim();
         String severity = mSeverity.getText().toString().trim();
+        String status = null ;
         Long farmingID = receivedFarmingId;
         dbHelper = new DBHelper(this);
 
-        Survey survey = new Survey(d_m_y_survey , time_survey , temp , moisture , rain , light , dew , category , sample_point ,point ,farmingID , incidence , severity);
+        Survey survey = new Survey(d_m_y_survey , time_survey , temp , moisture , rain , light , dew , category , sample_point ,point ,farmingID , incidence , severity , status);
         dbHelper.saveNewSurvey(survey);
         finish();
         goBackHome();

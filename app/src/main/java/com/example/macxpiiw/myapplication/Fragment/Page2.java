@@ -101,6 +101,8 @@ public class Page2 extends Fragment {
         dbHelper = new DBHelper(getContext());
         adapter = new LocationAdapter(dbHelper.locationList(filter) , getContext() , mRecyclerView);
         mRecyclerView.setAdapter(adapter);
+
+        //mRecyclerView.fi
     }
 
     @Override

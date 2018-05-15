@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_marginLeft="5dp"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="#000"
                     android:id="@+id/surveyId"
                     android:text="SurveyID"
                     android:layout_width="wrap_content"

@@ -12,7 +12,6 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 
 public class GardenPage extends AppCompatActivity {
@@ -27,6 +26,8 @@ public class GardenPage extends AppCompatActivity {
     private GardenAdapter adapter;
     private String filter = "";
     private SearchView searchView ;
+
+    private Long locationId;
 
 
 
@@ -46,7 +47,6 @@ public class GardenPage extends AppCompatActivity {
         searchView = (SearchView)findViewById(R.id.searchView);
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -54,7 +54,20 @@ public class GardenPage extends AppCompatActivity {
                 startActivity(relocation);
             }
         });
+
+
+
+        try{
+            locationId =getIntent().getLongExtra("Location_ID" , 1);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         populaterecyclerView(filter);
+
+
+
+
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -68,6 +81,9 @@ public class GardenPage extends AppCompatActivity {
                 return false;
             }
         });
+
+
+
 
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
@@ -107,6 +123,8 @@ public class GardenPage extends AppCompatActivity {
 
 
     }
+
+
 
     private void populaterecyclerView(String filter) {
         dbHelper = new DBHelper(this);

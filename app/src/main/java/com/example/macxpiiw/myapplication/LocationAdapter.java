@@ -34,10 +34,13 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         public TextView locationProvinceTxtV;
         public TextView locationPostCodeTxtV;
         public CardView cardView;
+        private Button btn1;
+        private Button btn2;
+        private Button btn3;
+
 
 
         public View layout;
-
 
         public ViewHolder(View v) {
             super(v);
@@ -49,7 +52,9 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
             locationProvinceTxtV = (TextView) v.findViewById(R.id.province);
 //          locationPostCodeTxtV = (TextView) v.findViewById(R.id.postcode);
             cardView = (CardView) v.findViewById(R.id.cardView);
-
+            btn1= (Button) v.findViewById(R.id.btn1);
+            btn2= (Button) v.findViewById(R.id.btn2);
+            btn3= (Button) v.findViewById(R.id.btn3);
 
 
 
@@ -76,102 +81,60 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(LocationAdapter.ViewHolder holder, final int position) {
-
         final Location location = mLocationList.get(position);
-        holder.locationLocation_NameTxtV.setText("ชื่อหมู่บ้าน : " + location.getLocation_name());
+
+        DBHelper dbHelper = new DBHelper(mContext);
+        int Count = dbHelper.CountGarden(location.getId());
+
+        holder.locationLocation_NameTxtV.setText("ชื่อหมู่บ้าน : " + location.getLocation_name() + " (" + Count + " แปลง)");
         holder.locationMooTxtV.setText("หมู่ที่ : " + location.getMoo());
         holder.locationTumbonTxtV.setText("ตำบล : " + location.getTumbon());
         holder.locationAmphurTxtV.setText("อำเภอ : "+ location.getAmphur());
         holder.locationProvinceTxtV.setText("จังหวัด : "+ location.getProvince());
 
-        holder.cardView.setCardBackgroundColor(Color.parseColor("#ffbf80"));
 
-//        holder.locationPostCodeTxtV.setText("รหัสไปรษณีย์ : " + location.getPost_code());
+        holder.btn2.setVisibility(View.INVISIBLE);
+        holder.btn3.setVisibility(View.INVISIBLE);
+        holder.cardView.setCardBackgroundColor(Color.parseColor("#CCCCCC"));
 
-//        holder.layout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                AlertDialog.Builder builder =  new AlertDialog.Builder(mContext);
-//                builder.setTitle( "หมู่บ้าน " +location.getLocation_name());
-//                builder.setMessage("ต้องการจะลบหรือแก้ไข พื้นที่สำรวจ ?");
-//                builder.setPositiveButton("แก้ไข", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        goToUpdateLocation(location.getId());
+
 //
-//                    }
-//                });
-//                builder.setNeutralButton("ลบ", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog , int whiich) {
-//                        DBHelper dbHelper = new DBHelper(mContext);
-//                        dbHelper.deleteLocationRecord(location.getId(),mContext);
-//
-//                        mLocationList.remove(position);
-//                        mRecyclerV.removeViewAt(position);
-//                        notifyItemRemoved(position);
-//                        notifyItemRangeChanged(position, mLocationList.size());
-//                        notifyDataSetChanged();
-//
-//                    }
-//                });
-//                builder.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//
-//                    }
-//                });
-//                builder.create().show();
-//            }
-//        });
+        if (location.getStatus()!=null) {
+            if (location.getStatus().equals("1")) {
 
-        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
+                holder.cardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                holder.btn1.setVisibility(View.VISIBLE);
+                holder.btn2.setVisibility(View.VISIBLE);
+                holder.btn3.setVisibility(View.VISIBLE);
+            }
+        }
 
 
-            @Override
-            public boolean onLongClick(View view)  {
-                final Dialog dialog = new Dialog(mContext);
-                dialog.setContentView(R.layout.custom_dialog_location);
-                dialog.setCancelable(true);
-                TextView DialogOption0 = (TextView) dialog.findViewById(R.id.option0);
-                Button DialogOption1 = (Button) dialog.findViewById(R.id.option1);
-                Button DialogOption2 = (Button) dialog.findViewById(R.id.option2);
-                Button DialogOption3 = (Button) dialog.findViewById(R.id.option3);
-                final Button DialogOption4 = (Button) dialog.findViewById(R.id.option4);
-
-
-                DialogOption0.setText("หมู่บ้าน : " + location.getLocation_name());
-
-                DialogOption1.setOnClickListener(new View.OnClickListener() {
+                holder.btn1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         goToAddGarden(location.getId());
-                        dialog.dismiss();
                     }
                 });
 
-                DialogOption2.setOnClickListener(new View.OnClickListener() {
+                holder.btn2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         goToUpdateLocation(location.getId());
-                        dialog.dismiss();
                     }
                 });
 
-                DialogOption3.setOnClickListener(new View.OnClickListener() {
+                holder.btn3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        final AlertDialog.Builder builder =  new AlertDialog.Builder(mContext);
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                         builder.setTitle("ยืนยันการลบ");
-                        builder.setMessage("ท่าแแน่ใจที่จะลบพื้นที่สำรวจนี้หรือไม่ ?");
+                        builder.setMessage("ท่าแแน่ใจที่จะลบ " + location.getLocation_name() + " หรือไม่ ?");
 
                         builder.setPositiveButton("ยกเลิก", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-
-
                             }
                         });
 
@@ -179,24 +142,91 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 DBHelper dbHelper = new DBHelper(mContext);
-                        dbHelper.deleteLocationRecord(location.getId(),mContext);
-                        mLocationList.remove(position);
-                        mRecyclerV.removeViewAt(position);
-                        notifyItemRemoved(position);
-                        notifyItemRangeChanged(position, mLocationList.size());
-                        notifyDataSetChanged();
+                                dbHelper.deleteLocationRecord(location.getId(), mContext);
+                                mLocationList.remove(position);
+                                mRecyclerV.removeViewAt(position);
+                                notifyItemRemoved(position);
+                                notifyItemRangeChanged(position, mLocationList.size());
+                                notifyDataSetChanged();
                                 dialog.dismiss();
                             }
                         });
                         builder.create().show();
-                        dialog.dismiss();
                     }
                 });
 
-                dialog.show();
-                return false;
-            }
-        });
+
+//        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
+//
+//
+//            @Override
+//            public boolean onLongClick(View view)  {
+//                final Dialog dialog = new Dialog(mContext);
+//                dialog.setContentView(R.layout.custom_dialog_location);
+//                dialog.setCancelable(true);
+//                TextView DialogOption0 = (TextView) dialog.findViewById(R.id.option0);
+//                Button DialogOption1 = (Button) dialog.findViewById(R.id.option1);
+//                Button DialogOption2 = (Button) dialog.findViewById(R.id.option2);
+//                Button DialogOption3 = (Button) dialog.findViewById(R.id.option3);
+//                final Button DialogOption4 = (Button) dialog.findViewById(R.id.option4);
+//
+//
+//                DialogOption0.setText("หมู่บ้าน : " + location.getLocation_name());
+//
+//                DialogOption1.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        goToAddGarden(location.getId());
+//                        dialog.dismiss();
+//                    }
+//                });
+//
+//                DialogOption2.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        goToUpdateLocation(location.getId());
+//                        dialog.dismiss();
+//                    }
+//                });
+//
+//                DialogOption3.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        final AlertDialog.Builder builder =  new AlertDialog.Builder(mContext);
+//                        builder.setTitle("ยืนยันการลบ");
+//                        builder.setMessage("ท่าแแน่ใจที่จะลบพื้นที่สำรวจนี้หรือไม่ ?");
+//
+//                        builder.setPositiveButton("ยกเลิก", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//
+//
+//                            }
+//                        });
+//
+//                        builder.setNegativeButton("ยืนยน", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                DBHelper dbHelper = new DBHelper(mContext);
+//                        dbHelper.deleteLocationRecord(location.getId(),mContext);
+//                        mLocationList.remove(position);
+//                        mRecyclerV.removeViewAt(position);
+//                        notifyItemRemoved(position);
+//                        notifyItemRangeChanged(position, mLocationList.size());
+//                        notifyDataSetChanged();
+//                                dialog.dismiss();
+//                            }
+//                        });
+//                        builder.create().show();
+//                        dialog.dismiss();
+//                    }
+//                });
+//
+//                dialog.show();
+//                return false;
+//            }
+//        });
 
     }
 
@@ -221,7 +251,11 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         mContext.startActivity(gotoAdd);
     }
 
-
+    private void goToGarden(long locationId){
+        Intent gotoGarden = new Intent(mContext , GardenPage.class);
+        gotoGarden.putExtra("Location_ID" , locationId);
+        mContext.startActivity(gotoGarden);
+    }
 
     @Override
     public int getItemCount() {

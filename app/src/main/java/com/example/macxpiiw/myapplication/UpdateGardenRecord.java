@@ -29,7 +29,6 @@ public class UpdateGardenRecord extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_garden_record);
-        getSupportActionBar().setTitle("แก้ไขแปลงสำรวจ");
 
         mGardenNameText = (EditText) findViewById(R.id.updateGarden_Name);
         mLongitudeText = (EditText) findViewById(R.id.updateLongitude);
@@ -73,6 +72,9 @@ public class UpdateGardenRecord extends AppCompatActivity {
             }
         });
 
+
+        getSupportActionBar().setTitle("แก้ไขแปลง " + queriedGarden.getGarden_name());
+
     }
 
     private void updateGarden(){
@@ -83,11 +85,12 @@ public class UpdateGardenRecord extends AppCompatActivity {
         String level_sea = mLevelSeaText.getText().toString().trim();
         String garden_size = mGardenSizeText.getText().toString().trim();
         String locationName = mLocationNameText.getSelectedItem().toString().trim();
+        String status = null;
 
         String[] name = locationName.split(",");
 
 
-        Garden updatedGarden = new Garden(garden_name , longitude , latitude , level_sea ,garden_size , name[0]);
+        Garden updatedGarden = new Garden(garden_name , longitude , latitude , level_sea ,garden_size , name[0] , status);
         dbHelper2.updateGardenRecord(receivedGardenId , this ,  updatedGarden);
         finish();
 

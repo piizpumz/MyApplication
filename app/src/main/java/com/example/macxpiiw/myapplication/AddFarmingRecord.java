@@ -179,9 +179,10 @@ public class AddFarmingRecord extends AppCompatActivity {
             String[] Date = d_m_y_farming.split("-");
             String dateeee = Date[2] + "-"+Date[1]+"-"+Date[0];
             String[] name = gardenid.split(",");
+            String status = null ;
 
 
-            Farming farming = new Farming(dateeee, name[0], plantid);
+            Farming farming = new Farming(dateeee, name[0], plantid , status);
             dbHelper.saveNewFarming(farming);
             finish();
 //            goBackHome();

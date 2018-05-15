@@ -265,6 +265,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 location.setAmphur(cursor.getString(cursor.getColumnIndex(COL_Amphur)));
                 location.setProvince(cursor.getString(cursor.getColumnIndex(COL_Province)));
                 location.setPost_code(cursor.getString(cursor.getColumnIndex(COL_Post_Code)));
+                location.setStatus(cursor.getString(cursor.getColumnIndex(COL_Location_Status)));
                 locationLinkedList.add(location);
             } while (cursor.moveToNext());
         }
@@ -389,6 +390,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 garden.setLevel_sea(cursor.getString(cursor.getColumnIndex(COL_Level_sea)));
                 garden.setGarden_size(cursor.getString(cursor.getColumnIndex(COL_Garden_Size)));
                 garden.setLocationID(cursor.getString(cursor.getColumnIndex(COL_LocationID)));
+                garden.setGarden_satatus(cursor.getString(cursor.getColumnIndex(COL_Garden_Status)));
                 gardenLinkedList.add(garden);
             }while (cursor.moveToNext());
         }
@@ -396,6 +398,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return gardenLinkedList;
 
     }
+
 
     public Garden getGarden(long id){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -529,6 +532,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 farming.setD_m_y_farming(cursor.getString(cursor.getColumnIndex(COL_D_M_Y_Farming)));
                 farming.setGardenid(cursor.getString(cursor.getColumnIndex(COL_GardenID)));
                 farming.setPlantid(cursor.getString(cursor.getColumnIndex(COL_PlantID)));
+                farming.setStatus(cursor.getString(cursor.getColumnIndex(COL_Farming_Status)));
                 farmingLinkedList.add(farming);
             } while (cursor.moveToNext());
         }
@@ -679,6 +683,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 survey.setFarmingID(cursor.getLong(cursor.getColumnIndex(COL_FarmingID)));
                 survey.setIncidence(cursor.getString(cursor.getColumnIndex(COL_Incidence)));
                 survey.setSeverity(cursor.getString(cursor.getColumnIndex(COL_Severity)));
+                survey.setStatus(cursor.getString(cursor.getColumnIndex(COL_Survey_Status)));
                 surveyLinkedList.add(survey);
             } while (cursor.moveToNext());
         }
@@ -1344,10 +1349,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
 
-
-
-
-
     // upload
 
     public String UploadLocation(){
@@ -1704,6 +1705,67 @@ public class DBHelper extends SQLiteOpenHelper {
         database.close();
     }
 
+
+
+
+    public int CountGarden(Long locationid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        int selectID;
+        String query;
+        Long id = locationid;
+        int Count = 0;
+
+        query = "SELECT * FROM " + TABLE_garden_survey + " WHERE " + COL_LocationID + " = " + locationid;
+
+        Cursor cursor = db.rawQuery(query,null);
+        if (cursor.moveToFirst()) {
+            do {
+                Count++;
+            } while (cursor.moveToNext());
+        }
+
+        return Count;
+    }
+
+
+    public int CountFarming(Long gardenid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        int selectID;
+        String query;
+        Long id = gardenid;
+        int Count = 0;
+
+        query = "SELECT * FROM " + TABLE_farming + " WHERE " + COL_GardenID + " = " + gardenid;
+
+        Cursor cursor = db.rawQuery(query,null);
+        if (cursor.moveToFirst()) {
+            do {
+                Count++;
+            } while (cursor.moveToNext());
+        }
+
+        return Count;
+    }
+
+
+    public int CountSurvey(Long farmingid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        int selectID;
+        String query;
+        Long id = farmingid;
+        int Count = 0;
+
+        query = "SELECT * FROM " + TABLE_survey + " WHERE " + COL_FarmingID + " = " + farmingid;
+
+        Cursor cursor = db.rawQuery(query,null);
+        if (cursor.moveToFirst()) {
+            do {
+                Count++;
+            } while (cursor.moveToNext());
+        }
+
+        return Count;
+    }
 
 
 

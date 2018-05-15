@@ -6,6 +6,7 @@
     android:layout_margin="5dp">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -17,65 +18,87 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:orientation="vertical"
-                android:padding="1dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_height="wrap_content">
+                android:orientation="vertical"
+                android:padding="1dp">
+
                 <TextView
-                    android:layout_marginLeft="5dp"
-                    android:textColor="@color/colorPrimary"
                     android:id="@+id/gardenname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:text="GardenName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textColor="#000" />
+
                 <TextView
-                    android:layout_marginLeft="5dp"
                     android:id="@+id/locationid"
-                    android:text="LocationID"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="LocationID" />
 
                 <TextView
-                    android:layout_marginLeft="5dp"
                     android:id="@+id/longitude"
-                    android:text="Longitude"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="Longitude" />
 
                 <TextView
-                    android:layout_marginLeft="5dp"
                     android:id="@+id/latitude"
-                    android:text="Latitude"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="Latitude" />
 
                 <TextView
-                    android:layout_marginLeft="5dp"
                     android:id="@+id/levelsea"
-                    android:text="LevelSea"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
+                    android:text="LevelSea" />
+
+                <TextView
                     android:id="@+id/gardensize"
-                    android:text="GardenSize"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="GardenSize" />
 
 
             </LinearLayout>
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
-                <ImageView
-                    android:layout_width="40dp"
+
+                <Button
+                    android:id="@+id/btn1"
+                    android:text="เพิ่มเพาะปลูก"
+                    android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:src="@drawable/ic_more_vert_black_24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="5dp"/>
+
+                <Button
+                    android:id="@+id/btn2"
+                    android:text="แก้ไข"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="20dp"
-                    />
+                    android:layout_marginRight="5dp"/>
+                <Button
+                    android:id="@+id/btn3"
+                    android:text="ลบ"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="5dp"/>
+
 
             </RelativeLayout>
 

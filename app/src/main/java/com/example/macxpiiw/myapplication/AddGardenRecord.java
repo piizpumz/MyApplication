@@ -136,6 +136,7 @@ public class AddGardenRecord extends AppCompatActivity {
         String level_sea = mLevelSeaEditText.getText().toString().trim();
         String garden_size = mGardenSizeEditText.getText().toString().trim();
         String locationName = mLocationSpinner.getSelectedItem().toString().trim();
+        String status = null;
         dbHelper = new DBHelper(this);
 
 
@@ -148,7 +149,7 @@ public class AddGardenRecord extends AppCompatActivity {
         }
 
         if (Empty) {
-            Garden garden = new Garden(garden_name, longitude, latitude, level_sea, garden_size, name[0]);
+            Garden garden = new Garden(garden_name, longitude, latitude, level_sea, garden_size, name[0] , status);
             dbHelper.saveNewGarden(garden);
             finish();
 //            goBackHome();
