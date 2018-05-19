@@ -59,7 +59,7 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
         public ViewHolder(View v) {
             super(v);
             layout = v;
-
+//
             surveySurveyID = (TextView) v.findViewById(R.id.survey_id);
             surveyDMYTxtV= (TextView) v.findViewById(R.id.dmy_survey);
             surveyTimeTxtV= (TextView) v.findViewById(R.id.time_survey);
