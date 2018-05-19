@@ -155,6 +155,7 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
                 holder.btn1.setVisibility(View.VISIBLE);
                 holder.btn2.setVisibility(View.VISIBLE);
                 holder.btn3.setVisibility(View.VISIBLE);
+                //sdsdsdsd
             }
         }
 
