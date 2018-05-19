@@ -51,6 +51,7 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
         private Button btn1;
         private Button btn2;
         private Button btn3;
+        private Button btn_ViewPic;
 
         public View layout;
 
@@ -75,7 +76,9 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
             surveyFarmingIDTxtV = (TextView) v.findViewById(R.id.farmingid);
 
 
+
             cardView = (CardView) v.findViewById(R.id.cardView);
+            btn_ViewPic = (Button) v.findViewById(R.id.btn_view_pic);
             btn1= (Button) v.findViewById(R.id.btn1);
             btn2= (Button) v.findViewById(R.id.btn2);
             btn3= (Button) v.findViewById(R.id.btn3);
@@ -136,6 +139,14 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
         holder.cardView.setCardBackgroundColor(Color.parseColor("#CCCCCC"));
 
 
+        holder.btn_ViewPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToViewImage(survey.getId());
+            }
+        });
+
+
 //
         if (survey.getStatus() != null) {
             if (survey.getStatus().equals("1")) {
@@ -188,12 +199,12 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
             }
         });
 
-        holder.layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToViewImage(survey.getId());
-            }
-        });
+//        holder.layout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                goToViewImage(survey.getId());
+//            }
+//        });
     }
 //        holder.layout.setOnClickListener(new View.OnClickListener() {
 //            @Override

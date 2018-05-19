@@ -84,6 +84,42 @@
                 android:layout_height="2dp"
                 android:background="@color/black_overlay">
             </GridLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ชนิดโรคข้าว :"
+                    android:layout_margin ="5dp"
+                    android:textSize="18dp"/>
+                <Spinner
+                    android:id="@+id/spinner_disease"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:entries="@array/disease">
+                </Spinner>
+
+
+
+            </LinearLayout>
+
+
+            <GridLayout
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/black_overlay">
+            </GridLayout>
+
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

@@ -21,11 +21,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AddFarmingRecord extends AppCompatActivity {
+public class AddFarming2 extends AppCompatActivity {
     private EditText mDMY_FarmingEditText;
-    private Spinner mGardenSpinner;
     private Spinner mPlantSpinner;
-
     private EditText mPlantEditText;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private Button btnDatePick;
@@ -41,7 +39,7 @@ public class AddFarmingRecord extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_farming_record);
+        setContentView(R.layout.activity_add_farming2);
         getSupportActionBar().setTitle("เพิ่มการเพาะปลูก");
 
         mDMY_FarmingEditText = (EditText) findViewById(R.id.addDMY_Farming);
@@ -52,21 +50,19 @@ public class AddFarmingRecord extends AppCompatActivity {
             e.printStackTrace();
         }
 
+//        String name = dbHelper.NameGarden(receivedGardenId);
+//        getSupportActionBar().setTitle("เพิ่มการเพาะปลูก (แปลง:"+name+")");
+
 
 
         final DBHelper dbHelper = new DBHelper(this);
-        ArrayList<String> listgarden = dbHelper.getallGarden();
-        mGardenSpinner = (Spinner) findViewById(R.id.spinner_GardenName);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_for_gardenname,R.id.for_GardenName , listgarden);
-        mGardenSpinner.setAdapter(adapter);
-//        mGardenSpinner.setSelection(getIndex(receivedGardenId));
 
 
         foradd = (Button) findViewById(R.id.foraddplant);
         foradd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Dialog dialog = new Dialog(AddFarmingRecord.this);
+                final Dialog dialog = new Dialog(AddFarming2.this);
                 dialog.setContentView(R.layout.plant_dialog);
 
                 editText_plant = (EditText) dialog.findViewById(R.id.edit_nameplant);
@@ -113,7 +109,7 @@ public class AddFarmingRecord extends AppCompatActivity {
                 int Month = cal.get(Calendar.MONTH);
                 int Day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(AddFarmingRecord.this ,
+                DatePickerDialog dialog = new DatePickerDialog(AddFarming2.this ,
                         android.R.style.Theme_Black_NoTitleBar,mDateSetListener,Year,Month,Day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
@@ -161,7 +157,7 @@ public class AddFarmingRecord extends AppCompatActivity {
     private void saveFarming() {
         Boolean Empty = true;
         String d_m_y_farming = mDMY_FarmingEditText.getText().toString().trim();
-        String gardenid = mGardenSpinner.getSelectedItem().toString().trim();
+        String gardenid = String.valueOf(receivedGardenId);
         String plantid = mPlantSpinner.getSelectedItem().toString().trim(); // ตรงนี้เปลี่ยน เวลาเอา สปินเนอฺร์ plant มาใส่
         dbHelper = new DBHelper(this);
 
@@ -182,8 +178,8 @@ public class AddFarmingRecord extends AppCompatActivity {
             String status = null ;
 
 
-            Farming farming = new Farming(dateeee, name[0], plantid , status);
-            dbHelper.saveNewFarming(farming);
+            Farming farming = new Farming(dateeee, gardenid, plantid , status);
+            dbHelper.saveNewFarming2(farming);
             finish();
 //            goBackHome();
         }
@@ -208,7 +204,7 @@ public class AddFarmingRecord extends AppCompatActivity {
 
 
     private void goBackHome(){
-        startActivity(new Intent(AddFarmingRecord.this, FarmPage.class));
+        startActivity(new Intent(AddFarming2.this, FarmPage.class));
     }
 
 

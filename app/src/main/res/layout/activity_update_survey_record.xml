@@ -29,7 +29,7 @@
                     android:id="@+id/updateDMY"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="วันเดือนปีที่สำรวจ (วว/ดด/ปป)"
+                    android:hint="วันเดือนปีที่สำรวจ (ปปปป-ดด-วว)"
                     android:inputType="phone"
                     android:layout_marginBottom="20dp"/>
             </android.support.design.widget.TextInputLayout>

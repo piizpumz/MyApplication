@@ -246,7 +246,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     }
 
     private void goToAddGarden(long locationId){
-        Intent gotoAdd = new Intent(mContext, AddGardenRecord.class);
+        Intent gotoAdd = new Intent(mContext, AddGarden2.class);
         gotoAdd.putExtra("Location_ID" , locationId);
         mContext.startActivity(gotoAdd);
     }

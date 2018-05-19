@@ -365,6 +365,24 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
+
+    public void saveNewGarden2(Garden garden){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+
+        values.put(COL_Garden_Name , garden.getGarden_name());
+        values.put(COL_Longitude , garden.getLongitude());
+        values.put(COL_Latitude , garden.getLatitude());
+        values.put(COL_Level_sea , garden.getLevel_sea());
+        values.put(COL_Garden_Size , garden.getGarden_size());
+        values.put(COL_LocationID , garden.getLocationID() ) ;
+        values.put(COL_Garden_Status , "1");
+        db.insert(TABLE_garden_survey ,null , values);
+        db.close();
+
+    }
+
     public List<Garden> gardenList(String filter) {
         String query;
         if(filter.equals("")){
@@ -502,6 +520,41 @@ public class DBHelper extends SQLiteOpenHelper {
 
         values.put(COL_D_M_Y_Farming , farming.getD_m_y_farming());
         values.put(COL_GardenID , selectID);
+        values.put(COL_PlantID , selectID2);
+        values.put(COL_Farming_Status , "1");
+        db.insert(TABLE_farming,null, values);
+        db.close();
+
+    }
+
+    public void saveNewFarming2(Farming farming){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+
+        String selectID = "";
+        String query;
+        query = "SELECT * FROM " + TABLE_garden_survey + " WHERE " + COL_Garden_Name + " = '"+farming.getGardenid()+"' ";
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.getCount()>0){
+            while (cursor.moveToNext()){
+                selectID = cursor.getString(cursor.getColumnIndex(COL_Garden_ID));
+            }
+        }
+
+
+        String selectID2 = "";
+        String query2;
+        query2 = "SELECT * FROM " + TABLE_plant + " WHERE " + COL_Plant_Common_Name + " = '"+farming.getPlantid()+"' ";
+        Cursor cursor2 = db.rawQuery(query2,null);
+        if(cursor2.getCount()>0){
+            while (cursor2.moveToNext()){
+                selectID2 = cursor2.getString(cursor2.getColumnIndex(COL_Plant_ID));
+            }
+        }
+
+        values.put(COL_D_M_Y_Farming , farming.getD_m_y_farming());
+        values.put(COL_GardenID , farming.getGardenid());
         values.put(COL_PlantID , selectID2);
         values.put(COL_Farming_Status , "1");
         db.insert(TABLE_farming,null, values);
@@ -891,7 +944,6 @@ public class DBHelper extends SQLiteOpenHelper {
         return list;
     }
 
-
     public ArrayList<String> getallMoo() {
         ArrayList<String> list = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -1024,6 +1076,40 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
         return x ;
+    }
+
+
+    //get Name
+    public String NameLocation(Long id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selectID = "";
+        String query;
+        query = "SELECT * FROM " + TABLE_location_survey + " WHERE " + COL_Location_ID + " = '"+id+"' ";
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.getCount()>0){
+            while (cursor.moveToNext()){
+                selectID = cursor.getString(cursor.getColumnIndex(COL_Location_Name));
+            }
+        }
+
+        return selectID;
+
+    }
+
+    public String NameGarden(Long id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selectID = "";
+        String query;
+        query = "SELECT * FROM " + TABLE_garden_survey + " WHERE " + COL_Garden_ID + " = '"+id+"' ";
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.getCount()>0){
+            while (cursor.moveToNext()){
+                selectID = cursor.getString(cursor.getColumnIndex(COL_Garden_Name));
+            }
+        }
+
+        return selectID;
+
     }
 
 

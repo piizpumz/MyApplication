@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+    tools:context="com.example.macxpiiw.myapplication.AddGarden2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="1dp">
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/addGarden_Name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="ชื่อเกษตรกร"
+                    android:inputType="text"
+                    android:layout_marginBottom="20dp"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/addLongitude"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="ลองติจูด"
+                        android:inputType="phone"
+                        android:layout_marginBottom="20dp"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <Button
+                    android:id="@+id/btnpicklocation"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:drawableStart="@drawable/ic_location_on_black_24dp"
+                    android:layout_alignParentRight="true" />
+
+            </RelativeLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/addLatitude"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="ละติจูด"
+                    android:inputType="phone"
+                    android:layout_marginBottom="20dp"/>
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/addLevel_Sea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="ความสูงระดับน้ำทะเล(เมตร)"
+                    android:inputType="number"
+                    android:layout_marginBottom="20dp"/>
+            </android.support.design.widget.TextInputLayout>
+
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/addGarden_Size"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="พื้นที่ระบาด(ไร่)"
+                    android:inputType="number"
+                    android:layout_marginBottom="20dp"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/btn_addGarden"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/bottomNavigationView"
+                android:layout_alignParentStart="true"
+                android:gravity="center"
+                android:layout_margin="5dp"
+                android:text="เพิ่ม"
+                android:textColor="#000"
+                android:background="@color/colorPrimaryDark"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</ScrollView>
+
+

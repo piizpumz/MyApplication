@@ -40,7 +40,7 @@ public class AddSurveyRecord extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_survey_record);
-        getSupportActionBar().setTitle("เพิ่มการสำรวจ");
+
 
 //        mDMYEditText = (EditText) findViewById(R.id.addDMY);
 //        mTimeEditText = (EditText) findViewById(R.id.addTime);
@@ -64,6 +64,8 @@ public class AddSurveyRecord extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+
+        getSupportActionBar().setTitle("เพิ่มการสำรวจ (เพาะปลูกที่ " + receivedFarmingId + ")");
 
 
 

@@ -23,8 +23,7 @@ import java.util.ArrayList;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-
-public class AddGardenRecord extends AppCompatActivity {
+public class AddGarden2 extends AppCompatActivity {
 
     private static final int REQUEST_LOCATION = 1;
     private EditText mGardenNameEditText;
@@ -32,23 +31,18 @@ public class AddGardenRecord extends AppCompatActivity {
     private EditText mLatitudeEditText;
     private EditText mGardenSizeEditText;
     private EditText mLevelSeaEditText;
-    private Spinner mLocationSpinner;
     private Button btn_PickLocation;
-
     private Button btn_AddGarden;
     private DBHelper dbHelper;
-
     private long receivedLocationId;
-
-
     private FusedLocationProviderClient client;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_garden_record);
-        getSupportActionBar().setTitle("เพิ่มแปลงสำรวจ  ");
+        setContentView(R.layout.activity_add_garden2);
+
 
         requestPermission();
         client = LocationServices.getFusedLocationProviderClient(this);
@@ -60,19 +54,15 @@ public class AddGardenRecord extends AppCompatActivity {
         }
 
 
+
+
+
         mGardenNameEditText = (EditText) findViewById(R.id.addGarden_Name);
         mLongitudeEditText = (EditText) findViewById(R.id.addLongitude);
         mLatitudeEditText = (EditText) findViewById(R.id.addLatitude);
         mGardenSizeEditText = (EditText) findViewById(R.id.addGarden_Size);
         mLevelSeaEditText = (EditText) findViewById(R.id.addLevel_Sea);
         DBHelper dbHelper = new DBHelper(this);
-
-        ArrayList<String> listMoo = dbHelper.getallMoo();
-        ArrayList<String> listLocationName = dbHelper.getallLocationName();
-        mLocationSpinner = (Spinner) findViewById(R.id.spinner_Location);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, R.id.txt, listLocationName);
-        mLocationSpinner.setAdapter(adapter);
-        
 
         btn_AddGarden = (Button) findViewById(R.id.btn_addGarden);
         btn_AddGarden.setOnClickListener(new View.OnClickListener() {
@@ -87,24 +77,24 @@ public class AddGardenRecord extends AppCompatActivity {
         btn_PickLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ActivityCompat.checkSelfPermission(AddGardenRecord.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
+                if (ActivityCompat.checkSelfPermission(AddGarden2.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
                     return;
                 }
 
-                client.getLastLocation().addOnSuccessListener(AddGardenRecord.this, new OnSuccessListener<Location>() {
+                client.getLastLocation().addOnSuccessListener(AddGarden2.this, new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
 
-                            Double lo = location.getLongitude();
-                            Double la = location.getLatitude();
-                            String x =la.toString();
-                            String y =lo.toString();
+                        Double lo = location.getLongitude();
+                        Double la = location.getLatitude();
+                        String x =la.toString();
+                        String y =lo.toString();
 
-                            mLatitudeEditText.setText(x);
-                            mLongitudeEditText.setText(y);
+                        mLatitudeEditText.setText(x);
+                        mLongitudeEditText.setText(y);
 
-                            Log.d("TestGPS" , "ค่าLatitude" + lo );
-                            Log.d("TestGPS" , "ค่าLatitude" + la );
+                        Log.d("TestGPS" , "ค่าLatitude" + lo );
+                        Log.d("TestGPS" , "ค่าLatitude" + la );
                         if(location != null) {
                             Log.d("TestGPS", "ค่าLatitude" + location.toString());
                         }
@@ -118,6 +108,10 @@ public class AddGardenRecord extends AppCompatActivity {
 
             }
         });
+
+
+        String name = dbHelper.NameLocation(receivedLocationId);
+        getSupportActionBar().setTitle("เพิ่มแปลงสำรวจ : " + name);
     }
 
     private void requestPermission(){
@@ -132,12 +126,14 @@ public class AddGardenRecord extends AppCompatActivity {
         String latitude = mLatitudeEditText.getText().toString().trim();
         String level_sea = mLevelSeaEditText.getText().toString().trim();
         String garden_size = mGardenSizeEditText.getText().toString().trim();
-        String locationName = mLocationSpinner.getSelectedItem().toString().trim();
+        Long locationName = receivedLocationId;
         String status = null;
         dbHelper = new DBHelper(this);
 
 
-        String[] name = locationName.split(",");
+        String location = String.valueOf(locationName);
+
+
 
         if (garden_name.isEmpty()) {
             //error name is empty
@@ -146,22 +142,15 @@ public class AddGardenRecord extends AppCompatActivity {
         }
 
         if (Empty) {
-            Garden garden = new Garden(garden_name, longitude, latitude, level_sea, garden_size, name[0] , status);
-            dbHelper.saveNewGarden(garden);
+            Garden garden = new Garden(garden_name, longitude, latitude, level_sea, garden_size, location , status);
+            dbHelper.saveNewGarden2(garden);
             finish();
 //            goBackHome();
         }
     }
 
-
-    private int getIndex(Long receivedLocationId){
-        dbHelper = new DBHelper(this);
-        int X=dbHelper.getPositionLocation(receivedLocationId);
-        return X;
-    }
-
     private void goBackHome(){
-        startActivity(new Intent(AddGardenRecord.this, FarmPage.class));
+        startActivity(new Intent(AddGarden2.this, FarmPage.class));
     }
 
 

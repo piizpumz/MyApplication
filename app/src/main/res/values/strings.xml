@@ -111,6 +111,30 @@
 
     </string-array>
 
+    <string-array name="disease">
+        <item>ไม่สามารถระบุชนิดโรค</item>
+        <item>โรคไหม้ (Pyricularia oryzae)</item>
+        <item>โรคเมล็ดด่าง (Curvularia lunata, Cercospora oryzae, Bipolaris oryzae , Fusarium semitectum , Trichoconis padwickii, Sarocladium oryzae)</item>
+        <item>โรคกาบใบแห้ง (Rhizoctonia solani )</item>
+        <item>โรคใบจุดสีน้ำตาล (Bipolaris oryzae) </item>
+        <item>โรคกาบใบเน่า (Sarocladium oryzae Sawada)</item>
+        <item>โรคถอดฝักดาบ (Fusarium fujikuroi Nirenberg)</item>
+        <item>โรคใบวงสีน้ำตาล (Rhynocosporium oryzae Hashioka and Yokogi)</item>
+        <item>โรคใบขีดสีน้ำตาล (Cercospora oryzae I. Miyake)</item>
+        <item>โรคขอบใบแห้ง (Xanthomonas oryzae pv. oryzae)</item>
+        <item>โรคใบขีดโปร่งแสง (Xanthomonas oryzae pv. oryzicola)</item>
+        <item>โรคใบหงิก (Rice Ragged Stunt Virus)</item>
+        <item>โรคเขียวเตี้ย (Rice Grassy Stunt Virus)</item>
+        <item>โรคใบสีส้ม (Rice Tungro Bacilliform Virus และ Rice Tungro Spherical Virus)</item>
+        <item>โรคหูด (Rice Gall Dwarf Virus)</item>
+        <item>โรคใบสีแสด (เชื้อไฟโตพลาสมา)</item>
+        <item>โรคเหลืองเตี้ย (เชื้อไฟโตพลาสมา)</item>
+        <item>โรครากปม (Meloidogyne graminicola)</item>
+        <item>โรคใบแถบแดง (Microbacterium sp. หรือ Gonatophragmium sp.)</item>
+    </string-array>
+
+
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

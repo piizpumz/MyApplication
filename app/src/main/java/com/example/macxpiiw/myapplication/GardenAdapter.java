@@ -265,7 +265,7 @@ public class GardenAdapter extends RecyclerView.Adapter<GardenAdapter.ViewHolder
     }
 
     private void goToAddFarming(long gardenId){
-        Intent gotoAdd = new Intent(mContext, AddFarmingRecord.class);
+        Intent gotoAdd = new Intent(mContext, AddFarming2.class);
         gotoAdd.putExtra("Garden_ID" , gardenId);
         mContext.startActivity(gotoAdd);
     }

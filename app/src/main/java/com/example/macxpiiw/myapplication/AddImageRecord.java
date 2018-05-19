@@ -30,6 +30,7 @@ import java.io.InputStream;
 public class AddImageRecord extends AppCompatActivity {
     private ImageView PicView;
     private Spinner addType;
+    private Spinner addDisease;
     private EditText addSurveyID;
     private EditText addSampleID;
 
@@ -52,9 +53,10 @@ public class AddImageRecord extends AppCompatActivity {
         getSupportActionBar().setTitle("เพิ่มรูปภาพ");
 
         PicView = (ImageView)findViewById(R.id.image_picView);
-//        addSurveyID = (EditText)findViewById(R.id.addSurveyID);
+//      addSurveyID = (EditText)findViewById(R.id.addSurveyID);
         addSampleID=(EditText)findViewById(R.id.addSampleID);
         addType = (Spinner) findViewById(R.id.spinner_type_image);
+        addDisease = (Spinner) findViewById(R.id.spinner_disease);
         addNote =(EditText)findViewById(R.id.addNote);
         btn_add_Image = (Button)findViewById(R.id.btn_addImage);
         btn_choose = (Button)findViewById(R.id.btn_choosePic);
