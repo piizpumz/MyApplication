@@ -18,17 +18,37 @@ public class Image {
     private String note;
     private byte[] image;
 
+    public String getDisease() {
+        return disease;
+    }
+
+    public void setDisease(String disease) {
+        this.disease = disease;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    private String disease;
+    private String status;
 
     public Image(){
 
     }
 
-    public Image(Long surveyID, String sampleID, String type, String note, byte[] image) {
+    public Image(Long surveyID, String sampleID, String type, String note, byte[] image , String disease , String status) {
         this.surveyID = surveyID;
         this.sampleID = sampleID;
         this.type = type;
         this.note = note;
         this.image = image;
+        this.disease = disease;
+        this.status = status;
     }
 
     public Long getSurveyID() {

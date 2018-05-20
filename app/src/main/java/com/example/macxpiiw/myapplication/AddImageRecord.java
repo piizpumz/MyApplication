@@ -137,8 +137,10 @@ public class AddImageRecord extends AppCompatActivity {
         String type = addType.getSelectedItem().toString().trim();
         String note = addNote.getText().toString().trim();
         byte[] imageview = lastImage ;
+        String disease = "";
+        String status = "";
         dbHelper = new DBHelper(this);
-        Image image = new Image(surveyID ,sampleID, type, note , imageview );
+        Image image = new Image(surveyID ,sampleID, type, note , imageview , disease , status);
         dbHelper.saveNewImage(image);
         finish();
         goBackHome();

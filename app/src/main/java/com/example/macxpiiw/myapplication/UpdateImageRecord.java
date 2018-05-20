@@ -126,9 +126,11 @@ public class UpdateImageRecord extends AppCompatActivity {
         String type = mTypeSpinner.getSelectedItem().toString().trim();
         String note = mNoteText.getText().toString().trim();
         byte[] imageview = imageViewtoByte(mImageView);
+        String disease = "";
+        String status = "";
         dbHelper = new DBHelper(this);
 
-        Image updateimage = new Image(surveyID ,sampleID, type, note , imageview );
+        Image updateimage = new Image(surveyID ,sampleID, type, note , imageview , disease , status );
         dbHelper.updateImageRecord(receivedImageId , this ,  updateimage);
         finish();
         goBackHome();

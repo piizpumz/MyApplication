@@ -31,6 +31,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         public TextView imageTypeTxtV;
         public TextView imageNoteTxtV;
         public ImageView imageViewTxtV;
+        public TextView imageDisease;
 
         public View layout;
 
@@ -42,6 +43,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
             imageTypeTxtV = (TextView) v.findViewById(R.id.type);
             imageNoteTxtV = (TextView) v.findViewById(R.id.note);
             imageViewTxtV = (ImageView) v.findViewById(R.id.imageView);
+            imageDisease = (TextView) v.findViewById(R.id.disease);
 
         }
     }
@@ -87,6 +89,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         holder.imagesampleIDTxtV.setText("ตัวอย่างที่ : " + image.getSampleID());
         holder.imageTypeTxtV.setText("ประเภท : " + image.getType());
         holder.imageNoteTxtV.setText("คำอธิบาย : " + image.getNote());
+        holder.imageDisease.setText("โรค : " + image.getDisease());
         holder.imageViewTxtV.setImageBitmap(bmp);
 
 

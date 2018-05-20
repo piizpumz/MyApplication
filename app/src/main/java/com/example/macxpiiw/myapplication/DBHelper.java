@@ -28,7 +28,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String TAG = "DBHelper";
 
-    private static final String DATABASE_NAME = "diseaseDBv3.2";
+    private static final String DATABASE_NAME = "diseaseDBv3.4";
     private static final int DATABASE_VERSION = 1;
 
 
@@ -98,6 +98,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COL_Note = "Note";
     public static final String COL_Sample_ID = "Sample_ID";
     public static final String COL_SurveyID = "SurveyID";
+    public static final String COL_DiseaseID = "DiseaseID";
     public static final String COL_Image_Status = "Status_Status";
 
     public static final String COL_plant_last_update_ID = "_id" ;
@@ -174,12 +175,10 @@ public class DBHelper extends SQLiteOpenHelper {
                 + COL_Note + " TEXT , "
                 + COL_Sample_ID + " TEXT ,"
                 + COL_SurveyID +" INTEGER , "
+                + COL_DiseaseID +" INTEGER , "
                 + COL_Image_Status +" TEXT ," +
                 "FOREIGN KEY(" + COL_SurveyID+ " ) REFERENCES " +TABLE_survey + "("+COL_Survey_ID+"));");
 
-        db.execSQL("CREATE TABLE " +  TABLE_disease_plant + " ( " + COL_Disease_Plant_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + COL_Disease_Plant_Name + " TEXT , "
-                + COL_Disease_Plant_Eng +" TEXT );");
 
         db.execSQL("CREATE TABLE " +  TABLE_plant_last_update + " ( " + COL_plant_last_update_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COL_plant_last_update_time + " DATE )");
