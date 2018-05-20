@@ -28,7 +28,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String TAG = "DBHelper";
 
-    private static final String DATABASE_NAME = "diseaseDBv3.4";
+    private static final String DATABASE_NAME = "diseaseDBv3.5";
     private static final int DATABASE_VERSION = 1;
 
 
@@ -175,7 +175,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + COL_Note + " TEXT , "
                 + COL_Sample_ID + " TEXT ,"
                 + COL_SurveyID +" INTEGER , "
-                + COL_DiseaseID +" INTEGER , "
+                + COL_DiseaseID +" TEXT , "
                 + COL_Image_Status +" TEXT ," +
                 "FOREIGN KEY(" + COL_SurveyID+ " ) REFERENCES " +TABLE_survey + "("+COL_Survey_ID+"));");
 
@@ -829,6 +829,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(COL_Image_Type , image.getType());
         values.put(COL_Note , image.getNote());
         values.put(COL_Image_Pic , x);
+        values.put(COL_DiseaseID , image.getDisease());
         values.put(COL_Image_Status , "1");
         db.insert(TABLE_image,null, values);
         db.close();
@@ -865,6 +866,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 image.setType(cursor.getString(cursor.getColumnIndex(COL_Image_Type)));
                 image.setNote(cursor.getString(cursor.getColumnIndex(COL_Note)));
                 image.setImage(cursor.getBlob(cursor.getColumnIndex(COL_Image_Pic)));
+                image.setDisease(cursor.getString(cursor.getColumnIndex(COL_DiseaseID)));
                 imageLinkedList.add(image);
             } while (cursor.moveToNext());
         }

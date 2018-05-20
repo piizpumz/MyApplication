@@ -83,13 +83,15 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG , 100 , bytes);
 
+        String name = idtoname(image.getDisease());
+
 
 
         holder.imageserveyIDTxtV.setText("การสำรวจที่ : " + image.getSurveyID());
         holder.imagesampleIDTxtV.setText("ตัวอย่างที่ : " + image.getSampleID());
         holder.imageTypeTxtV.setText("ประเภท : " + image.getType());
         holder.imageNoteTxtV.setText("คำอธิบาย : " + image.getNote());
-        holder.imageDisease.setText("โรค : " + image.getDisease());
+        holder.imageDisease.setText("โรค : " + name);
         holder.imageViewTxtV.setImageBitmap(bmp);
 
 
@@ -148,6 +150,76 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         Intent goToupdate = new Intent(mContext, UpdateImageRecord.class);
         goToupdate.putExtra("Image_ID" , imageId);
         mContext.startActivity(goToupdate);
+    }
+
+
+    private String idtoname(String id){
+        String name = "";
+        if (id.equals("1")){
+            name = "โรคไหม้ (Pyricularia oryzae)";
+        }
+        if (id.equals("0")){
+            name = "โรคเมล็ดด่าง (Curvularia lunata, Cercospora oryzae, Bipolaris oryzae , Fusarium semitectum , Trichoconis padwickii, Sarocladium oryzae)";
+        }
+        if (id.equals("0")){
+            name = "โรคกาบใบแห้ง (Rhizoctonia solani )";
+        }
+        if (id.equals("0")){
+            name = "โรคใบจุดสีน้ำตาล (Bipolaris oryzae)";
+        }
+        if (id.equals("0")){
+            name = "โรคกาบใบเน่า (Sarocladium oryzae Sawada)";
+        }
+        if (id.equals("0")){
+            name = "โรคถอดฝักดาบ (Fusarium fujikuroi Nirenberg)";
+        }
+        if (id.equals("0")){
+            name = "โรคใบวงสีน้ำตาล (Rhynocosporium oryzae Hashioka&Yokogi)";
+        }
+        if (id.equals("0")){
+            name = "โรคใบขีดสีน้ำตาล (Cercospora oryzae I. Miyake)";
+        }
+        if (id.equals("0")){
+            name = "โรคขอบใบแห้ง (Xanthomonas oryzae pv. oryzae)";
+        }
+        if (id.equals("0")){
+            name = "โรคใบขีดโปร่งแสง (Xanthomonas oryzae pv. oryzicola)";
+        }
+        if (id.equals("0")){
+            name = "โรคใบหงิก (Rice Ragged Stunt Virus)";
+        }
+        if (id.equals("0")){
+            name = "โรคเขียวเตี้ย (Rice Grassy Stunt Virus)";
+        }
+        if (id.equals("0")){
+            name = "โรคใบสีส้ม  (Rice Tungro Bacilliform Virus และ Rice Tungro Spherical Virus)";
+        }
+        if (id.equals("0")){
+            name = "โรคหูด (Rice Gall Dwarf Virus)";
+        }
+        if (id.equals("0")){
+            name = "โรคใบสีแสด (เชื้อไฟโตพลาสมา)";
+        }
+        if (id.equals("0")){
+            name = "โรคเหลืองเตี้ย  (เชื้อไฟโตพลาสมา)";
+        }
+        if (id.equals("0")){
+            name = "โรครากปม (Meloidogyne graminicola)";
+        }
+        if (id.equals("0")){
+            name = "โรคใบแถบแดง (Microbacterium sp. หรือ Gonatophragmium sp.)";
+        }
+        if (id.equals("0")){
+            name = "ไม่สามารถระบุชนิดโรค";
+        }
+
+
+
+
+
+
+
+        return name;
     }
 
 
