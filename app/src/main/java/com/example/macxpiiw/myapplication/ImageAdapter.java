@@ -155,7 +155,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
     private String idtoname(String id){
         String name = "";
-        if (id.equals("1")){
+        if (id.equals("61")){
             name = "โรคไหม้ (Pyricularia oryzae)";
         }
         if (id.equals("0")){
@@ -164,49 +164,49 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         if (id.equals("0")){
             name = "โรคกาบใบแห้ง (Rhizoctonia solani )";
         }
-        if (id.equals("0")){
+        if (id.equals("57")){
             name = "โรคใบจุดสีน้ำตาล (Bipolaris oryzae)";
         }
         if (id.equals("0")){
             name = "โรคกาบใบเน่า (Sarocladium oryzae Sawada)";
         }
-        if (id.equals("0")){
+        if (id.equals("54")){
             name = "โรคถอดฝักดาบ (Fusarium fujikuroi Nirenberg)";
         }
-        if (id.equals("0")){
+        if (id.equals("59")){
             name = "โรคใบวงสีน้ำตาล (Rhynocosporium oryzae Hashioka&Yokogi)";
         }
-        if (id.equals("0")){
+        if (id.equals("56")){
             name = "โรคใบขีดสีน้ำตาล (Cercospora oryzae I. Miyake)";
         }
-        if (id.equals("0")){
+        if (id.equals("52")){
             name = "โรคขอบใบแห้ง (Xanthomonas oryzae pv. oryzae)";
         }
-        if (id.equals("0")){
+        if (id.equals("55")){
             name = "โรคใบขีดโปร่งแสง (Xanthomonas oryzae pv. oryzicola)";
         }
         if (id.equals("0")){
             name = "โรคใบหงิก (Rice Ragged Stunt Virus)";
         }
-        if (id.equals("0")){
+        if (id.equals("53")){
             name = "โรคเขียวเตี้ย (Rice Grassy Stunt Virus)";
         }
-        if (id.equals("0")){
+        if (id.equals("60")){
             name = "โรคใบสีส้ม  (Rice Tungro Bacilliform Virus และ Rice Tungro Spherical Virus)";
         }
-        if (id.equals("0")){
+        if (id.equals("64")){
             name = "โรคหูด (Rice Gall Dwarf Virus)";
         }
         if (id.equals("0")){
             name = "โรคใบสีแสด (เชื้อไฟโตพลาสมา)";
         }
-        if (id.equals("0")){
+        if (id.equals("63")){
             name = "โรคเหลืองเตี้ย  (เชื้อไฟโตพลาสมา)";
         }
-        if (id.equals("0")){
+        if (id.equals("66")){
             name = "โรครากปม (Meloidogyne graminicola)";
         }
-        if (id.equals("0")){
+        if (id.equals("58")){
             name = "โรคใบแถบแดง (Microbacterium sp. หรือ Gonatophragmium sp.)";
         }
         if (id.equals("0")){

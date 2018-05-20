@@ -11,7 +11,7 @@
         android:paddingBottom="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-    tools:context="com.example.macxpiiw.myapplication.UpdateImageRecord">
+        tools:context="com.example.macxpiiw.myapplication.UpdateImageRecord">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,7 +22,7 @@
 
             <ImageView
                 android:layout_marginTop="10dp"
-                android:id="@+id/Updateimage_picView"
+                android:id="@+id/image_picView"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
@@ -30,7 +30,7 @@
 
 
             <Button
-                android:id="@+id/Updatebtn_choosePic"
+                android:id="@+id/btn_choosePic"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -38,18 +38,7 @@
                 android:text="เลือกรูปภาพ"
                 android:background="@color/colorPrimaryDark"/>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/UpdateSurveyID"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="การสำรวจที่"
-                    android:inputType="number"
-                    android:layout_marginBottom="20dp"/>
-            </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -58,7 +47,7 @@
                     android:id="@+id/UpdateSampleID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="อยู่อย่างที่"
+                    android:hint="sample ID"
                     android:inputType="number"
                     android:layout_marginBottom="20dp"/>
             </android.support.design.widget.TextInputLayout>
@@ -76,7 +65,7 @@
                     android:layout_margin ="5dp"
                     android:textSize="18dp"/>
                 <Spinner
-                    android:id="@+id/spinner_Update_type_image"
+                    android:id="@+id/spinner_type_image"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_margin="5dp"
@@ -95,6 +84,42 @@
                 android:layout_height="2dp"
                 android:background="@color/black_overlay">
             </GridLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ชนิดโรคข้าว :"
+                    android:layout_margin ="5dp"
+                    android:textSize="18dp"/>
+                <Spinner
+                    android:id="@+id/spinner_disease"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:entries="@array/disease">
+                </Spinner>
+
+
+
+            </LinearLayout>
+
+
+            <GridLayout
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/black_overlay">
+            </GridLayout>
+
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -125,7 +150,10 @@
                 android:textSize="20sp" />
 
 
+
+
         </LinearLayout>
 
     </RelativeLayout>
 </ScrollView>
+

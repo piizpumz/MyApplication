@@ -28,7 +28,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String TAG = "DBHelper";
 
-    private static final String DATABASE_NAME = "diseaseDBv3.5";
+    private static final String DATABASE_NAME = "diseaseDBv3.6";
     private static final int DATABASE_VERSION = 1;
 
 
@@ -889,8 +889,8 @@ public class DBHelper extends SQLiteOpenHelper {
             receivedImage.setType(cursor.getString(cursor.getColumnIndex(COL_Image_Type)));
             receivedImage.setNote(cursor.getString(cursor.getColumnIndex(COL_Note)));
             receivedImage.setImage(cursor.getBlob(cursor.getColumnIndex(COL_Image_Pic)));
+            receivedImage.setDisease(cursor.getString(cursor.getColumnIndex(COL_DiseaseID)));
         }
-
         return receivedImage;
 
     }
@@ -903,14 +903,33 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void updateImageRecord(long imageId , Context context , Image updateImage){
+
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("UPDATE "+TABLE_image+" SET "+COL_SurveyID+" = '" + updateImage.getSurveyID() +
-                "', "+COL_Sample_ID+" = '" + updateImage.getSampleID() +
-                "', "+COL_Image_Type+" = '" + updateImage.getType() +
-                "', "+COL_Note+" = '" + updateImage.getNote() +
-                "', "+COL_Image_Pic+" = '" + updateImage.getImage() +
-                "', "+COL_Image_Status+" = '1' WHERE _id ='" + imageId + "'");
+        ContentValues values = new ContentValues();
+
+
+        byte[] x = updateImage.getImage();
+        Bitmap bmp = BitmapFactory.decodeByteArray(x , 0 , x.length);
+        BitmapFactory.Options options=new BitmapFactory.Options();
+        options.inSampleSize=10;
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG , 100 , bytes);
+
+        db.execSQL("DELETE FROM "+TABLE_image+" WHERE _id='"+imageId+"'");
+
+        values.put(COL_SurveyID , updateImage.getSurveyID());
+        values.put(COL_Sample_ID , updateImage.getSampleID());
+        values.put(COL_Image_Type , updateImage.getType());
+        values.put(COL_Note , updateImage.getNote());
+        values.put(COL_Image_Pic , x);
+        values.put(COL_DiseaseID , updateImage.getDisease());
+        values.put(COL_Image_Status , "1");
+        db.insert(TABLE_image,null, values);
         Toast.makeText(context, "แก้ไขรูปภาพสำเร็จ", Toast.LENGTH_SHORT).show();
+        db.close();
+
+
+
     }
 
     //end of Image
