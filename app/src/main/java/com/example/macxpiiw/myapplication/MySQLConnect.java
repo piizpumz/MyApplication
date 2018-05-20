@@ -1,6 +1,7 @@
 package com.example.macxpiiw.myapplication;
 
 import android.app.Activity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -8,12 +9,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -64,7 +68,7 @@ public class MySQLConnect {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(main, error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(main, "กรุณาเชื่อมต่ออินเตอร์เน็ต", Toast.LENGTH_LONG).show();
 
             }
         }
@@ -97,6 +101,40 @@ public class MySQLConnect {
             ex.printStackTrace();
         }
 
+
+    }
+
+
+    public String sentLogin(String user,String pass){
+        ArrayList<HashMap<String, String>> wordList;
+        wordList = new ArrayList<HashMap<String, String>>();
+
+
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("Username", user);
+        map.put("Password", pass);
+
+        wordList.add(map);
+
+
+
+        Gson gson = new GsonBuilder().create();
+
+        Log.d("wordList", String.valueOf(wordList));
+
+        //Use GSON to serialize Array List to JSON
+        return gson.toJson(wordList);
+    }
+
+
+    public String checkLogin(String status){
+
+        Log.d("teststatus", status);
+        if(status=="1"){
+            return  "true" ;
+        }else{
+            return "false" ;
+        }
 
     }
 }
