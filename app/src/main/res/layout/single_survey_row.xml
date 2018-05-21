@@ -81,7 +81,7 @@
                         android:text="ดูรูป"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_margin="20dp"/>
+                        android:layout_margin="5dp"/>
 
                 </RelativeLayout>
 

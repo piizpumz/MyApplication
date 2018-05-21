@@ -158,16 +158,16 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         if (id.equals("61")){
             name = "โรคไหม้ (Pyricularia oryzae)";
         }
-        if (id.equals("0")){
+        if (id.equals("72")){
             name = "โรคเมล็ดด่าง (Curvularia lunata, Cercospora oryzae, Bipolaris oryzae , Fusarium semitectum , Trichoconis padwickii, Sarocladium oryzae)";
         }
-        if (id.equals("0")){
+        if (id.equals("73")){
             name = "โรคกาบใบแห้ง (Rhizoctonia solani )";
         }
         if (id.equals("57")){
             name = "โรคใบจุดสีน้ำตาล (Bipolaris oryzae)";
         }
-        if (id.equals("0")){
+        if (id.equals("74")){
             name = "โรคกาบใบเน่า (Sarocladium oryzae Sawada)";
         }
         if (id.equals("54")){
@@ -185,7 +185,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         if (id.equals("55")){
             name = "โรคใบขีดโปร่งแสง (Xanthomonas oryzae pv. oryzicola)";
         }
-        if (id.equals("0")){
+        if (id.equals("75")){
             name = "โรคใบหงิก (Rice Ragged Stunt Virus)";
         }
         if (id.equals("53")){
@@ -197,7 +197,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         if (id.equals("64")){
             name = "โรคหูด (Rice Gall Dwarf Virus)";
         }
-        if (id.equals("0")){
+        if (id.equals("70")){
             name = "โรคใบสีแสด (เชื้อไฟโตพลาสมา)";
         }
         if (id.equals("63")){
@@ -221,6 +221,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
         return name;
     }
+
 
 
 

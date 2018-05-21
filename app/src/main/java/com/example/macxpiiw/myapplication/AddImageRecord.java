@@ -185,7 +185,7 @@ public class AddImageRecord extends AppCompatActivity {
             try {
                 InputStream inputStream = getContentResolver().openInputStream(uri);
                 BitmapFactory.Options options=new BitmapFactory.Options();
-                options.inSampleSize=10; //decrease decoded image
+                options.inSampleSize=3; //decrease decoded image
 
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, options);
@@ -241,11 +241,11 @@ public class AddImageRecord extends AppCompatActivity {
         }
         if(diseaseName.equals("โรคเมล็ดด่าง (Curvularia lunata, Cercospora oryzae, Bipolaris oryzae , Fusarium semitectum , Trichoconis padwickii, Sarocladium oryzae)"))
         {
-            id = "0";
+            id = "72";
         }
         if(diseaseName.equals("โรคกาบใบแห้ง (Rhizoctonia solani )"))
         {
-            id = "0";
+            id = "73";
         }
         if(diseaseName.equals("โรคใบจุดสีน้ำตาล (Bipolaris oryzae)"))
         {
@@ -253,7 +253,7 @@ public class AddImageRecord extends AppCompatActivity {
         }
         if(diseaseName.equals("โรคกาบใบเน่า (Sarocladium oryzae Sawada)"))
         {
-            id = "0";
+            id = "74";
         }
         if(diseaseName.equals("โรคถอดฝักดาบ (Fusarium fujikuroi Nirenberg)"))
         {
@@ -277,7 +277,7 @@ public class AddImageRecord extends AppCompatActivity {
         }
         if(diseaseName.equals("โรคใบหงิก (Rice Ragged Stunt Virus)"))
         {
-            id = "0";
+            id = "75";
         }
         if(diseaseName.equals("โรคเขียวเตี้ย (Rice Grassy Stunt Virus)"))
         {
@@ -293,7 +293,7 @@ public class AddImageRecord extends AppCompatActivity {
         }
         if(diseaseName.equals("โรคใบสีแสด (เชื้อไฟโตพลาสมา)"))
         {
-            id = "0";
+            id = "70";
         }
         if(diseaseName.equals("โรคเหลืองเตี้ย  (เชื้อไฟโตพลาสมา)"))
         {

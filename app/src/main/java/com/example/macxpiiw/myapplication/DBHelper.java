@@ -817,7 +817,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         Bitmap bmp = BitmapFactory.decodeByteArray(x , 0 , x.length);
         BitmapFactory.Options options=new BitmapFactory.Options();
-        options.inSampleSize=10;
+        options.inSampleSize=1;
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG , 100 , bytes);
 
@@ -911,7 +911,7 @@ public class DBHelper extends SQLiteOpenHelper {
         byte[] x = updateImage.getImage();
         Bitmap bmp = BitmapFactory.decodeByteArray(x , 0 , x.length);
         BitmapFactory.Options options=new BitmapFactory.Options();
-        options.inSampleSize=10;
+        options.inSampleSize=1;
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG , 100 , bytes);
 

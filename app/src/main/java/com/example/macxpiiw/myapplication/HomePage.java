@@ -7,12 +7,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.ScrollView;
+import android.widget.ViewFlipper;
 
 
 public class HomePage extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView ;
     private ScrollView scrollView;
+    private ViewFlipper viewFlipper;
+    private ViewFlipper viewFlipper2;
+    private int [] image;
+    private int [] image2;
+    private int i;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +28,31 @@ public class HomePage extends AppCompatActivity {
         getSupportActionBar().setTitle("แนะนำการใช้งาน");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
+        image = new int[]{R.drawable.img01 , R.drawable.img02 , R.drawable.img03};
+        image2 = new int[]{R.drawable.img11 , R.drawable.img12 , R.drawable.img13};
+        viewFlipper = (ViewFlipper) findViewById(R.id.viewFlip);
+        viewFlipper2 = (ViewFlipper) findViewById(R.id.viewFlip2);
+
+
+        for(int i = 0  ; i< image.length ; i++){
+            setViewFlipperImage(image[i]);
+        }
+
+        for (int image: image){
+            setViewFlipperImage(image);
+        }
+
+
+        for(int i = 0  ; i< image2.length ; i++){
+            setViewFlipperImage2(image2[i]);
+        }
+
+        for (int image2: image2){
+            setViewFlipperImage2(image2);
+        }
+
 
 
 
@@ -63,11 +95,25 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
-
-
-
-
     }
+
+
+    public void setViewFlipperImage(int image){
+        ImageView imageView  = new ImageView(this);
+        imageView.setBackgroundResource(image);
+
+        viewFlipper.addView(imageView);
+        viewFlipper.setAutoStart(true);
+    }
+
+    public void setViewFlipperImage2(int image){
+        ImageView imageView  = new ImageView(this);
+        imageView.setBackgroundResource(image);
+
+        viewFlipper2.addView(imageView);
+        viewFlipper2.setAutoStart(true);
+    }
+
 
 
 
