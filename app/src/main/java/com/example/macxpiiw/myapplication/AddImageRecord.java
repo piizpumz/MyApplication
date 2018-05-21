@@ -74,7 +74,7 @@ public class AddImageRecord extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder =  new AlertDialog.Builder(AddImageRecord.this);
-                builder.setTitle("Choose option");
+                builder.setTitle("เลือกรายการ");
                 builder.setMessage("เลือกรูปภาพจากคลังภาพ หรือ กล้องถ่ายรูป");
                 builder.setPositiveButton("คลังภาพ", new DialogInterface.OnClickListener() {
                     @Override
