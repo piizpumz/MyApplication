@@ -35,7 +35,7 @@ public class MySQLConnect {
     private final Activity main ;
     private List<String> list ;
     private List<JSONObject> jsonList;
-    private String URL = "http://158.108.144.4/RDSSATCC/", GET_URL = "sp_61_DiseaseSurvey/testdb.php",GET_URL2 = "sp_61_DiseaseSurvey/testdb2.php",GET_URL3 = "sp_61_DiseaseSurvey/db_connection.php" ;
+    private String URL = "http://158.108.144.4/RDSSATCC/", GET_URL = "sp_61_DiseaseSurvey/testdb.php",GET_URL2 = "sp_61_DiseaseSurvey/testdb2.php",GET_URL3 = "sp_61_DiseaseSurvey/dbconnection.php" ;
 
     public MySQLConnect() {
 
