@@ -1697,6 +1697,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 Cursor cursor2 = database2.rawQuery(selectQuery2, null);
                 if (cursor2.moveToFirst()) {
 
+                    map.put("id_Survey", cursor2.getString(0));
                     map.put(COL_D_M_Y_Survey, cursor2.getString(cursor2.getColumnIndex(COL_D_M_Y_Survey)));
                     map.put(COL_Time_Survey, cursor2.getString(2));
                     map.put(COL_Temp, cursor2.getString(3));
@@ -1717,6 +1718,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     Cursor cursor3 = database3.rawQuery(selectQuery3, null);
                     if (cursor3.moveToFirst()) {
 
+                        map.put("id_Farming", cursor3.getString(0));
                         map.put(COL_D_M_Y_Farming, cursor3.getString(1));
                         String gardenID = cursor3.getString(cursor3.getColumnIndex(COL_GardenID));
                         String selectQuery4 = "SELECT * FROM " + TABLE_garden_survey + " where " + COL_Garden_ID + " = '" + gardenID + "'";
@@ -1724,6 +1726,7 @@ public class DBHelper extends SQLiteOpenHelper {
                         Cursor cursor4 = database4.rawQuery(selectQuery4, null);
                         if (cursor4.moveToFirst()) {
 
+                            map.put("id_Garden", cursor4.getString(0));
                             map.put(COL_Garden_Name, cursor4.getString(1));
                             map.put(COL_Latitude, cursor4.getString(2));
                             map.put(COL_Longitude, cursor4.getString(3));
@@ -1736,6 +1739,7 @@ public class DBHelper extends SQLiteOpenHelper {
                             Cursor cursor5 = database5.rawQuery(selectQuery5, null);
                             if (cursor5.moveToFirst()) {
 
+                                map.put("id_Location", cursor5.getString(0));
                                 map.put(COL_Location_Name, cursor5.getString(1));
                                 map.put(COL_Moo, cursor5.getString(2));
                                 map.put(COL_Tumbon, cursor5.getString(3));
@@ -1754,6 +1758,7 @@ public class DBHelper extends SQLiteOpenHelper {
                         SQLiteDatabase database6 = this.getWritableDatabase();
                         Cursor cursor6 = database6.rawQuery(selectQuery6, null);
                         if (cursor6.moveToFirst()) {
+                            map.put("id_Plant", cursor6.getString(0));
                             map.put(COL_Plant_IDServer, cursor6.getString(1));
                         }
 
@@ -1803,11 +1808,31 @@ public class DBHelper extends SQLiteOpenHelper {
         database.close();
     }
 
-    public void updateSyncStatusImage(String id, String status){
+    public void updateSyncStatusImage(String id,String id2,String id3,String id4,String id5, String status){
         SQLiteDatabase database = this.getWritableDatabase();
         String updateQuery = "Update "+ TABLE_image +  " set "+ COL_Image_Status +"= '"+ status +"' where "+  COL_Image_ID+ " = '"+ id +"'";
+
+
+        String updateQuery2 = "Update "+ TABLE_survey +  " set "+ COL_Survey_Status +"= '"+ status +"' where "+  COL_Survey_ID+ " = '"+ id2 +"'";
+
+
+        String updateQuery3 = "Update "+ TABLE_farming +  " set "+ COL_Farming_Status +"= '"+ status +"' where "+  COL_Farming_ID+ " = '"+ id3 +"'";
+
+
+        String updateQuery4 = "Update "+ TABLE_garden_survey +  " set "+ COL_Garden_Status +"= '"+ status +"' where "+  COL_Garden_ID+ " = '"+ id4 +"'";
+
+
+        String updateQuery5 = "Update "+ TABLE_location_survey +  " set "+ COL_Location_Status +"= '"+ status +"' where "+  COL_Location_ID+ " = '"+ id5 +"'";
+
+
+
+
         Log.d("query5",updateQuery);
         database.execSQL(updateQuery);
+        database.execSQL(updateQuery2);
+        database.execSQL(updateQuery3);
+        database.execSQL(updateQuery4);
+        database.execSQL(updateQuery5);
         database.close();
     }
 
