@@ -98,7 +98,7 @@ public class AddFarming2 extends AppCompatActivity {
                 try{
                     saveFarming();
                 }catch (Exception e){
-                    Toast.makeText(AddFarming2.this, "กรุณากรอกวข้อมูลให้ถูกต้อง", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddFarming2.this, "กรุณากรอกข้อมูลให้ถูกต้อง", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -170,7 +170,7 @@ public class AddFarming2 extends AppCompatActivity {
 
         if (d_m_y_farming.isEmpty()) {
             //error name is empty
-            Toast.makeText(this, "กรุณากรอกชื่อหมู่บ้าน", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "กรุณากรอกวัน-เดือน-ปี เพาะปลูก", Toast.LENGTH_SHORT).show();
             Empty = false;
         }
 
