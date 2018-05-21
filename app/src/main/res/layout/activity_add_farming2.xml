@@ -32,7 +32,7 @@
                         android:id="@+id/addDMY_Farming"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="วันที่เพาะปลูก(ปปปป-ดด-วว)"
+                        android:hint="วันที่เพาะปลูก(วว-ดด-ปปปป)"
                         android:inputType="phone"
                         android:layout_marginBottom="20dp"/>
                 </android.support.design.widget.TextInputLayout>

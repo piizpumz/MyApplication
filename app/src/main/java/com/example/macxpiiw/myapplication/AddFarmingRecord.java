@@ -98,7 +98,11 @@ public class AddFarmingRecord extends AppCompatActivity {
         btn_AddFarming.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveFarming();
+                try{
+                    saveFarming();
+                }catch (Exception e){
+                    Toast.makeText(AddFarmingRecord.this, "กรุณากรอกวข้อมูลให้ถูกต้อง", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

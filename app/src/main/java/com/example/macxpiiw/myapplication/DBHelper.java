@@ -1116,7 +1116,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public String nametoGarden(Long id){
+    public String NameGarden(Long id){
         SQLiteDatabase db = this.getWritableDatabase();
         String selectID = "";
         String query;

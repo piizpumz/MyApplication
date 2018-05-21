@@ -50,13 +50,12 @@ public class AddFarming2 extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        dbHelper = new DBHelper(this);
-        String name = dbHelper.nametoGarden(receivedGardenId);
+        final DBHelper dbHelper = new DBHelper(this);
+        String name = dbHelper.NameGarden(receivedGardenId);
         getSupportActionBar().setTitle("เพิ่มการเพาะปลูก (แปลง:"+name+")");
 
 
 
-        final DBHelper dbHelper = new DBHelper(this);
 
 
         foradd = (Button) findViewById(R.id.foraddplant);
@@ -95,7 +94,12 @@ public class AddFarming2 extends AppCompatActivity {
         btn_AddFarming.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveFarming();
+
+                try{
+                    saveFarming();
+                }catch (Exception e){
+                    Toast.makeText(AddFarming2.this, "กรุณากรอกวข้อมูลให้ถูกต้อง", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
