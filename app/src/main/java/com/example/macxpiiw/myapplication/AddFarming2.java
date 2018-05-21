@@ -50,7 +50,8 @@ public class AddFarming2 extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        String name = dbHelper.NameGarden(receivedGardenId);
+        dbHelper = new DBHelper(this);
+        String name = dbHelper.nametoGarden(receivedGardenId);
         getSupportActionBar().setTitle("เพิ่มการเพาะปลูก (แปลง:"+name+")");
 
 

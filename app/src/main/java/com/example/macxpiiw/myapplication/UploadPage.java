@@ -406,11 +406,15 @@ public class UploadPage extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                loadingDialog.dismiss();
+                Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ", Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onRetry(int retryNo) {
                 // called when request is retried
+                loadingDialog.dismiss();
+                Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ", Toast.LENGTH_LONG).show();
             }
         });
 

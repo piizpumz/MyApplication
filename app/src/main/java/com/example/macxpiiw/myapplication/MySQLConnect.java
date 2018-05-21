@@ -1,8 +1,15 @@
 package com.example.macxpiiw.myapplication;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.Toast;
+
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -28,7 +35,7 @@ public class MySQLConnect {
     private final Activity main ;
     private List<String> list ;
     private List<JSONObject> jsonList;
-    private String URL = "http://158.108.144.4/RDSSATCC/", GET_URL = "sp_61_DiseaseSurvey/testdb.php",GET_URL2 = "sp_61_DiseaseSurvey/testdb2.php",GET_URL3 = "sp_61_DiseaseSurvey/testdb3.php" ;
+    private String URL = "http://158.108.144.4/RDSSATCC/", GET_URL = "sp_61_DiseaseSurvey/testdb.php",GET_URL2 = "sp_61_DiseaseSurvey/testdb2.php",GET_URL3 = "sp_61_DiseaseSurvey/db_connection.php" ;
 
     public MySQLConnect() {
 
@@ -43,7 +50,7 @@ public class MySQLConnect {
         jsonList = new ArrayList<JSONObject>();
 
     }
-    public List<JSONObject> getData(int x){
+    public List<JSONObject> getData(final int x){
 
         String url = "" ;
 
@@ -68,7 +75,25 @@ public class MySQLConnect {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(main, "กรุณาเชื่อมต่ออินเตอร์เน็ต", Toast.LENGTH_LONG).show();
+//                Toast.makeText(main, "กรุณาเชื่อมต่ออินเตอร์เน็ต", Toast.LENGTH_LONG).show();
+                AlertDialog.Builder builder =  new AlertDialog.Builder(main);
+                builder.setMessage("อินเตอร์เน็ตหรือเซิฟเวอร์มีปัญหาไม่สามารถเชื่อมต่อได้");
+                builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                            Intent relocation = new Intent(main, MainActivity.class);
+                            relocation.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            relocation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            main.startActivity(relocation);
+
+
+                    }
+                });
+
+                builder.create().show();
+
 
             }
         }

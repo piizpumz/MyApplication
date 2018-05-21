@@ -14,6 +14,8 @@ public class DownloadPage extends AppCompatActivity implements View.OnClickListe
     private CardView todownload_plant, todownload_location;
     private BottomNavigationView bottomNavigationView ;
 
+    private  MySQLConnect mySQLConnect ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

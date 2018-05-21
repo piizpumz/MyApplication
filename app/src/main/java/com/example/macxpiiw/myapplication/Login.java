@@ -53,6 +53,9 @@ public class Login extends AppCompatActivity{
 
         Log.d("checklogin", testlogin);
 
+        mySQLConnect = new MySQLConnect(this) ;
+        mySQLConnect.getData(3);
+
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
