@@ -75,8 +75,8 @@ public class AddImageRecord extends AppCompatActivity {
             public void onClick(View view) {
                 AlertDialog.Builder builder =  new AlertDialog.Builder(AddImageRecord.this);
                 builder.setTitle("Choose option");
-                builder.setMessage("Select from Gallery or Camera");
-                builder.setPositiveButton("Gallery", new DialogInterface.OnClickListener() {
+                builder.setMessage("เลือกรูปภาพจากคลังภาพ หรือ กล้องถ่ายรูป");
+                builder.setPositiveButton("คลังภาพ", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ActivityCompat.requestPermissions(
@@ -87,14 +87,14 @@ public class AddImageRecord extends AppCompatActivity {
 
                     }
                 });
-                builder.setNeutralButton("Cancle", new DialogInterface.OnClickListener() {
+                builder.setNeutralButton("ยกเลิก", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
 
                 });
-                builder.setNegativeButton("Camera", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("กล้องถ่ายรูป", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog , int whiich) {
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

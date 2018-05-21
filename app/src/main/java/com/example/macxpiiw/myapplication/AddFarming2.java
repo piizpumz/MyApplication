@@ -40,7 +40,7 @@ public class AddFarming2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_farming2);
-        getSupportActionBar().setTitle("เพิ่มการเพาะปลูก");
+//        getSupportActionBar().setTitle("เพิ่มการเพาะปลูก");
 
         mDMY_FarmingEditText = (EditText) findViewById(R.id.addDMY_Farming);
 
@@ -50,8 +50,8 @@ public class AddFarming2 extends AppCompatActivity {
             e.printStackTrace();
         }
 
-//        String name = dbHelper.NameGarden(receivedGardenId);
-//        getSupportActionBar().setTitle("เพิ่มการเพาะปลูก (แปลง:"+name+")");
+        String name = dbHelper.NameGarden(receivedGardenId);
+        getSupportActionBar().setTitle("เพิ่มการเพาะปลูก (แปลง:"+name+")");
 
 
 
