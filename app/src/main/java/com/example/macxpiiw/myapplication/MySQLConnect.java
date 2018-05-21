@@ -104,37 +104,4 @@ public class MySQLConnect {
 
     }
 
-
-    public String sentLogin(String user,String pass){
-        ArrayList<HashMap<String, String>> wordList;
-        wordList = new ArrayList<HashMap<String, String>>();
-
-
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("Username", user);
-        map.put("Password", pass);
-
-        wordList.add(map);
-
-
-
-        Gson gson = new GsonBuilder().create();
-
-        Log.d("wordList", String.valueOf(wordList));
-
-        //Use GSON to serialize Array List to JSON
-        return gson.toJson(wordList);
-    }
-
-
-    public String checkLogin(String status){
-
-        Log.d("teststatus", status);
-        if(status=="1"){
-            return  "true" ;
-        }else{
-            return "false" ;
-        }
-
-    }
 }
