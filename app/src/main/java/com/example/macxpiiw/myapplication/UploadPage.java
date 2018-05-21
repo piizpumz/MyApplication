@@ -71,6 +71,7 @@ public class UploadPage extends AppCompatActivity {
     private ExpandableListAdapter listAdapter;
     private List<String> listDataHeader;
     private HashMap<String,List<String>> listHash;
+    ProgressDialog loadingDialog;
 
     DBHelper controller = new DBHelper(this);
 
@@ -136,16 +137,16 @@ public class UploadPage extends AppCompatActivity {
         butGo.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
 
-                testaom();
-                testaom2();
-                testaom3();
-                testaom4();
+//                testaom();
+//                testaom2();
+//                testaom3();
+//                testaom4();
                 try {
                     testaom5();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(UploadPage.this, "กำลังอัพโหลด", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(UploadPage.this, "กำลังอัพโหลด", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -373,6 +374,8 @@ public class UploadPage extends AppCompatActivity {
             @Override
             public void onStart() {
                 // called before request is started
+//                Toast.makeText(UploadPage.this, "กำลังอัพโหลด", Toast.LENGTH_SHORT).show();
+                loadingDialog = ProgressDialog.show(UploadPage.this, "กำลังอัพโหลดข้อมูล", "กรุณารอสักครู่", true, false);
             }
 
             @Override
@@ -383,13 +386,16 @@ public class UploadPage extends AppCompatActivity {
                     JSONArray result = jsonObject.getJSONArray("result");
                     for(int i=0; i<result.length();i++){
                         JSONObject obj = (JSONObject)result.get(i);
-                        dbHelper.updateSyncStatusImage(obj.get("id").toString(),obj.get("status").toString());
+                        dbHelper.updateSyncStatusImage(obj.get("id").toString(),obj.get("id2").toString(),obj.get("id3").toString(),obj.get("id4").toString(),obj.get("id5").toString(),obj.get("status").toString());
                     }
+                    loadingDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "อัพโหลดสำเร็จ", Toast.LENGTH_LONG).show();
+                    Log.d("JSON", String.valueOf(result));
 
 
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
+                    loadingDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
