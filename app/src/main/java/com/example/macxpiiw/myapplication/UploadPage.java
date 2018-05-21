@@ -386,7 +386,7 @@ public class UploadPage extends AppCompatActivity {
                     JSONArray result = jsonObject.getJSONArray("result");
                     for(int i=0; i<result.length();i++){
                         JSONObject obj = (JSONObject)result.get(i);
-                        dbHelper.updateSyncStatusImage(obj.get("id").toString(),obj.get("id2").toString(),obj.get("id3").toString(),obj.get("id4").toString(),obj.get("id5").toString(),obj.get("status").toString());
+                        dbHelper.updateSyncStatusImage(obj.get("id").toString(),obj.get("id2").toString(),obj.get("id3").toString(),obj.get("id4").toString(),obj.get("id5").toString(),obj.get("id6").toString(),obj.get("status").toString());
                     }
                     loadingDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "อัพโหลดสำเร็จ", Toast.LENGTH_LONG).show();

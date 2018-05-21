@@ -1760,6 +1760,7 @@ public class DBHelper extends SQLiteOpenHelper {
                         if (cursor6.moveToFirst()) {
                             map.put("id_Plant", cursor6.getString(0));
                             map.put(COL_Plant_IDServer, cursor6.getString(1));
+                            map.put(COL_Plant_Common_Name, cursor6.getString(2));
                         }
 
 
@@ -1808,7 +1809,7 @@ public class DBHelper extends SQLiteOpenHelper {
         database.close();
     }
 
-    public void updateSyncStatusImage(String id,String id2,String id3,String id4,String id5, String status){
+    public void updateSyncStatusImage(String id,String id2,String id3,String id4,String id5,String id6, String status){
         SQLiteDatabase database = this.getWritableDatabase();
         String updateQuery = "Update "+ TABLE_image +  " set "+ COL_Image_Status +"= '"+ status +"' where "+  COL_Image_ID+ " = '"+ id +"'";
 
@@ -1825,6 +1826,8 @@ public class DBHelper extends SQLiteOpenHelper {
         String updateQuery5 = "Update "+ TABLE_location_survey +  " set "+ COL_Location_Status +"= '"+ status +"' where "+  COL_Location_ID+ " = '"+ id5 +"'";
 
 
+        String updateQuery6 = "Update "+ TABLE_plant +  " set "+ COL_Plant_Status +"= '"+ status +"' where "+  COL_Plant_ID+ " = '"+ id6 +"'";
+
 
 
         Log.d("query5",updateQuery);
@@ -1833,6 +1836,7 @@ public class DBHelper extends SQLiteOpenHelper {
         database.execSQL(updateQuery3);
         database.execSQL(updateQuery4);
         database.execSQL(updateQuery5);
+        database.execSQL(updateQuery6);
         database.close();
     }
 
