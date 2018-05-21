@@ -17,8 +17,10 @@ public class HomePage extends AppCompatActivity {
     private ScrollView scrollView;
     private ViewFlipper viewFlipper;
     private ViewFlipper viewFlipper2;
+    private ViewFlipper viewFlipper3;
     private int [] image;
     private int [] image2;
+    private int [] image3;
     private int i;
 
     @Override
@@ -32,8 +34,10 @@ public class HomePage extends AppCompatActivity {
 
         image = new int[]{R.drawable.img01 , R.drawable.img02 , R.drawable.img03};
         image2 = new int[]{R.drawable.img11 , R.drawable.img12 , R.drawable.img13};
+        image3 = new int[]{R.drawable.img21 , R.drawable.img26 , R.drawable.img22 , R.drawable.img25 , R.drawable.img23 , R.drawable.img24};
         viewFlipper = (ViewFlipper) findViewById(R.id.viewFlip);
         viewFlipper2 = (ViewFlipper) findViewById(R.id.viewFlip2);
+        viewFlipper3 = (ViewFlipper) findViewById(R.id.viewFlip3);
 
 
         for(int i = 0  ; i< image.length ; i++){
@@ -51,6 +55,14 @@ public class HomePage extends AppCompatActivity {
 
         for (int image2: image2){
             setViewFlipperImage2(image2);
+        }
+
+        for(int i = 0  ; i< image3.length ; i++){
+            setViewFlipperImage3(image3[i]);
+        }
+
+        for (int image3: image3){
+            setViewFlipperImage3(image3);
         }
 
 
@@ -112,6 +124,14 @@ public class HomePage extends AppCompatActivity {
 
         viewFlipper2.addView(imageView);
         viewFlipper2.setAutoStart(true);
+    }
+
+    public void setViewFlipperImage3(int image){
+        ImageView imageView  = new ImageView(this);
+        imageView.setBackgroundResource(image);
+
+        viewFlipper3.addView(imageView);
+        viewFlipper3.setAutoStart(true);
     }
 
 
