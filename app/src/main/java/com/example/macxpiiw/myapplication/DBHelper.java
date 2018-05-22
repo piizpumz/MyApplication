@@ -1749,11 +1749,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
                             }
-                            database5.close();
+
 
 
                         }
-                        database4.close();
+
 
                         String plantID = cursor3.getString(cursor3.getColumnIndex(COL_PlantID));
                         String selectQuery6 = "SELECT * FROM " + TABLE_plant + " where " + COL_Plant_ID + " = '" + plantID + "'";
@@ -1764,12 +1764,12 @@ public class DBHelper extends SQLiteOpenHelper {
                             map.put(COL_Plant_IDServer, cursor6.getString(1));
                             map.put(COL_Plant_Common_Name, cursor6.getString(2));
                         }
-                        database6.close();
+
 
                     }
-                    database3.close();
+
                 }
-                database2.close();
+
                 wordList.add(map);
             } while (cursor.moveToNext());
         }
@@ -1862,7 +1862,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 Count++;
             } while (cursor.moveToNext());
         }
-
+        db.close();
         return Count;
     }
 
@@ -1882,7 +1882,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 Count++;
             } while (cursor.moveToNext());
         }
-
+        db.close();
         return Count;
     }
 
@@ -1902,7 +1902,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 Count++;
             } while (cursor.moveToNext());
         }
-
+        db.close();
         return Count;
     }
 

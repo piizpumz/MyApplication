@@ -1,6 +1,8 @@
 package com.example.macxpiiw.myapplication;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -155,207 +157,207 @@ public class UploadPage extends AppCompatActivity {
 
 
 
-    public void testaom() {
-        dbHelper = new DBHelper(this);
-
-        AsyncHttpClient client = new AsyncHttpClient();
-        RequestParams params = new RequestParams();
-
-        params.put("locationJSON", dbHelper.UploadLocation());
-
-        client.post("http://158.108.144.4/RDSSATCC/sp_61_DiseaseSurvey/testpost.php", params, new AsyncHttpResponseHandler() {
-
-            @Override
-            public void onStart() {
-                // called before request is started
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                // called when response HTTP status is "200 OK"
-                try {
-                    JSONObject jsonObject = new JSONObject(new String(response));
-                    JSONArray result = jsonObject.getJSONArray("result");
-                    for(int i=0; i<result.length();i++){
-                        JSONObject obj = (JSONObject)result.get(i);
-                        dbHelper.updateSyncStatusLocation(obj.get("id").toString(),obj.get("status").toString());
-                    }
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ", Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-            }
-
-            @Override
-            public void onRetry(int retryNo) {
-                // called when request is retried
-            }
-        });
-    }
-
-    public void testaom2() {
-        dbHelper = new DBHelper(this);
-
-
-        AsyncHttpClient client = new AsyncHttpClient();
-        RequestParams params = new RequestParams();
-
-
-
-        params.put("gardenJSON", dbHelper.UploadGarden());
-
-
-
-
-        client.post("http://158.108.144.4/RDSSATCC/sp_61_DiseaseSurvey/test1234.php", params, new AsyncHttpResponseHandler() {
-
-            @Override
-            public void onStart() {
-                // called before request is started
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                // called when response HTTP status is "200 OK"
-                try {
-                    JSONObject jsonObject = new JSONObject(new String(response));
-                    JSONArray result = jsonObject.getJSONArray("result");
-                    for(int i=0; i<result.length();i++){
-                        JSONObject obj = (JSONObject)result.get(i);
-                        dbHelper.updateSyncStatusGarden(obj.get("id").toString(),obj.get("status").toString());
-                    }
-
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ", Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-            }
-
-            @Override
-            public void onRetry(int retryNo) {
-                // called when request is retried
-            }
-        });
-
-    }
-
-    public void testaom3() {
-        dbHelper = new DBHelper(this);
-
-
-        AsyncHttpClient client = new AsyncHttpClient();
-        RequestParams params = new RequestParams();
-
-
-        params.put("farmingJSON", dbHelper.UploadFarming());
-
-
-
-        client.post("http://158.108.144.4/RDSSATCC/sp_61_DiseaseSurvey/test12345.php", params, new AsyncHttpResponseHandler() {
-
-            @Override
-            public void onStart() {
-                // called before request is started
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                // called when response HTTP status is "200 OK"
-                try {
-                    JSONObject jsonObject = new JSONObject(new String(response));
-                    JSONArray result = jsonObject.getJSONArray("result");
-                    for(int i=0; i<result.length();i++){
-                        JSONObject obj = (JSONObject)result.get(i);
-                        dbHelper.updateSyncStatusFarming(obj.get("id").toString(),obj.get("status").toString());
-                    }
-
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ", Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-            }
-
-            @Override
-            public void onRetry(int retryNo) {
-                // called when request is retried
-            }
-        });
-
-
-    }
-
-    public void testaom4() {
-        dbHelper = new DBHelper(this);
-
-
-        AsyncHttpClient client = new AsyncHttpClient();
-        RequestParams params = new RequestParams();
-
-
-        params.put("surveyJSON", dbHelper.UploadSurvey());
-
-
-        client.post("http://158.108.144.4/RDSSATCC/sp_61_DiseaseSurvey/test123456.php", params, new AsyncHttpResponseHandler() {
-
-            @Override
-            public void onStart() {
-                // called before request is started
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                // called when response HTTP status is "200 OK"
-                try {
-                    JSONObject jsonObject = new JSONObject(new String(response));
-                    JSONArray result = jsonObject.getJSONArray("result");
-                    for(int i=0; i<result.length();i++){
-                        JSONObject obj = (JSONObject)result.get(i);
-                        dbHelper.updateSyncStatusSurvey(obj.get("id").toString(),obj.get("status").toString());
-                    }
-
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ", Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-            }
-
-            @Override
-            public void onRetry(int retryNo) {
-                // called when request is retried
-            }
-        });
-
-    }
+//    public void testaom() {
+//        dbHelper = new DBHelper(this);
+//
+//        AsyncHttpClient client = new AsyncHttpClient();
+//        RequestParams params = new RequestParams();
+//
+//        params.put("locationJSON", dbHelper.UploadLocation());
+//
+//        client.post("http://158.108.144.4/RDSSATCC/sp_61_DiseaseSurvey/testpost.php", params, new AsyncHttpResponseHandler() {
+//
+//            @Override
+//            public void onStart() {
+//                // called before request is started
+//            }
+//
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+//                // called when response HTTP status is "200 OK"
+//                try {
+//                    JSONObject jsonObject = new JSONObject(new String(response));
+//                    JSONArray result = jsonObject.getJSONArray("result");
+//                    for(int i=0; i<result.length();i++){
+//                        JSONObject obj = (JSONObject)result.get(i);
+//                        dbHelper.updateSyncStatusLocation(obj.get("id").toString(),obj.get("status").toString());
+//                    }
+//                } catch (JSONException e) {
+//                    // TODO Auto-generated catch block
+//                    Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ", Toast.LENGTH_LONG).show();
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+//                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+//            }
+//
+//            @Override
+//            public void onRetry(int retryNo) {
+//                // called when request is retried
+//            }
+//        });
+//    }
+//
+//    public void testaom2() {
+//        dbHelper = new DBHelper(this);
+//
+//
+//        AsyncHttpClient client = new AsyncHttpClient();
+//        RequestParams params = new RequestParams();
+//
+//
+//
+//        params.put("gardenJSON", dbHelper.UploadGarden());
+//
+//
+//
+//
+//        client.post("http://158.108.144.4/RDSSATCC/sp_61_DiseaseSurvey/test1234.php", params, new AsyncHttpResponseHandler() {
+//
+//            @Override
+//            public void onStart() {
+//                // called before request is started
+//            }
+//
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+//                // called when response HTTP status is "200 OK"
+//                try {
+//                    JSONObject jsonObject = new JSONObject(new String(response));
+//                    JSONArray result = jsonObject.getJSONArray("result");
+//                    for(int i=0; i<result.length();i++){
+//                        JSONObject obj = (JSONObject)result.get(i);
+//                        dbHelper.updateSyncStatusGarden(obj.get("id").toString(),obj.get("status").toString());
+//                    }
+//
+//                } catch (JSONException e) {
+//                    // TODO Auto-generated catch block
+//                    Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ", Toast.LENGTH_LONG).show();
+//                    e.printStackTrace();
+//                }
+//
+//
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+//                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+//            }
+//
+//            @Override
+//            public void onRetry(int retryNo) {
+//                // called when request is retried
+//            }
+//        });
+//
+//    }
+//
+//    public void testaom3() {
+//        dbHelper = new DBHelper(this);
+//
+//
+//        AsyncHttpClient client = new AsyncHttpClient();
+//        RequestParams params = new RequestParams();
+//
+//
+//        params.put("farmingJSON", dbHelper.UploadFarming());
+//
+//
+//
+//        client.post("http://158.108.144.4/RDSSATCC/sp_61_DiseaseSurvey/test12345.php", params, new AsyncHttpResponseHandler() {
+//
+//            @Override
+//            public void onStart() {
+//                // called before request is started
+//            }
+//
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+//                // called when response HTTP status is "200 OK"
+//                try {
+//                    JSONObject jsonObject = new JSONObject(new String(response));
+//                    JSONArray result = jsonObject.getJSONArray("result");
+//                    for(int i=0; i<result.length();i++){
+//                        JSONObject obj = (JSONObject)result.get(i);
+//                        dbHelper.updateSyncStatusFarming(obj.get("id").toString(),obj.get("status").toString());
+//                    }
+//
+//                } catch (JSONException e) {
+//                    // TODO Auto-generated catch block
+//                    Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ", Toast.LENGTH_LONG).show();
+//                    e.printStackTrace();
+//                }
+//
+//
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+//                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+//            }
+//
+//            @Override
+//            public void onRetry(int retryNo) {
+//                // called when request is retried
+//            }
+//        });
+//
+//
+//    }
+//
+//    public void testaom4() {
+//        dbHelper = new DBHelper(this);
+//
+//
+//        AsyncHttpClient client = new AsyncHttpClient();
+//        RequestParams params = new RequestParams();
+//
+//
+//        params.put("surveyJSON", dbHelper.UploadSurvey());
+//
+//
+//        client.post("http://158.108.144.4/RDSSATCC/sp_61_DiseaseSurvey/test123456.php", params, new AsyncHttpResponseHandler() {
+//
+//            @Override
+//            public void onStart() {
+//                // called before request is started
+//            }
+//
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+//                // called when response HTTP status is "200 OK"
+//                try {
+//                    JSONObject jsonObject = new JSONObject(new String(response));
+//                    JSONArray result = jsonObject.getJSONArray("result");
+//                    for(int i=0; i<result.length();i++){
+//                        JSONObject obj = (JSONObject)result.get(i);
+//                        dbHelper.updateSyncStatusSurvey(obj.get("id").toString(),obj.get("status").toString());
+//                    }
+//
+//                } catch (JSONException e) {
+//                    // TODO Auto-generated catch block
+//                    Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ", Toast.LENGTH_LONG).show();
+//                    e.printStackTrace();
+//                }
+//
+//
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+//                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+//            }
+//
+//            @Override
+//            public void onRetry(int retryNo) {
+//                // called when request is retried
+//            }
+//        });
+//
+//    }
 
     public void testaom5() throws FileNotFoundException {
         dbHelper = new DBHelper(this);
@@ -369,7 +371,7 @@ public class UploadPage extends AppCompatActivity {
 
 
 
-        client.post("http://158.108.144.4/RDSSATCC/sp_61_DiseaseSurvey/test1234567.php", params, new AsyncHttpResponseHandler() {
+        client.post("http://158.108.144.4/RDSSATCC/sp_61_DiseaseSurvey/test12345678.php", params, new AsyncHttpResponseHandler() {
 
             @Override
             public void onStart() {
@@ -384,10 +386,13 @@ public class UploadPage extends AppCompatActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(new String(response));
                     JSONArray result = jsonObject.getJSONArray("result");
+                    String s = "0" ;
                     for(int i=0; i<result.length();i++){
                         JSONObject obj = (JSONObject)result.get(i);
-                        dbHelper.updateSyncStatusImage(obj.get("id").toString(),obj.get("id2").toString(),obj.get("id3").toString(),obj.get("id4").toString(),obj.get("id5").toString(),obj.get("id6").toString(),obj.get("status").toString());
-                    }
+
+                            dbHelper.updateSyncStatusImage(obj.get("id").toString(), obj.get("id2").toString(), obj.get("id3").toString(), obj.get("id4").toString(), obj.get("id5").toString(), obj.get("id6").toString(), obj.get("status").toString());
+
+                        }
                     loadingDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "อัพโหลดสำเร็จ", Toast.LENGTH_LONG).show();
                     Log.d("aomjson", String.valueOf(jsonObject));
@@ -407,14 +412,35 @@ public class UploadPage extends AppCompatActivity {
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                 loadingDialog.dismiss();
-                Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ "+statusCode, Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onRetry(int retryNo) {
                 // called when request is retried
                 loadingDialog.dismiss();
-                Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ", Toast.LENGTH_LONG).show();
+                loadingDialog = ProgressDialog.show(UploadPage.this, "เกิดความผิดพลาดเกี่ยวกับอินเตอร์เน็ต", "กำลังเชื่อมต่อใหม่", true, false);
+//                Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ "+retryNo, Toast.LENGTH_LONG).show();
+                if(retryNo == 5 ){
+                    loadingDialog.dismiss();
+                    AlertDialog.Builder builder =  new AlertDialog.Builder(UploadPage.this);
+                    builder.setMessage("อินเตอร์เน็ตหรือเซิฟเวอร์มีปัญหาไม่สามารถเชื่อมต่อได้");
+                    builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+
+                            Intent relocation = new Intent(UploadPage.this, UploadPage.class);
+                            relocation.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            relocation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            UploadPage.this.startActivity(relocation);
+
+
+                        }
+                    });
+
+                    builder.create().show();
+                }
             }
         });
 
