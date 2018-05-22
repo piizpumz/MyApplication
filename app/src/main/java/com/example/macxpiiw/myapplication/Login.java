@@ -1,12 +1,14 @@
 package com.example.macxpiiw.myapplication;
 
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,11 +23,26 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.HttpEntity;
+import cz.msebera.android.httpclient.HttpResponse;
+import cz.msebera.android.httpclient.NameValuePair;
+import cz.msebera.android.httpclient.StatusLine;
+import cz.msebera.android.httpclient.client.ClientProtocolException;
+import cz.msebera.android.httpclient.client.HttpClient;
+import cz.msebera.android.httpclient.client.entity.UrlEncodedFormEntity;
+import cz.msebera.android.httpclient.client.methods.HttpPost;
+import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
+import cz.msebera.android.httpclient.message.BasicNameValuePair;
 
 public class Login extends AppCompatActivity{
 
@@ -34,8 +51,10 @@ public class Login extends AppCompatActivity{
     CardView btn;
     private MySQLConnect mySQLConnect;
 
+    String status = "0";
 
-    String testlogin ="" ;
+    String result = "0";
+
 
 
     @Override
@@ -46,134 +65,147 @@ public class Login extends AppCompatActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+            StrictMode.setThreadPolicy(policy);
+
+        }
+
 
         user = (EditText) findViewById(R.id.editText);
         pass = (EditText) findViewById(R.id.editText2);
         btn = (CardView) findViewById(R.id.cardView);
 
-        Log.d("checklogin", testlogin);
 
         mySQLConnect = new MySQLConnect(this) ;
         mySQLConnect.getData(3);
 
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        btn.setOnClickListener(new CardView.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                checkLogin();
+            public void onClick(View v) {
+                String userid= user.getText().toString().trim();
+                String password = pass.getText().toString().trim();
+                checkLogin(userid,password);
             }
         });
     }
 
-    private void checkLogin(){
-        String userid= String.valueOf(user.getText());
-        String password = String.valueOf(pass.getText());
+    private void checkLogin(String Username,String Password){
+
+        String url = "http://158.108.144.4/RDSSATCC/sp_61_DiseaseSurvey/login.php";
+
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+        params.add(new BasicNameValuePair("Username", Username));
+
+        params.add(new BasicNameValuePair("Password", Password));
 
 
-        if(true){
-            startActivity(new Intent(Login.this, UploadPage.class));
+        String resultServer  = getHttpPost(url,params);
+
+
+
+
+        JSONObject c;
+
+        try {
+
+            c = new JSONObject(resultServer);
+            status = c.getString("status");
+            result = c.getString("result");
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Toast.makeText(this, result+status, Toast.LENGTH_SHORT).show();
+
+
+        if((result == "pass") && (status == "admin")){
+            Log.e("Log", result+status);
+
+            Toast.makeText(this, "Login OK", Toast.LENGTH_SHORT).show();
+            Intent newActivity = new Intent(this,UploadPage.class);
+            startActivity(newActivity);
 
         }
-        else if(testlogin(userid,password) == "0"){
-            Toast.makeText(this, "กรอกรหัสผ่านผิดผลาด "+testlogin(userid,password), Toast.LENGTH_SHORT).show();
+        else if(result == "pass" && status == "user"){
+            Log.e("Log2", result+status);
+
+            Toast.makeText(this, "Login OK", Toast.LENGTH_SHORT).show();
+            Intent newActivity = new Intent(this,UploadPage.class);
+            startActivity(newActivity);
         }
-        else{
-            Toast.makeText(this, "มันพังไรก็ไม่รู้ "+testlogin(userid,password)+" พังหมดแล้ว ", Toast.LENGTH_SHORT).show();
-        }
+//        else {
+//            Log.e("Log3", result+status);
+//            Toast.makeText(this, "กรอกรหัสผ่านผิดผลาด ", Toast.LENGTH_SHORT).show();
+//        }
+
     }
 
 
+    public String getHttpPost(String url,List<NameValuePair> params) {
 
+        StringBuilder str = new StringBuilder();
 
-    public String testlogin(String userid,String password) {
+        HttpClient client = new DefaultHttpClient();
 
-
-        AsyncHttpClient client = new AsyncHttpClient();
-        RequestParams params = new RequestParams();
-
-
-        params.put("loginJSON", sentLogin(userid,password));
-
-
-        final String[] resultLogin = new String[1];
-        resultLogin[0] = "" ;
+        HttpPost httpPost = new HttpPost(url);
 
 
 
+        try {
 
-        client.post("http://158.108.207.4/sp_61_DiseaseSurvey/login.php", params, new AsyncHttpResponseHandler() {
+            httpPost.setEntity(new UrlEncodedFormEntity(params));
 
-            @Override
-            public void onStart() {
-                // called before request is started
-                Log.d("teststatus55555", "กำลังตรวจสอบ");
-            }
+            HttpResponse response = client.execute(httpPost);
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                // called when response HTTP status is "200 OK"
+            StatusLine statusLine = response.getStatusLine();
 
-                try {
+            int statusCode = statusLine.getStatusCode();
 
-                    JSONObject jsonObject = new JSONObject(new String(response));
-                    JSONArray result = jsonObject.getJSONArray("result");
-                    for(int i=0; i<result.length();i++){
-                        JSONObject obj = (JSONObject)result.get(i);
-                        resultLogin[i] = obj.get("status").toString();
+            if (statusCode == 200) { // Status OK
 
-                        testlogin = obj.get("status").toString() ;
+                HttpEntity entity = response.getEntity();
 
+                InputStream content = entity.getContent();
 
-                    }
+                BufferedReader reader = new BufferedReader(new InputStreamReader(content));
 
+                String line;
 
+                while ((line = reader.readLine()) != null) {
 
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    str.append(line);
+
                 }
 
+            } else {
+
+                Log.e("Log", "Failed to download result..");
+
             }
 
+        } catch (ClientProtocolException e) {
 
+            e.printStackTrace();
 
+        } catch (IOException e) {
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-            }
+            e.printStackTrace();
 
-            @Override
-            public void onRetry(int retryNo) {
-                // called when request is retried
-            }
-        });
+        }
 
-        Log.d("testresult", resultLogin[0]);
-        return resultLogin[0] ;
+        return str.toString();
 
     }
 
-    public String sentLogin(String Username,String Password){
-        ArrayList<HashMap<String, String>> wordList;
-        wordList = new ArrayList<HashMap<String, String>>();
 
 
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("Username", Username);
-        map.put("Password", Password);
-
-        wordList.add(map);
-
-
-
-        Gson gson = new GsonBuilder().create();
-
-        Log.d("wordList", String.valueOf(wordList));
-
-        //Use GSON to serialize Array List to JSON
-        return gson.toJson(wordList);
-    }
 
 
 

@@ -283,10 +283,12 @@ public class DownloadLocationPage extends AppCompatActivity {
 
                             }
                         }
+                        db3.close();
                         count2.add(String.valueOf(count)) ;
 
                     }
                 }
+                db2.close();
 //                else
 //                {
 //                    count2.add(String.valueOf(0)) ;
@@ -306,6 +308,7 @@ public class DownloadLocationPage extends AppCompatActivity {
                 Log.d("amphur", String.valueOf(amphur));
             }
         }
+        db.close();
 
 
 //        ArrayAdapter arrayAdapter;

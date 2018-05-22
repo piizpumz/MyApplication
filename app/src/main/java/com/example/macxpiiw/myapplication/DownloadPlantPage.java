@@ -385,6 +385,7 @@ public class DownloadPlantPage extends AppCompatActivity {
             }
 
         }
+        db.close();
 
         listDataHeader.add("พันธุ์ข้าวในเครื่อง ("+cursor.getCount()+")");
         listDataHeader.add("พันธุ์ข้าวในเซิฟ ("+(collectItems.size()-1)+")");
