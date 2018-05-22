@@ -430,7 +430,7 @@ public class UploadPage extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
 
 
-                            Intent relocation = new Intent(UploadPage.this, UploadPage.class);
+                            Intent relocation = new Intent(UploadPage.this, MainActivity.class);
                             relocation.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             relocation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             UploadPage.this.startActivity(relocation);
