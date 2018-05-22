@@ -28,7 +28,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String TAG = "DBHelper";
 
-    private static final String DATABASE_NAME = "diseaseDBv3.6";
+    private static final String DATABASE_NAME = "diseaseDBv4.0";
     private static final int DATABASE_VERSION = 1;
 
 
@@ -1749,9 +1749,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
                             }
+                            database5.close();
 
 
                         }
+                        database4.close();
 
                         String plantID = cursor3.getString(cursor3.getColumnIndex(COL_PlantID));
                         String selectQuery6 = "SELECT * FROM " + TABLE_plant + " where " + COL_Plant_ID + " = '" + plantID + "'";
@@ -1762,10 +1764,12 @@ public class DBHelper extends SQLiteOpenHelper {
                             map.put(COL_Plant_IDServer, cursor6.getString(1));
                             map.put(COL_Plant_Common_Name, cursor6.getString(2));
                         }
-
+                        database6.close();
 
                     }
+                    database3.close();
                 }
+                database2.close();
                 wordList.add(map);
             } while (cursor.moveToNext());
         }

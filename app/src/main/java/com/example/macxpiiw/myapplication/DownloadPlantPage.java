@@ -220,8 +220,7 @@ public class DownloadPlantPage extends AppCompatActivity {
             Log.d("size2",String.valueOf(collectItems.size()));
             for (int j = 0; j < collectItems.size(); j++) {
 
-                String select = "select * from " + dbHelper.TABLE_plant + " WHERE " + dbHelper.COL_Plant_IDServer + " = '" + collectItems.get(j).getString("Plant_ID") +
-                        "' AND " + dbHelper.COL_Plant_Common_Name + " = '" + collectItems.get(j).getString("Plant_Common_Name") + "'";
+                String select = "select * from " + dbHelper.TABLE_plant + " WHERE " + dbHelper.COL_Plant_Common_Name + " = '" + collectItems.get(j).getString("Plant_Common_Name") + "'";
                 Cursor cursor = db.rawQuery(select, null);
 
                 if (cursor.getCount() != 0) {

@@ -390,13 +390,13 @@ public class UploadPage extends AppCompatActivity {
                     }
                     loadingDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "อัพโหลดสำเร็จ", Toast.LENGTH_LONG).show();
-                    Log.d("JSON", String.valueOf(result));
+                    Log.d("aomjson", String.valueOf(jsonObject));
 
 
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     loadingDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ ", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
 
