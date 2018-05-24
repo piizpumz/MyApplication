@@ -13,6 +13,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +35,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -72,7 +74,7 @@ public class UploadPage extends AppCompatActivity {
     private Button butGO ;
     private Button butGO2 ;
     private Button butGO3 ;
-    private Button butGO4 ;
+    private Button checkbutt ;
     private ExpandableListView listView;
     private ExpandableListAdapter listAdapter;
     private List<String> listDataHeader;
@@ -98,6 +100,7 @@ public class UploadPage extends AppCompatActivity {
         showUpload2();
         listAdapter = new ExpandableListAdapter(this,listDataHeader,listHash);
         listView.setAdapter(listAdapter);
+        listView.getItemAtPosition(0);
 
 
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
@@ -117,6 +120,33 @@ public class UploadPage extends AppCompatActivity {
                 return true;  // i missed this
             }
         });
+
+        Button checkbutt = (Button) findViewById(R.id.checkbutt) ;
+        checkbutt.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+
+                listAdapter.getCheckedItems() ;
+                Log.d("checklog", String.valueOf(listAdapter.getCheckedItems()));
+
+                Set<Pair<Long, Long>> checkedItems = listAdapter.getCheckedItems();
+                for (Pair<Long,Long> c:checkedItems)
+                {
+                    Log.d("checkItem:",c.first+" "+c.second);
+                }
+
+//                listView.getItemAtPosition(1) ;
+
+//                for(int i = 0 ;i <listAdapter.getCheckedItems().size();i++) {
+//                    Log.d("checklog2", String.valueOf(listView.getItemAtPosition(i)));
+//                }
+
+
+
+
+
+            }
+        });
+        listAdapter.getCheckedItems() ;
 
 
 

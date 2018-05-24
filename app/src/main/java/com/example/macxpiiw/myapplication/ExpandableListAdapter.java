@@ -2,16 +2,20 @@ package com.example.macxpiiw.myapplication;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by reale on 21/11/2016.
@@ -21,6 +25,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> listDataHeader;
     private HashMap<String,List<String>> listHashMap;
+
+    private final Set<Pair<Long, Long>> mCheckedItems = new HashSet<Pair<Long, Long>>();
 
     public ExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<String>> listHashMap) {
         this.context = context;
@@ -86,8 +92,35 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             view = inflater.inflate(R.layout.list_item,null);
         }
 
+
         TextView txtListChild = (TextView)view.findViewById(R.id.lblListItem);
         txtListChild.setText(childText);
+
+
+        final CheckBox cb = (CheckBox) view.findViewById(R.id.myCheckBox);
+        // add tag to remember groupId/childId
+        final Pair<Long, Long> tag = new Pair<Long, Long>(
+                getGroupId(i),
+                getChildId(i, i1));
+        cb.setTag(tag);
+        // set checked if groupId/childId in checked items
+        cb.setChecked(mCheckedItems.contains(tag));
+        // set OnClickListener to handle checked switches
+        cb.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                final CheckBox cb = (CheckBox) v;
+                final Pair<Long, Long> tag = (Pair<Long, Long>) v.getTag();
+
+                if (cb.isChecked()) {
+                    mCheckedItems.add(tag);
+                } else {
+                    mCheckedItems.remove(tag);
+                }
+            }
+        });
+
+
         return view;
     }
 
@@ -95,4 +128,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int i, int i1) {
         return true;
     }
+
+    public Set<Pair<Long, Long>> getCheckedItems() {
+        return mCheckedItems;
+    }
+
 }

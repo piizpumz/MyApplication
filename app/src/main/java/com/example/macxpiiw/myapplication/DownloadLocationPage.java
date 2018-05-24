@@ -112,19 +112,35 @@ public class DownloadLocationPage extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
+                    if(countDownload==0){
 
-                    AlertDialog.Builder builder =  new AlertDialog.Builder(DownloadLocationPage.this);
-                    builder.setMessage("มีจำนวนที่ต้องดาวน์โหลดในจังหวัด"+s+" จำนวน "+countDownload+" พื้นที่");
-                    builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(DownloadLocationPage.this);
+                        builder.setMessage("ไม่จำเป็นต้องดาวน์โหลดพื้นที่สำรวจจังหวัดนี้");
+                        builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
 
-                        }
-                    });
+                            }
+                        });
 
-                    builder.create().show();
+                        builder.create().show();
 
+                    }
+
+                    else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(DownloadLocationPage.this);
+                        builder.setMessage("มีจำนวนที่ต้องดาวน์โหลดในจังหวัด" + s + " จำนวน " + countDownload + " พื้นที่");
+                        builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                            }
+                        });
+
+                        builder.create().show();
+                    }
 
                 }
 
