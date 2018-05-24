@@ -88,12 +88,34 @@ public class Login extends AppCompatActivity{
             public void onClick(View v) {
                 String userid= user.getText().toString().trim();
                 String password = pass.getText().toString().trim();
-                checkLogin(userid,password);
+                String goUpload = checkLogin(userid,password)  ;
+
+                Log.e("login", "..."+goUpload+"...");
+
+                if(goUpload.equals("admin")){
+
+                    Toast.makeText(Login.this, "Login OK  : ADMIN", Toast.LENGTH_SHORT).show();
+                    Intent newActivity = new Intent(Login.this,UploadPage.class);
+                    startActivity(newActivity);
+
+                }
+                else if(goUpload.equals("user")){
+
+                    Toast.makeText(Login.this, "Login OK  : USER", Toast.LENGTH_SHORT).show();
+                    Intent newActivity = new Intent(Login.this,UploadPage.class);
+                    startActivity(newActivity);
+
+                }
+                else{
+
+                    Toast.makeText(Login.this, "กรอกรหัสผ่านผิดผลาด ", Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
     }
 
-    private void checkLogin(String Username,String Password){
+    private String checkLogin(String Username,String Password){
 
         String url = "http://158.108.144.4/RDSSATCC/sp_61_DiseaseSurvey/login.php";
 
@@ -122,28 +144,26 @@ public class Login extends AppCompatActivity{
             e.printStackTrace();
         }
 
-        Toast.makeText(this, result+status, Toast.LENGTH_SHORT).show();
 
-
-        if((result == "pass") && (status == "admin")){
+        if(result == "pass" && status == "admin"){
             Log.e("Log", result+status);
 
-            Toast.makeText(this, "Login OK", Toast.LENGTH_SHORT).show();
-            Intent newActivity = new Intent(this,UploadPage.class);
-            startActivity(newActivity);
+            return status ;
+
+
 
         }
         else if(result == "pass" && status == "user"){
             Log.e("Log2", result+status);
+            return status ;
 
-            Toast.makeText(this, "Login OK", Toast.LENGTH_SHORT).show();
-            Intent newActivity = new Intent(this,UploadPage.class);
-            startActivity(newActivity);
         }
-//        else {
-//            Log.e("Log3", result+status);
-//            Toast.makeText(this, "กรอกรหัสผ่านผิดผลาด ", Toast.LENGTH_SHORT).show();
-//        }
+        else {
+            Log.e("Log3", result+status);
+
+            return status ;
+
+        }
 
     }
 

@@ -185,7 +185,7 @@ public class AddImageRecord extends AppCompatActivity {
             try {
                 InputStream inputStream = getContentResolver().openInputStream(uri);
                 BitmapFactory.Options options=new BitmapFactory.Options();
-                options.inSampleSize=3; //decrease decoded image
+                options.inSampleSize=5; //decrease decoded image
 
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, options);

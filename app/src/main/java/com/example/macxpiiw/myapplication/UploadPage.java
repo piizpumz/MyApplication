@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -36,6 +38,7 @@ import java.util.List;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.SyncHttpClient;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -45,6 +48,7 @@ import static com.example.macxpiiw.myapplication.DBHelper.COL_Farming_ID;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Farming_Status;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_GardenID;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Garden_ID;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Garden_Name;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Garden_Status;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Image_Status;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_LocationID;
@@ -77,7 +81,7 @@ public class UploadPage extends AppCompatActivity {
 
     DBHelper controller = new DBHelper(this);
 
-    private DBHelper dbHelper ;
+    public DBHelper dbHelper ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +90,7 @@ public class UploadPage extends AppCompatActivity {
         getSupportActionBar().setTitle("อัพโหลด");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        dbHelper = new DBHelper(this);
 
 
 
@@ -93,6 +98,29 @@ public class UploadPage extends AppCompatActivity {
         showUpload2();
         listAdapter = new ExpandableListAdapter(this,listDataHeader,listHash);
         listView.setAdapter(listAdapter);
+
+
+        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,int groupPosition, int childPosition, long id) {
+                /* You must make use of the View v, find the view by id and extract the text as below*/
+
+                TextView gardenname = (TextView) v.findViewById(R.id.lblListItem);
+
+
+                String datagardenname = gardenname.getText().toString();
+                String[] datagardenname2 = datagardenname.split(" ") ;
+
+                Toast.makeText(UploadPage.this, datagardenname2[0], Toast.LENGTH_SHORT).show();
+
+                return true;  // i missed this
+            }
+        });
+
+
+
+
 
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
@@ -138,16 +166,15 @@ public class UploadPage extends AppCompatActivity {
         Button butGo = (Button) findViewById(R.id.butGo) ;
         butGo.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
+//                loadingDialog = ProgressDialog.show(UploadPage.this, "กำลังอัพโหลดข้อมูล", "กรุณารอสักครู่", true, false);
 
 //                testaom();
 //                testaom2();
 //                testaom3();
 //                testaom4();
-                try {
-                    testaom5();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+
+                    new loadjson().execute();
+
 //                Toast.makeText(UploadPage.this, "กำลังอัพโหลด", Toast.LENGTH_SHORT).show();
             }
         });
@@ -360,89 +387,112 @@ public class UploadPage extends AppCompatActivity {
 //    }
 
     public void testaom5() throws FileNotFoundException {
-        dbHelper = new DBHelper(this);
 
-
-        AsyncHttpClient client = new AsyncHttpClient();
-        RequestParams params = new RequestParams();
-
-        params.put("imageJSON", dbHelper.UploadImage());
-        Log.d("result",dbHelper.UploadImage());
-
-
-
-        client.post("http://158.108.144.4/RDSSATCC/sp_61_DiseaseSurvey/test12345678.php", params, new AsyncHttpResponseHandler() {
-
-            @Override
-            public void onStart() {
-                // called before request is started
-//                Toast.makeText(UploadPage.this, "กำลังอัพโหลด", Toast.LENGTH_SHORT).show();
-                loadingDialog = ProgressDialog.show(UploadPage.this, "กำลังอัพโหลดข้อมูล", "กรุณารอสักครู่", true, false);
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                // called when response HTTP status is "200 OK"
-                try {
-                    JSONObject jsonObject = new JSONObject(new String(response));
-                    JSONArray result = jsonObject.getJSONArray("result");
-                    String s = "0" ;
-                    for(int i=0; i<result.length();i++){
-                        JSONObject obj = (JSONObject)result.get(i);
-
-                            dbHelper.updateSyncStatusImage(obj.get("id").toString(), obj.get("id2").toString(), obj.get("id3").toString(), obj.get("id4").toString(), obj.get("id5").toString(), obj.get("id6").toString(), obj.get("status").toString());
-
-                        }
-                    loadingDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "อัพโหลดสำเร็จ", Toast.LENGTH_LONG).show();
-                    Log.d("aomjson", String.valueOf(jsonObject));
-
-
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    loadingDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ ", Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                loadingDialog.dismiss();
-                Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ "+statusCode, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onRetry(int retryNo) {
-                // called when request is retried
-                loadingDialog.dismiss();
-                loadingDialog = ProgressDialog.show(UploadPage.this, "เกิดความผิดพลาดเกี่ยวกับอินเตอร์เน็ต", "กำลังเชื่อมต่อใหม่", true, false);
-//                Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ "+retryNo, Toast.LENGTH_LONG).show();
-                if(retryNo == 5 ){
-                    loadingDialog.dismiss();
-                    AlertDialog.Builder builder =  new AlertDialog.Builder(UploadPage.this);
-                    builder.setMessage("อินเตอร์เน็ตหรือเซิฟเวอร์มีปัญหาไม่สามารถเชื่อมต่อได้");
-                    builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-
-                            Intent relocation = new Intent(UploadPage.this, MainActivity.class);
-                            relocation.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            relocation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            UploadPage.this.startActivity(relocation);
-
-
-                        }
-                    });
-
-                    builder.create().show();
-                }
-            }
-        });
+//        dbHelper = new DBHelper(this);
+//
+//
+//        AsyncHttpClient client = new AsyncHttpClient();
+//        RequestParams params = new RequestParams();
+//        params.setForceMultipartEntityContentType(true);
+//
+//        params.put("imageJSON", dbHelper.UploadImage());
+//        Log.d("result",dbHelper.UploadImage());
+//
+//
+//
+//
+//        client.post("http://158.108.144.4/RDSSATCC/sp_61_DiseaseSurvey/test12345678.php", params, new AsyncHttpResponseHandler() {
+//
+//            @Override
+//            public void onStart() {
+//                // called before request is started
+////                Toast.makeText(UploadPage.this, "กำลังอัพโหลด", Toast.LENGTH_SHORT).show();
+//
+//            }
+//
+//            @Override
+//            public void onProgress(long bytesWritten, long totalSize) {
+//                super.onProgress(bytesWritten, totalSize);
+//                Log.d("debug",bytesWritten +"  "+ totalSize);
+//            }
+//
+//            @Override
+//            public void onUserException(Throwable error) {
+//                super.onUserException(error);
+//                Log.d("debug2",error.toString());
+//            }
+//
+//
+//
+//
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+//                // called when response HTTP status is "200 OK"
+//                try {
+//
+//                    loadingDialog.dismiss();
+//                    loadingDialog = ProgressDialog.show(UploadPage.this, "นานหน่อย", "นานจัง", true, false);
+//
+//                    JSONObject jsonObject = new JSONObject(new String(response));
+//                    JSONArray result = jsonObject.getJSONArray("result");
+//                    String s = "0" ;
+//                    for(int i=0; i<result.length();i++){
+//                        JSONObject obj = (JSONObject)result.get(i);
+//
+//                            dbHelper.updateSyncStatusImage(obj.get("id").toString(), obj.get("id2").toString(), obj.get("id3").toString(), obj.get("id4").toString(), obj.get("id5").toString(), obj.get("id6").toString(), obj.get("status").toString());
+//
+//                        }
+//                    loadingDialog.dismiss();
+//                    Toast.makeText(getApplicationContext(), "อัพโหลดสำเร็จ "+statusCode, Toast.LENGTH_LONG).show();
+//                    Log.d("aomjson", String.valueOf(jsonObject));
+//
+//
+//                } catch (JSONException e) {
+//                    // TODO Auto-generated catch block
+//                    loadingDialog.dismiss();
+//                    Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ "+statusCode, Toast.LENGTH_LONG).show();
+//                    e.printStackTrace();
+//                }
+//
+//
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+//                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+//                loadingDialog.dismiss();
+//                Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ "+statusCode, Toast.LENGTH_LONG).show();
+//            }
+//
+//            @Override
+//            public void onRetry(int retryNo) {
+//                // called when request is retried
+//                loadingDialog.dismiss();
+//                loadingDialog = ProgressDialog.show(UploadPage.this, "เกิดความผิดพลาดเกี่ยวกับอินเตอร์เน็ต", "กำลังเชื่อมต่อใหม่", true, false);
+////                Toast.makeText(getApplicationContext(), "อัพโหลดไม่สำเร็จ "+retryNo, Toast.LENGTH_LONG).show();
+//                if(retryNo == 5 ){
+//                    loadingDialog.dismiss();
+//                    AlertDialog.Builder builder =  new AlertDialog.Builder(UploadPage.this);
+//                    builder.setMessage("อินเตอร์เน็ตหรือเซิฟเวอร์มีปัญหาไม่สามารถเชื่อมต่อได้");
+//                    builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//
+//
+//                            Intent relocation = new Intent(UploadPage.this, MainActivity.class);
+//                            relocation.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                            relocation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                            UploadPage.this.startActivity(relocation);
+//
+//
+//                        }
+//                    });
+//
+//                    builder.create().show();
+//                }
+//            }
+//
+//        });
 
     }
 
@@ -454,11 +504,7 @@ public class UploadPage extends AppCompatActivity {
                 "ON "+TABLE_garden_survey+"."+COL_Garden_ID+" = "+TABLE_farming+"."+COL_GardenID+" LEFT JOIN " + TABLE_survey+" "+
                 "ON "+TABLE_farming+"."+COL_Farming_ID+" = "+TABLE_survey+"."+COL_FarmingID + " LEFT JOIN " + TABLE_image+" "+
                 "ON "+TABLE_survey+"."+COL_Survey_ID+" = "+TABLE_image+"."+COL_SurveyID +
-                " WHERE " + TABLE_location_survey + "." +  COL_Location_Status + " = '1' " +
-                "OR " + TABLE_garden_survey + "." +  COL_Garden_Status + " = '1' " +
-                "OR " + TABLE_farming + "." +  COL_Farming_Status + " = '1' " +
-                "OR " + TABLE_survey + "." +  COL_Survey_Status + " = '1' " +
-                "OR " + TABLE_image + "." +  COL_Image_Status + " = '1'  group by " + COL_Province ;
+                " WHERE "+ TABLE_image + "." +  COL_Image_Status + " = '1'  group by " + COL_Province ;
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -484,11 +530,7 @@ public class UploadPage extends AppCompatActivity {
                         "ON "+TABLE_garden_survey+"."+COL_Garden_ID+" = "+TABLE_farming+"."+COL_GardenID+" LEFT JOIN " + TABLE_survey+" "+
                         "ON "+TABLE_farming+"."+COL_Farming_ID+" = "+TABLE_survey+"."+COL_FarmingID + " LEFT JOIN " + TABLE_image+" "+
                         "ON "+TABLE_survey+"."+COL_Survey_ID+" = "+TABLE_image+"."+COL_SurveyID +
-                        " WHERE (" + TABLE_location_survey + "." +  COL_Location_Status + " = '1' " +
-                        "OR " + TABLE_garden_survey + "." +  COL_Garden_Status + " = '1' " +
-                        "OR " + TABLE_farming + "." +  COL_Farming_Status + " = '1' " +
-                        "OR " + TABLE_survey + "." +  COL_Survey_Status + " = '1' " +
-                        "OR " + TABLE_image + "." +  COL_Image_Status + " = '1' ) AND "
+                        " WHERE (" + TABLE_image + "." +  COL_Image_Status + " = '1' ) AND "
                         + COL_Province + " = '"+cursor.getString(cursor.getColumnIndex(COL_Province))+"'";
 
 
@@ -499,7 +541,7 @@ public class UploadPage extends AppCompatActivity {
 
 
 
-                listDataHeader.add(cursor.getString(cursor.getColumnIndex(COL_Province))+" (ยังไม่ได้อัพโหลด "+cursor4.getCount()+" รายการ)");
+                listDataHeader.add(cursor.getString(cursor.getColumnIndex(COL_Province))+" (ยังไม่ได้อัพโหลด "+cursor4.getCount()+" รูป)");
 
 
 //                String selectQuery2 = "SELECT * FROM " + TABLE_location_survey + " where " + COL_Province + " = '"+cursor.getString(cursor.getColumnIndex(COL_Province))+"' AND "+dbHelper.COL_Location_Status+ "= '1' group by "+dbHelper.COL_Amphur;
@@ -510,12 +552,8 @@ public class UploadPage extends AppCompatActivity {
                         "ON "+TABLE_garden_survey+"."+COL_Garden_ID+" = "+TABLE_farming+"."+COL_GardenID+" LEFT JOIN " + TABLE_survey+" "+
                         "ON "+TABLE_farming+"."+COL_Farming_ID+" = "+TABLE_survey+"."+COL_FarmingID + " LEFT JOIN " + TABLE_image+" "+
                         "ON "+TABLE_survey+"."+COL_Survey_ID+" = "+TABLE_image+"."+COL_SurveyID +
-                        " WHERE (" + TABLE_location_survey + "." +  COL_Location_Status + " = '1' " +
-                        "OR " + TABLE_garden_survey + "." +  COL_Garden_Status + " = '1' " +
-                        "OR " + TABLE_farming + "." +  COL_Farming_Status + " = '1' " +
-                        "OR " + TABLE_survey + "." +  COL_Survey_Status + " = '1' " +
-                        "OR " + TABLE_image + "." +  COL_Image_Status + " = '1' ) AND "
-                        + COL_Province + " = '"+cursor.getString(cursor.getColumnIndex(COL_Province))+"' group by "+ COL_Amphur ;
+                        " WHERE (" + TABLE_image + "." +  COL_Image_Status + " = '1' ) AND "
+                        + COL_Province + " = '"+cursor.getString(cursor.getColumnIndex(COL_Province))+"' group by "+TABLE_survey+"."+COL_Survey_ID ;
 
 
 
@@ -526,7 +564,7 @@ public class UploadPage extends AppCompatActivity {
                 if(cursor2.getCount() > 0){
                     while (cursor2.moveToNext()) {
 
-                        amphur.add(cursor2.getString(cursor2.getColumnIndex(COL_Amphur))) ;
+                        amphur.add(cursor2.getString(cursor2.getColumnIndex(TABLE_garden_survey+"."+COL_Garden_Name))) ;
 
 //                        String selectQuery3 = "SELECT * FROM " + TABLE_location_survey + " where " + dbHelper.COL_Amphur + " = '"+cursor2.getString(cursor2.getColumnIndex(dbHelper.COL_Amphur))+"' AND "+ COL_Province + " = '"+cursor.getString(cursor.getColumnIndex(COL_Province))+"' AND "+dbHelper.COL_Location_Status+ "= '1'";
 
@@ -535,13 +573,9 @@ public class UploadPage extends AppCompatActivity {
                                 "ON "+TABLE_garden_survey+"."+COL_Garden_ID+" = "+TABLE_farming+"."+COL_GardenID+" LEFT JOIN " + TABLE_survey+" "+
                                 "ON "+TABLE_farming+"."+COL_Farming_ID+" = "+TABLE_survey+"."+COL_FarmingID + " LEFT JOIN " + TABLE_image+" "+
                                 "ON "+TABLE_survey+"."+COL_Survey_ID+" = "+TABLE_image+"."+COL_SurveyID +
-                                " WHERE (" + TABLE_location_survey + "." +  COL_Location_Status + " = '1' " +
-                                "OR " + TABLE_garden_survey + "." +  COL_Garden_Status + " = '1' " +
-                                "OR " + TABLE_farming + "." +  COL_Farming_Status + " = '1' " +
-                                "OR " + TABLE_survey + "." +  COL_Survey_Status + " = '1' " +
-                                "OR " + TABLE_image + "." +  COL_Image_Status + " = '1' ) AND "
+                                " WHERE ("+ TABLE_image + "." +  COL_Image_Status + " = '1' ) AND "
                                 + COL_Province + " = '"+cursor.getString(cursor.getColumnIndex(COL_Province))+"' AND "
-                                + COL_Amphur + " = '"+cursor2.getString(cursor2.getColumnIndex(COL_Amphur))+"'";
+                                + TABLE_garden_survey+"."+COL_Garden_Name + " = '"+cursor2.getString(cursor2.getColumnIndex(TABLE_garden_survey+"."+COL_Garden_Name))+"'";
 
 
 
@@ -588,6 +622,96 @@ public class UploadPage extends AppCompatActivity {
 
 
 
+    }
+
+    public class loadjson extends AsyncTask<Void, Void, Void> {
+
+        private final ProgressDialog dialog = new ProgressDialog(
+                UploadPage.this);
+        protected void onPreExecute() {
+            this.dialog.setTitle("กำลังอัพโหลดไฟล์");
+            this.dialog.setMessage("กรุณารอสักครู่...");
+            this.dialog.setCancelable(false);
+            this.dialog.show();
+        }
+
+
+
+
+
+        protected void onPostExecute(Void result) {
+
+            Log.d("debug", String.valueOf(result));
+            if (this.dialog.isShowing()) {
+                this.dialog.dismiss();
+            }
+
+        }
+
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+
+            SyncHttpClient client = new SyncHttpClient();
+            RequestParams params = new RequestParams();
+
+
+            params.put("imageJSON", dbHelper.UploadImage());
+            Log.d("result", String.valueOf(params));
+
+
+            client.post("http://158.108.144.4/RDSSATCC/sp_61_DiseaseSurvey/test12345678.php", params, new AsyncHttpResponseHandler() {
+
+                @Override
+                public void onStart() {
+                    // called before request is started
+//                Toast.makeText(UploadPage.this, "กำลังอัพโหลด", Toast.LENGTH_SHORT).show();
+
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                    // called when response HTTP status is "200 OK"
+                    try {
+
+
+                        JSONObject jsonObject = new JSONObject(new String(response));
+                        JSONArray result = jsonObject.getJSONArray("result");
+                        String s = "0";
+                        for (int i = 0; i < result.length(); i++) {
+                            JSONObject obj = (JSONObject) result.get(i);
+
+                            dbHelper.updateSyncStatusImage(obj.get("id").toString(), obj.get("id2").toString(), obj.get("id3").toString(), obj.get("id4").toString(), obj.get("id5").toString(), obj.get("id6").toString(), obj.get("status").toString());
+
+                        }
+
+                        Log.d("aomjson", String.valueOf(jsonObject));
+
+
+                    } catch (JSONException e) {
+                        // TODO Auto-generated catch block
+
+                        e.printStackTrace();
+                    }
+
+
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                    // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+
+                }
+
+                @Override
+                public void onRetry(int retryNo) {
+                    // called when request is retried
+                }
+
+            });
+            return null;
+        }
     }
 
 }

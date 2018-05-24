@@ -68,8 +68,12 @@ public class MySQLConnect {
         StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                showJSON(response);
+                if(x==3){
 
+                }
+                else {
+                    showJSON(response);
+                }
 
             }
         }, new Response.ErrorListener() {

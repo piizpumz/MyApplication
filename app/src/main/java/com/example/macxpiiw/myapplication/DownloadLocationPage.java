@@ -1,6 +1,8 @@
 package com.example.macxpiiw.myapplication;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,10 +10,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -70,6 +74,69 @@ public class DownloadLocationPage extends AppCompatActivity {
         showUpload();
         listAdapter = new ExpandableListAdapter(this,listDataHeader,listHash);
 //        listView.setAdapter(listAdapter);
+
+        addBox = (Spinner) findViewById(R.id.addBox);
+
+
+        addBox.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // your code here
+                addBox = (Spinner) findViewById(R.id.addBox);
+                String Province = addBox.getSelectedItem().toString();
+
+                String s = addBox.getSelectedItem().toString();
+
+                int countDownload = 0 ;
+
+
+                if(position!=0) {
+
+                    collectItems = new ArrayList<JSONObject>();
+                    showItems = new ArrayList<String>();
+                    for (int i = 0; i < items.size(); i++) {
+                        try {
+
+                            if (items.get(i).getString("Province").equals(s)) {
+                                collectItems.add(items.get(i));
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    try {
+                         countDownload = showDownload((ArrayList<JSONObject>) collectItems);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    AlertDialog.Builder builder =  new AlertDialog.Builder(DownloadLocationPage.this);
+                    builder.setMessage("มีจำนวนที่ต้องดาวน์โหลดในจังหวัด"+s+" จำนวน "+countDownload+" พื้นที่");
+                    builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+
+                        }
+                    });
+
+                    builder.create().show();
+
+
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+
 
 
 
@@ -162,24 +229,9 @@ public class DownloadLocationPage extends AppCompatActivity {
         });
     }
 
-//        addButt.setOnClickListener(new Button.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//                String s = addBox.getSelectedItem().toString();
-//
-//                Location testaom = dbHelper.getLocation2(s) ;
-//
-//
-//
-//                Log.d("xxxx", "--------"+ testaom.getProvince());
-//            }
-//        });
-//
-//
-//
-//    }
+
+
+
 
 
     public void update(){
@@ -327,6 +379,59 @@ public class DownloadLocationPage extends AppCompatActivity {
         Log.d("count2", String.valueOf(count2));
 
 //        return result ;
+
+    }
+
+
+    public int showDownload(ArrayList<JSONObject> collectItems) throws JSONException {
+
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        ContentValues values2 = new ContentValues();
+        int countDownload = 0  ;
+
+
+        if(collectItems.size() == 0){
+            Toast.makeText(DownloadLocationPage.this, "ไม่เคยลงพื้นที่สำรวจในจังหวัดนี้", Toast.LENGTH_SHORT).show();
+            Log.d("size", String.valueOf(collectItems.size()));
+        }
+        else {
+            Log.d("size2", String.valueOf(collectItems.size()));
+            for (int j = 0; j < collectItems.size(); j++) {
+
+                String select = "select * from " + dbHelper.TABLE_location_survey + " WHERE " + dbHelper.COL_Location_Name + " = '" + collectItems.get(j).getString("Location_Name") +
+                        "' AND " + dbHelper.COL_Moo + " = '" + collectItems.get(j).getString("Moo") +
+                        "' AND " + dbHelper.COL_Tumbon + " = '" + collectItems.get(j).getString("Tumbon") + "' AND " + dbHelper.COL_Amphur + " = '" + collectItems.get(j).getString("Amphur") +
+                        "' AND " + dbHelper.COL_Province + " = '" + collectItems.get(j).getString("Province") + "' AND " + dbHelper.COL_Post_Code + " = '" + collectItems.get(j).getString("Post_Code")+"'";
+                Cursor cursor = db.rawQuery(select, null);
+                if (cursor.getCount() != 0) {
+                    Log.d("select", select);
+
+                } else {
+
+                    countDownload ++ ;
+
+                }
+
+            }
+
+        }
+
+//
+//        AlertDialog.Builder builder =  new AlertDialog.Builder(DownloadLocationPage.this);
+//        builder.setMessage("มีจำนวนที่ต้องดาวน์โหลดในจังหวัด "+collectItems.get(0).getString("Location_Name")+"จำนวน "+countDownload);
+//        builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//
+//            }
+//        });
+//
+//        builder.create().show();
+
+
+        return countDownload ;
+
 
     }
 
