@@ -79,9 +79,28 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final Image image = mImageList.get(position);
         byte[] ImagePic = image.getImage();
-        Bitmap bmp = BitmapFactory.decodeByteArray(ImagePic , 0 , ImagePic.length);
+//        Bitmap bmp = BitmapFactory.decodeByteArray(ImagePic , 0 , ImagePic.length);
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//        bmp.compress(Bitmap.CompressFormat.JPEG , 100 , bytes);
+
+
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        Bitmap bmp = BitmapFactory.decodeByteArray(ImagePic , 0 , ImagePic.length);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
         bmp.compress(Bitmap.CompressFormat.JPEG , 100 , bytes);
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW/200, photoH/200);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+
+
 
         String name = idtoname(image.getDisease());
 
@@ -221,6 +240,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
         return name;
     }
+
+
+
 
 
 

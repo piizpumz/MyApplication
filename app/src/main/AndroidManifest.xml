@@ -85,7 +85,9 @@
             android:name=".DownloadLocationPage"
             android:parentActivityName=".DownloadPage" />
         <activity android:name=".FilePage" />
-        <activity android:name=".Login" />
+
+        <activity android:name=".Login"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".AddGarden2"
             android:parentActivityName=".FarmPage" />

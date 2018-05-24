@@ -33,16 +33,11 @@ public class AddImageRecord extends AppCompatActivity {
     private Spinner addDisease;
     private EditText addSurveyID;
     private EditText addSampleID;
-
     private EditText addNote ;
     private Button btn_add_Image , btn_choose;
     public DBHelper dbHelper;
     private long receivedSurveyId;
-
-
     public byte[] lastImage ;
-
-
     final int REQUEST_CODE_GALLERY = 999;
 
 
@@ -50,7 +45,6 @@ public class AddImageRecord extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_image_record);
-        getSupportActionBar().setTitle("เพิ่มรูปภาพ");
 
         PicView = (ImageView)findViewById(R.id.image_picView);
 //      addSurveyID = (EditText)findViewById(R.id.addSurveyID);
@@ -67,6 +61,9 @@ public class AddImageRecord extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+
+
+        getSupportActionBar().setTitle("เพิ่มรูปภาพ (การสำรวจที่ :" + receivedSurveyId + ")");
 
 
 
