@@ -1,5 +1,6 @@
 package com.example.macxpiiw.myapplication;
 
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -7,18 +8,29 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.SyncHttpClient;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by macxpiiw on 3/4/2018 AD.
@@ -206,6 +218,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
+        values.put(COL_Plant_IDServer , "0");
         values.put(COL_Plant_Common_Name , nameplant);
         values.put(COL_Plant_Status , "1");
 
@@ -808,31 +821,34 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //start Image
 
-    public void saveNewImage(Image image){
+    public void saveNewImage(Image image) {
 
+        for(int aom = 0 ; aom <15 ; aom++) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         byte[] x = image.getImage();
 
 
-        Bitmap bmp = BitmapFactory.decodeByteArray(x , 0 , x.length);
-        BitmapFactory.Options options=new BitmapFactory.Options();
-        options.inSampleSize=1;
+
+        Bitmap bmp = BitmapFactory.decodeByteArray(x, 0, x.length);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 1;
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG , 100 , bytes);
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
 
 
 
 
-        values.put(COL_SurveyID , image.getSurveyID());
-        values.put(COL_Sample_ID , image.getSampleID());
-        values.put(COL_Image_Type , image.getType());
-        values.put(COL_Note , image.getNote());
-        values.put(COL_Image_Pic , x);
-        values.put(COL_DiseaseID , image.getDisease());
-        values.put(COL_Image_Status , "1");
-        db.insert(TABLE_image,null, values);
-        db.close();
+            values.put(COL_SurveyID, image.getSurveyID());
+            values.put(COL_Sample_ID, image.getSampleID());
+            values.put(COL_Image_Type, image.getType());
+            values.put(COL_Note, image.getNote());
+            values.put(COL_Image_Pic, x);
+            values.put(COL_DiseaseID, image.getDisease());
+            values.put(COL_Image_Status, "1");
+            db.insert(TABLE_image, null, values);
+            db.close();
+        }
     }
 
     public Cursor getData(String sql){
@@ -1457,220 +1473,226 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // upload
 
-    public String UploadLocation(){
-        ArrayList<HashMap<String, String>> wordList;
-        wordList = new ArrayList<HashMap<String, String>>();
-        String selectQuery = "SELECT * FROM " + TABLE_location_survey + " where " + COL_Location_Status +" = '1'";
-        SQLiteDatabase database = this.getWritableDatabase();
-        Cursor cursor = database.rawQuery(selectQuery, null);
-        if (cursor.moveToFirst()) {
-            do {
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put(COL_Location_ID, cursor.getString(0));
-                map.put(COL_Location_Name, cursor.getString(1));
-                map.put(COL_Moo, cursor.getString(2));
-                map.put(COL_Tumbon, cursor.getString(3));
-                map.put(COL_Amphur, cursor.getString(4));
-                map.put(COL_Province, cursor.getString(5));
-                map.put(COL_Post_Code, cursor.getString(6));
-                wordList.add(map);
-            } while (cursor.moveToNext());
-        }
-        database.close();
-        Gson gson = new GsonBuilder().create();
-        //Use GSON to serialize Array List to JSON
-        return gson.toJson(wordList);
-    }
+//    public String UploadLocation(){
+//        ArrayList<HashMap<String, String>> wordList;
+//        wordList = new ArrayList<HashMap<String, String>>();
+//        String selectQuery = "SELECT * FROM " + TABLE_location_survey + " where " + COL_Location_Status +" = '1'";
+//        SQLiteDatabase database = this.getWritableDatabase();
+//        Cursor cursor = database.rawQuery(selectQuery, null);
+//        if (cursor.moveToFirst()) {
+//            do {
+//                HashMap<String, String> map = new HashMap<String, String>();
+//                map.put(COL_Location_ID, cursor.getString(0));
+//                map.put(COL_Location_Name, cursor.getString(1));
+//                map.put(COL_Moo, cursor.getString(2));
+//                map.put(COL_Tumbon, cursor.getString(3));
+//                map.put(COL_Amphur, cursor.getString(4));
+//                map.put(COL_Province, cursor.getString(5));
+//                map.put(COL_Post_Code, cursor.getString(6));
+//                wordList.add(map);
+//            } while (cursor.moveToNext());
+//        }
+//        database.close();
+//        Gson gson = new GsonBuilder().create();
+//        //Use GSON to serialize Array List to JSON
+//        return gson.toJson(wordList);
+//    }
+//
+//    public String UploadGarden(){
+//        ArrayList<HashMap<String, String>> wordList;
+//        wordList = new ArrayList<HashMap<String, String>>();
+//        String selectQuery = "SELECT * FROM " + TABLE_garden_survey + " where " + COL_Garden_Status +" = '1'";
+//        SQLiteDatabase database = this.getWritableDatabase();
+//        Cursor cursor = database.rawQuery(selectQuery, null);
+//
+//        if (cursor.moveToFirst()) {
+//            do {
+//                HashMap<String, String> map = new HashMap<String, String>();
+//                map.put(COL_Garden_ID, cursor.getString(0));
+//                map.put(COL_Garden_Name, cursor.getString(1));
+//                map.put(COL_Latitude, cursor.getString(2));
+//                map.put(COL_Longitude, cursor.getString(3));
+//                map.put(COL_Level_sea, cursor.getString(4));
+//                map.put(COL_Garden_Size, cursor.getString(5));
+////                map.put(COL_LocationID, cursor.getString(5));
+//                String locationID = cursor.getString(cursor.getColumnIndex(COL_LocationID)) ;
+//                String selectQuery2 = "SELECT * FROM " + TABLE_location_survey + " where " + COL_Location_ID +" = '" + locationID +"'" ;
+//                SQLiteDatabase database2 = this.getWritableDatabase();
+//                Cursor cursor2 = database2.rawQuery(selectQuery2, null);
+//                if (cursor2.moveToFirst()) {
+//
+//                    map.put(COL_Location_Name, cursor2.getString(1));
+//                    map.put(COL_Moo, cursor2.getString(2));
+//                    map.put(COL_Tumbon, cursor2.getString(3));
+//                    map.put(COL_Amphur, cursor2.getString(4));
+//                    map.put(COL_Province, cursor2.getString(5));
+//                    map.put(COL_Post_Code, cursor2.getString(6));
+//
+//                }
+//                wordList.add(map);
+//            } while (cursor.moveToNext());
+//        }
+//        database.close();
+//        Gson gson = new GsonBuilder().create();
+//        //Use GSON to serialize Array List to JSON
+//        return gson.toJson(wordList);
+//    }
+//
+//    public String UploadFarming(){
+//        ArrayList<HashMap<String, String>> wordList;
+//        wordList = new ArrayList<HashMap<String, String>>();
+//        String selectQuery = "SELECT * FROM " + TABLE_farming + " where " + COL_Farming_Status +" = '1'";
+//        SQLiteDatabase database = this.getWritableDatabase();
+//        Cursor cursor = database.rawQuery(selectQuery, null);
+//
+//        if (cursor.moveToFirst()) {
+//            do {
+//                HashMap<String, String> map = new HashMap<String, String>();
+//
+//                map.put(COL_Farming_ID, cursor.getString(0));
+//                map.put(COL_D_M_Y_Farming, cursor.getString(1));
+//
+//                String plantID = cursor.getString(cursor.getColumnIndex(COL_PlantID)) ;
+//                String selectQuery4 = "SELECT * FROM " + TABLE_plant + " where " + COL_Plant_ID +" = '" + plantID +"'" ;
+//                SQLiteDatabase database4 = this.getWritableDatabase();
+//                Cursor cursor4 = database4.rawQuery(selectQuery4, null);
+//                if(cursor4.moveToFirst()){
+//
+//                    map.put(COL_Plant_IDServer,cursor4.getString(1)) ;
+//
+//                }
+//
+//                String gardenID = cursor.getString(cursor.getColumnIndex(COL_GardenID)) ;
+//                String selectQuery2 = "SELECT * FROM " + TABLE_garden_survey + " where " + COL_Garden_ID +" = '" + gardenID +"'" ;
+//                SQLiteDatabase database2 = this.getWritableDatabase();
+//                Cursor cursor2 = database2.rawQuery(selectQuery2, null);
+//                if (cursor2.moveToFirst()) {
+//
+//                    map.put(COL_Garden_Name, cursor2.getString(1));
+//                    map.put(COL_Latitude, cursor2.getString(2));
+//                    map.put(COL_Longitude, cursor2.getString(3));
+//                    map.put(COL_Level_sea, cursor2.getString(4));
+//                    map.put(COL_Garden_Size, cursor2.getString(5));
+//                    String locationID = cursor2.getString(cursor2.getColumnIndex(COL_LocationID)) ;
+//                    String selectQuery3 = "SELECT * FROM " + TABLE_location_survey + " where " + COL_Location_ID +" = '" + locationID +"'" ;
+//                    SQLiteDatabase database3 = this.getWritableDatabase();
+//                    Cursor cursor3 = database3.rawQuery(selectQuery3, null);
+//                    if (cursor3.moveToFirst()) {
+//
+//                        map.put(COL_Location_Name, cursor3.getString(1));
+//                        map.put(COL_Moo, cursor3.getString(2));
+//                        map.put(COL_Tumbon, cursor3.getString(3));
+//                        map.put(COL_Amphur, cursor3.getString(4));
+//                        map.put(COL_Province, cursor3.getString(5));
+//                        map.put(COL_Post_Code, cursor3.getString(6));
+//
+//                    }
+//
+//
+//                }
+//                wordList.add(map);
+//            } while (cursor.moveToNext());
+//        }
+//        database.close();
+//        Gson gson = new GsonBuilder().create();
+//        //Use GSON to serialize Array List to JSON
+//        return gson.toJson(wordList);
+//    }
+//
+//    public String UploadSurvey(){
+//        ArrayList<HashMap<String, String>> wordList;
+//        wordList = new ArrayList<HashMap<String, String>>();
+//        String selectQuery = "SELECT * FROM " + TABLE_survey + " where " + COL_Survey_Status +" = '1'";
+//        SQLiteDatabase database = this.getWritableDatabase();
+//        Cursor cursor = database.rawQuery(selectQuery, null);
+//
+//        if (cursor.moveToFirst()) {
+//            do {
+//                HashMap<String, String> map = new HashMap<String, String>();
+//                map.put(COL_Survey_ID, cursor.getString(0));
+//                map.put(COL_D_M_Y_Survey, cursor.getString(cursor.getColumnIndex(COL_D_M_Y_Survey)));
+//                map.put(COL_Time_Survey, cursor.getString(2));
+//                map.put(COL_Temp, cursor.getString(3));
+//                map.put(COL_Moisture, cursor.getString(4));
+//                map.put(COL_Rain, cursor.getString(5));
+//                map.put(COL_Light, cursor.getString(6));
+//                map.put(COL_Dew, cursor.getString(7));
+//                map.put(COL_Category, cursor.getString(8));
+//                map.put(COL_SamplePoint, cursor.getString(9));
+//                map.put(COL_Point, cursor.getString(10));
+//
+//                map.put(COL_Incidence, cursor.getString(11));
+//                map.put(COL_Severity, cursor.getString(12));
+//
+//                String farmingID = cursor.getString(cursor.getColumnIndex(COL_FarmingID)) ;
+//                String selectQuery2 = "SELECT * FROM " + TABLE_farming + " where " + COL_Farming_ID +" = '" + farmingID +"'" ;
+//                SQLiteDatabase database2 = this.getWritableDatabase();
+//                Cursor cursor2 = database2.rawQuery(selectQuery2, null);
+//                if (cursor2.moveToFirst()) {
+//
+//                    map.put(COL_D_M_Y_Farming, cursor2.getString(1));
+//                    String gardenID = cursor2.getString(cursor2.getColumnIndex(COL_GardenID));
+//                    String selectQuery3 = "SELECT * FROM " + TABLE_garden_survey + " where " + COL_Garden_ID +" = '" + gardenID +"'" ;
+//                    SQLiteDatabase database3 = this.getWritableDatabase();
+//                    Cursor cursor3 = database3.rawQuery(selectQuery3, null);
+//                    if(cursor3.moveToFirst()){
+//
+//                        map.put(COL_Garden_Name, cursor3.getString(1));
+//                        map.put(COL_Latitude, cursor3.getString(2));
+//                        map.put(COL_Longitude, cursor3.getString(3));
+//                        map.put(COL_Level_sea, cursor3.getString(4));
+//                        map.put(COL_Garden_Size, cursor3.getString(5));
+//
+//                        String locationID = cursor3.getString(cursor3.getColumnIndex(COL_LocationID));
+//                        String selectQuery4 = "SELECT * FROM " + TABLE_location_survey + " where " + COL_Location_ID +" = '" + locationID +"'" ;
+//                        SQLiteDatabase database4 = this.getWritableDatabase();
+//                        Cursor cursor4 = database4.rawQuery(selectQuery4, null);
+//                        if(cursor4.moveToFirst()){
+//
+//                            map.put(COL_Location_Name, cursor4.getString(1));
+//                            map.put(COL_Moo, cursor4.getString(2));
+//                            map.put(COL_Tumbon, cursor4.getString(3));
+//                            map.put(COL_Amphur, cursor4.getString(4));
+//                            map.put(COL_Province, cursor4.getString(5));
+//                            map.put(COL_Post_Code, cursor4.getString(6));
+//
+//
+//
+//                        }
+//
+//
+//                    }
+//
+//                    String plantID = cursor2.getString(cursor2.getColumnIndex(COL_PlantID));
+//                    String selectQuery5 = "SELECT * FROM " + TABLE_plant + " where " + COL_Plant_ID +" = '" + plantID +"'" ;
+//                    SQLiteDatabase database5 = this.getWritableDatabase();
+//                    Cursor cursor5 = database5.rawQuery(selectQuery5, null);
+//                    if(cursor5.moveToFirst()){
+//                        map.put(COL_Plant_IDServer,cursor5.getString(1)) ;
+//                    }
+//
+//
+//                }
+//                wordList.add(map);
+//            } while (cursor.moveToNext());
+//        }
+//        database.close();
+//        Gson gson = new GsonBuilder().create();
+//        return gson.toJson(wordList);
+//
+//    }
 
-    public String UploadGarden(){
-        ArrayList<HashMap<String, String>> wordList;
-        wordList = new ArrayList<HashMap<String, String>>();
-        String selectQuery = "SELECT * FROM " + TABLE_garden_survey + " where " + COL_Garden_Status +" = '1'";
-        SQLiteDatabase database = this.getWritableDatabase();
-        Cursor cursor = database.rawQuery(selectQuery, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put(COL_Garden_ID, cursor.getString(0));
-                map.put(COL_Garden_Name, cursor.getString(1));
-                map.put(COL_Latitude, cursor.getString(2));
-                map.put(COL_Longitude, cursor.getString(3));
-                map.put(COL_Level_sea, cursor.getString(4));
-                map.put(COL_Garden_Size, cursor.getString(5));
-//                map.put(COL_LocationID, cursor.getString(5));
-                String locationID = cursor.getString(cursor.getColumnIndex(COL_LocationID)) ;
-                String selectQuery2 = "SELECT * FROM " + TABLE_location_survey + " where " + COL_Location_ID +" = '" + locationID +"'" ;
-                SQLiteDatabase database2 = this.getWritableDatabase();
-                Cursor cursor2 = database2.rawQuery(selectQuery2, null);
-                if (cursor2.moveToFirst()) {
-
-                    map.put(COL_Location_Name, cursor2.getString(1));
-                    map.put(COL_Moo, cursor2.getString(2));
-                    map.put(COL_Tumbon, cursor2.getString(3));
-                    map.put(COL_Amphur, cursor2.getString(4));
-                    map.put(COL_Province, cursor2.getString(5));
-                    map.put(COL_Post_Code, cursor2.getString(6));
-
-                }
-                wordList.add(map);
-            } while (cursor.moveToNext());
-        }
-        database.close();
-        Gson gson = new GsonBuilder().create();
-        //Use GSON to serialize Array List to JSON
-        return gson.toJson(wordList);
-    }
-
-    public String UploadFarming(){
-        ArrayList<HashMap<String, String>> wordList;
-        wordList = new ArrayList<HashMap<String, String>>();
-        String selectQuery = "SELECT * FROM " + TABLE_farming + " where " + COL_Farming_Status +" = '1'";
-        SQLiteDatabase database = this.getWritableDatabase();
-        Cursor cursor = database.rawQuery(selectQuery, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                HashMap<String, String> map = new HashMap<String, String>();
-
-                map.put(COL_Farming_ID, cursor.getString(0));
-                map.put(COL_D_M_Y_Farming, cursor.getString(1));
-
-                String plantID = cursor.getString(cursor.getColumnIndex(COL_PlantID)) ;
-                String selectQuery4 = "SELECT * FROM " + TABLE_plant + " where " + COL_Plant_ID +" = '" + plantID +"'" ;
-                SQLiteDatabase database4 = this.getWritableDatabase();
-                Cursor cursor4 = database4.rawQuery(selectQuery4, null);
-                if(cursor4.moveToFirst()){
-
-                    map.put(COL_Plant_IDServer,cursor4.getString(1)) ;
-
-                }
-
-                String gardenID = cursor.getString(cursor.getColumnIndex(COL_GardenID)) ;
-                String selectQuery2 = "SELECT * FROM " + TABLE_garden_survey + " where " + COL_Garden_ID +" = '" + gardenID +"'" ;
-                SQLiteDatabase database2 = this.getWritableDatabase();
-                Cursor cursor2 = database2.rawQuery(selectQuery2, null);
-                if (cursor2.moveToFirst()) {
-
-                    map.put(COL_Garden_Name, cursor2.getString(1));
-                    map.put(COL_Latitude, cursor2.getString(2));
-                    map.put(COL_Longitude, cursor2.getString(3));
-                    map.put(COL_Level_sea, cursor2.getString(4));
-                    map.put(COL_Garden_Size, cursor2.getString(5));
-                    String locationID = cursor2.getString(cursor2.getColumnIndex(COL_LocationID)) ;
-                    String selectQuery3 = "SELECT * FROM " + TABLE_location_survey + " where " + COL_Location_ID +" = '" + locationID +"'" ;
-                    SQLiteDatabase database3 = this.getWritableDatabase();
-                    Cursor cursor3 = database3.rawQuery(selectQuery3, null);
-                    if (cursor3.moveToFirst()) {
-
-                        map.put(COL_Location_Name, cursor3.getString(1));
-                        map.put(COL_Moo, cursor3.getString(2));
-                        map.put(COL_Tumbon, cursor3.getString(3));
-                        map.put(COL_Amphur, cursor3.getString(4));
-                        map.put(COL_Province, cursor3.getString(5));
-                        map.put(COL_Post_Code, cursor3.getString(6));
-
-                    }
-
-
-                }
-                wordList.add(map);
-            } while (cursor.moveToNext());
-        }
-        database.close();
-        Gson gson = new GsonBuilder().create();
-        //Use GSON to serialize Array List to JSON
-        return gson.toJson(wordList);
-    }
-
-    public String UploadSurvey(){
-        ArrayList<HashMap<String, String>> wordList;
-        wordList = new ArrayList<HashMap<String, String>>();
-        String selectQuery = "SELECT * FROM " + TABLE_survey + " where " + COL_Survey_Status +" = '1'";
-        SQLiteDatabase database = this.getWritableDatabase();
-        Cursor cursor = database.rawQuery(selectQuery, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put(COL_Survey_ID, cursor.getString(0));
-                map.put(COL_D_M_Y_Survey, cursor.getString(cursor.getColumnIndex(COL_D_M_Y_Survey)));
-                map.put(COL_Time_Survey, cursor.getString(2));
-                map.put(COL_Temp, cursor.getString(3));
-                map.put(COL_Moisture, cursor.getString(4));
-                map.put(COL_Rain, cursor.getString(5));
-                map.put(COL_Light, cursor.getString(6));
-                map.put(COL_Dew, cursor.getString(7));
-                map.put(COL_Category, cursor.getString(8));
-                map.put(COL_SamplePoint, cursor.getString(9));
-                map.put(COL_Point, cursor.getString(10));
-
-                map.put(COL_Incidence, cursor.getString(11));
-                map.put(COL_Severity, cursor.getString(12));
-
-                String farmingID = cursor.getString(cursor.getColumnIndex(COL_FarmingID)) ;
-                String selectQuery2 = "SELECT * FROM " + TABLE_farming + " where " + COL_Farming_ID +" = '" + farmingID +"'" ;
-                SQLiteDatabase database2 = this.getWritableDatabase();
-                Cursor cursor2 = database2.rawQuery(selectQuery2, null);
-                if (cursor2.moveToFirst()) {
-
-                    map.put(COL_D_M_Y_Farming, cursor2.getString(1));
-                    String gardenID = cursor2.getString(cursor2.getColumnIndex(COL_GardenID));
-                    String selectQuery3 = "SELECT * FROM " + TABLE_garden_survey + " where " + COL_Garden_ID +" = '" + gardenID +"'" ;
-                    SQLiteDatabase database3 = this.getWritableDatabase();
-                    Cursor cursor3 = database3.rawQuery(selectQuery3, null);
-                    if(cursor3.moveToFirst()){
-
-                        map.put(COL_Garden_Name, cursor3.getString(1));
-                        map.put(COL_Latitude, cursor3.getString(2));
-                        map.put(COL_Longitude, cursor3.getString(3));
-                        map.put(COL_Level_sea, cursor3.getString(4));
-                        map.put(COL_Garden_Size, cursor3.getString(5));
-
-                        String locationID = cursor3.getString(cursor3.getColumnIndex(COL_LocationID));
-                        String selectQuery4 = "SELECT * FROM " + TABLE_location_survey + " where " + COL_Location_ID +" = '" + locationID +"'" ;
-                        SQLiteDatabase database4 = this.getWritableDatabase();
-                        Cursor cursor4 = database4.rawQuery(selectQuery4, null);
-                        if(cursor4.moveToFirst()){
-
-                            map.put(COL_Location_Name, cursor4.getString(1));
-                            map.put(COL_Moo, cursor4.getString(2));
-                            map.put(COL_Tumbon, cursor4.getString(3));
-                            map.put(COL_Amphur, cursor4.getString(4));
-                            map.put(COL_Province, cursor4.getString(5));
-                            map.put(COL_Post_Code, cursor4.getString(6));
-
-
-
-                        }
-
-
-                    }
-
-                    String plantID = cursor2.getString(cursor2.getColumnIndex(COL_PlantID));
-                    String selectQuery5 = "SELECT * FROM " + TABLE_plant + " where " + COL_Plant_ID +" = '" + plantID +"'" ;
-                    SQLiteDatabase database5 = this.getWritableDatabase();
-                    Cursor cursor5 = database5.rawQuery(selectQuery5, null);
-                    if(cursor5.moveToFirst()){
-                        map.put(COL_Plant_IDServer,cursor5.getString(1)) ;
-                    }
-
-
-                }
-                wordList.add(map);
-            } while (cursor.moveToNext());
-        }
-        database.close();
-        Gson gson = new GsonBuilder().create();
-        return gson.toJson(wordList);
-
-    }
-
-    public String UploadImage(){
-        ArrayList<HashMap<String, String>> wordList;
+    public String UploadImage(String province , String garden){
+        final ArrayList<HashMap<String, String>> wordList;
         String encoded_string ;
         wordList = new ArrayList<HashMap<String, String>>();
-        String selectQuery = "SELECT * FROM " + TABLE_image + " where " + COL_Image_Status +" = '1'";
+        String selectQuery = "SELECT * FROM " +TABLE_location_survey+" LEFT JOIN "+TABLE_garden_survey+" " +
+                "ON "+TABLE_location_survey+"."+COL_Location_ID+" = "+TABLE_garden_survey+"."+COL_LocationID+" LEFT JOIN " + TABLE_farming+" "+
+                "ON "+TABLE_garden_survey+"."+COL_Garden_ID+" = "+TABLE_farming+"."+COL_GardenID+" LEFT JOIN " + TABLE_survey+" "+
+                "ON "+TABLE_farming+"."+COL_Farming_ID+" = "+TABLE_survey+"."+COL_FarmingID + " LEFT JOIN " + TABLE_image+" "+
+                "ON "+TABLE_survey+"."+COL_Survey_ID+" = "+TABLE_image+"."+COL_SurveyID+ " LEFT JOIN " + TABLE_plant+" "+
+                "ON "+TABLE_farming+"."+COL_PlantID+" = "+TABLE_plant+"."+COL_Plant_ID +
+                " WHERE "+ TABLE_image + "." +  COL_Image_Status + " = '1' AND "+TABLE_location_survey+"."+COL_Province+" = '"+province+"' AND "+TABLE_garden_survey+"."+COL_Garden_Name+" = '"+garden+"'" ;
         SQLiteDatabase database = this.getWritableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
 
@@ -1679,98 +1701,61 @@ public class DBHelper extends SQLiteOpenHelper {
 
                 HashMap<String, String> map = new HashMap<String, String>();
 
-                map.put(COL_Image_ID, cursor.getString(0));
-                map.put(COL_Image_Type, cursor.getString(2));
-                map.put(COL_Note, cursor.getString(3));
-                map.put(COL_Sample_ID, cursor.getString(4));
+                map.put(COL_Image_ID, cursor.getString(36));
+                map.put(COL_Image_Type, cursor.getString(cursor.getColumnIndex(COL_Image_Type)));
+                map.put(COL_Note, cursor.getString(cursor.getColumnIndex(COL_Note)));
+                map.put(COL_Sample_ID, cursor.getString(cursor.getColumnIndex(COL_Sample_ID)));
 
 
-                Log.d("imageID", cursor.getString(0));
-
-                byte[] byteArray = cursor.getBlob(1);
+                byte[] byteArray = cursor.getBlob(cursor.getColumnIndex(COL_Image_Pic));
                 encoded_string = Base64.encodeToString(byteArray, 0);
                 map.put(COL_Image_Pic, encoded_string);
 
-                String SurveyID = cursor.getString(5);
-                String selectQuery2 = "SELECT * FROM " + TABLE_survey + " where " + COL_Survey_ID + " = '" + SurveyID + "'";
-                SQLiteDatabase database2 = this.getWritableDatabase();
-                Cursor cursor2 = database2.rawQuery(selectQuery2, null);
-                if (cursor2.moveToFirst()) {
+                map.put("id_Survey", cursor.getString(21));
+                map.put(COL_D_M_Y_Survey, cursor.getString(cursor.getColumnIndex(COL_D_M_Y_Survey)));
+                map.put(COL_Time_Survey, cursor.getString(cursor.getColumnIndex(COL_Time_Survey)));
+                map.put(COL_Temp, cursor.getString(cursor.getColumnIndex(COL_Temp)));
+                map.put(COL_Moisture, cursor.getString(cursor.getColumnIndex(COL_Moisture)));
+                map.put(COL_Rain, cursor.getString(cursor.getColumnIndex(COL_Rain)));
+                map.put(COL_Light, cursor.getString(cursor.getColumnIndex(COL_Light)));
+                map.put(COL_Dew, cursor.getString(cursor.getColumnIndex(COL_Dew)));
+                map.put(COL_Category, cursor.getString(cursor.getColumnIndex(COL_Category)));
+                map.put(COL_SamplePoint, cursor.getString(cursor.getColumnIndex(COL_SamplePoint)));
+                map.put(COL_Point, cursor.getString(cursor.getColumnIndex(COL_Point)));
 
-                    map.put("id_Survey", cursor2.getString(0));
-                    map.put(COL_D_M_Y_Survey, cursor2.getString(cursor2.getColumnIndex(COL_D_M_Y_Survey)));
-                    map.put(COL_Time_Survey, cursor2.getString(2));
-                    map.put(COL_Temp, cursor2.getString(3));
-                    map.put(COL_Moisture, cursor2.getString(4));
-                    map.put(COL_Rain, cursor2.getString(5));
-                    map.put(COL_Light, cursor2.getString(6));
-                    map.put(COL_Dew, cursor2.getString(7));
-                    map.put(COL_Category, cursor2.getString(8));
-                    map.put(COL_SamplePoint, cursor2.getString(9));
-                    map.put(COL_Point, cursor2.getString(10));
-
-                    map.put(COL_Incidence, cursor2.getString(11));
-                    map.put(COL_Severity, cursor2.getString(12));
-
-                    String farmingID = cursor2.getString(cursor2.getColumnIndex(COL_FarmingID));
-                    String selectQuery3 = "SELECT * FROM " + TABLE_farming + " where " + COL_Farming_ID + " = '" + farmingID + "'";
-                    SQLiteDatabase database3 = this.getWritableDatabase();
-                    Cursor cursor3 = database3.rawQuery(selectQuery3, null);
-                    if (cursor3.moveToFirst()) {
-
-                        map.put("id_Farming", cursor3.getString(0));
-                        map.put(COL_D_M_Y_Farming, cursor3.getString(1));
-                        String gardenID = cursor3.getString(cursor3.getColumnIndex(COL_GardenID));
-                        String selectQuery4 = "SELECT * FROM " + TABLE_garden_survey + " where " + COL_Garden_ID + " = '" + gardenID + "'";
-                        SQLiteDatabase database4 = this.getWritableDatabase();
-                        Cursor cursor4 = database4.rawQuery(selectQuery4, null);
-                        if (cursor4.moveToFirst()) {
-
-                            map.put("id_Garden", cursor4.getString(0));
-                            map.put(COL_Garden_Name, cursor4.getString(1));
-                            map.put(COL_Latitude, cursor4.getString(2));
-                            map.put(COL_Longitude, cursor4.getString(3));
-                            map.put(COL_Level_sea, cursor4.getString(4));
-                            map.put(COL_Garden_Size, cursor4.getString(5));
-
-                            String locationID = cursor4.getString(cursor4.getColumnIndex(COL_LocationID));
-                            String selectQuery5 = "SELECT * FROM " + TABLE_location_survey + " where " + COL_Location_ID + " = '" + locationID + "'";
-                            SQLiteDatabase database5 = this.getWritableDatabase();
-                            Cursor cursor5 = database5.rawQuery(selectQuery5, null);
-                            if (cursor5.moveToFirst()) {
-
-                                map.put("id_Location", cursor5.getString(0));
-                                map.put(COL_Location_Name, cursor5.getString(1));
-                                map.put(COL_Moo, cursor5.getString(2));
-                                map.put(COL_Tumbon, cursor5.getString(3));
-                                map.put(COL_Amphur, cursor5.getString(4));
-                                map.put(COL_Province, cursor5.getString(5));
-                                map.put(COL_Post_Code, cursor5.getString(6));
+                map.put(COL_Incidence, cursor.getString(cursor.getColumnIndex(COL_Incidence)));
+                map.put(COL_Severity, cursor.getString(cursor.getColumnIndex(COL_Severity)));
 
 
-                            }
+                map.put("id_Farming", cursor.getString(16));
+                map.put(COL_D_M_Y_Farming, cursor.getString(cursor.getColumnIndex(COL_D_M_Y_Farming)));
+
+
+                map.put("id_Garden", cursor.getString(8));
+                map.put(COL_Garden_Name, cursor.getString(cursor.getColumnIndex(COL_Garden_Name)));
+                map.put(COL_Latitude, cursor.getString(cursor.getColumnIndex(COL_Latitude)));
+                map.put(COL_Longitude, cursor.getString(cursor.getColumnIndex(COL_Longitude)));
+                map.put(COL_Level_sea, cursor.getString(cursor.getColumnIndex(COL_Level_sea)));
+                map.put(COL_Garden_Size, cursor.getString(cursor.getColumnIndex(COL_Garden_Size)));
 
 
 
-                        }
+                map.put("id_Location", cursor.getString(0));
+                map.put(COL_Location_Name, cursor.getString(cursor.getColumnIndex(COL_Location_Name)));
+                map.put(COL_Moo, cursor.getString(cursor.getColumnIndex(COL_Moo)));
+                map.put(COL_Tumbon, cursor.getString(cursor.getColumnIndex(COL_Tumbon)));
+                map.put(COL_Amphur, cursor.getString(cursor.getColumnIndex(COL_Amphur)));
+                map.put(COL_Province, cursor.getString(cursor.getColumnIndex(COL_Province)));
+                map.put(COL_Post_Code, cursor.getString(cursor.getColumnIndex(COL_Post_Code)));
 
 
-                        String plantID = cursor3.getString(cursor3.getColumnIndex(COL_PlantID));
-                        String selectQuery6 = "SELECT * FROM " + TABLE_plant + " where " + COL_Plant_ID + " = '" + plantID + "'";
-                        SQLiteDatabase database6 = this.getWritableDatabase();
-                        Cursor cursor6 = database6.rawQuery(selectQuery6, null);
-                        if (cursor6.moveToFirst()) {
-                            map.put("id_Plant", cursor6.getString(0));
-                            map.put(COL_Plant_IDServer, cursor6.getString(1));
-                            map.put(COL_Plant_Common_Name, cursor6.getString(2));
-                        }
+                map.put("id_Plant", cursor.getString(44));
+                map.put(COL_Plant_IDServer, cursor.getString(cursor.getColumnIndex(COL_Plant_IDServer)));
+                map.put(COL_Plant_Common_Name, cursor.getString(cursor.getColumnIndex(COL_Plant_Common_Name)));
 
-
-                    }
-
-                }
 
                 wordList.add(map);
+
             } while (cursor.moveToNext());
         }
         database.close();
@@ -1905,12 +1890,6 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return Count;
     }
-
-
-
-
-
-
 
 
 

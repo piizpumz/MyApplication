@@ -398,6 +398,58 @@ public class DownloadPlantPage extends AppCompatActivity {
 
     }
 
+    public int showDownload(ArrayList<JSONObject> collectItems) throws JSONException {
+
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        ContentValues values2 = new ContentValues();
+        int countDownload = 0  ;
+
+
+        if(collectItems.size() == 0){
+            Toast.makeText(DownloadPlantPage.this, "ไม่เคยลงพื้นที่สำรวจในจังหวัดนี้", Toast.LENGTH_SHORT).show();
+            Log.d("size", String.valueOf(collectItems.size()));
+        }
+        else {
+            Log.d("size2", String.valueOf(collectItems.size()));
+            for (int j = 0; j < collectItems.size(); j++) {
+
+                String select = "select * from " + dbHelper.TABLE_location_survey + " WHERE " + dbHelper.COL_Location_Name + " = '" + collectItems.get(j).getString("Location_Name") +
+                        "' AND " + dbHelper.COL_Moo + " = '" + collectItems.get(j).getString("Moo") +
+                        "' AND " + dbHelper.COL_Tumbon + " = '" + collectItems.get(j).getString("Tumbon") + "' AND " + dbHelper.COL_Amphur + " = '" + collectItems.get(j).getString("Amphur") +
+                        "' AND " + dbHelper.COL_Province + " = '" + collectItems.get(j).getString("Province") + "' AND " + dbHelper.COL_Post_Code + " = '" + collectItems.get(j).getString("Post_Code")+"'";
+                Cursor cursor = db.rawQuery(select, null);
+                if (cursor.getCount() != 0) {
+                    Log.d("select", select);
+
+                } else {
+
+                    countDownload ++ ;
+
+                }
+
+            }
+
+        }
+
+//
+//        AlertDialog.Builder builder =  new AlertDialog.Builder(DownloadLocationPage.this);
+//        builder.setMessage("มีจำนวนที่ต้องดาวน์โหลดในจังหวัด "+collectItems.get(0).getString("Location_Name")+"จำนวน "+countDownload);
+//        builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//
+//            }
+//        });
+//
+//        builder.create().show();
+
+
+        return countDownload ;
+
+
+    }
+
 
 }
 

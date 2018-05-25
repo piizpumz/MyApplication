@@ -1,5 +1,6 @@
 package com.example.macxpiiw.myapplication;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -8,10 +9,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
@@ -37,6 +41,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -45,25 +51,56 @@ import com.loopj.android.http.SyncHttpClient;
 import cz.msebera.android.httpclient.Header;
 
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Amphur;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Category;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_D_M_Y_Farming;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_D_M_Y_Survey;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Dew;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_FarmingID;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Farming_ID;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Farming_Status;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_GardenID;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Garden_ID;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Garden_Name;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Garden_Size;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Garden_Status;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Image_ID;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Image_Pic;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Image_Status;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Image_Type;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Incidence;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Latitude;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Level_sea;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Light;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_LocationID;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Location_ID;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Location_Name;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Location_Status;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Longitude;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Moisture;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Moo;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Note;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_PlantID;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Plant_Common_Name;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Plant_ID;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Plant_IDServer;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Point;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Post_Code;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Province;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Rain;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_SamplePoint;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Sample_ID;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Severity;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_SurveyID;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Survey_ID;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Survey_Status;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Temp;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Time_Survey;
+import static com.example.macxpiiw.myapplication.DBHelper.COL_Tumbon;
 import static com.example.macxpiiw.myapplication.DBHelper.TABLE_farming;
 import static com.example.macxpiiw.myapplication.DBHelper.TABLE_garden_survey;
 import static com.example.macxpiiw.myapplication.DBHelper.TABLE_image;
 import static com.example.macxpiiw.myapplication.DBHelper.TABLE_location_survey;
+import static com.example.macxpiiw.myapplication.DBHelper.TABLE_plant;
 import static com.example.macxpiiw.myapplication.DBHelper.TABLE_survey;
 import static com.loopj.android.http.AsyncHttpClient.log;
 
@@ -100,29 +137,10 @@ public class UploadPage extends AppCompatActivity {
         showUpload2();
         listAdapter = new ExpandableListAdapter(this,listDataHeader,listHash);
         listView.setAdapter(listAdapter);
-        listView.getItemAtPosition(0);
 
 
-        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v,int groupPosition, int childPosition, long id) {
-                /* You must make use of the View v, find the view by id and extract the text as below*/
-
-                TextView gardenname = (TextView) v.findViewById(R.id.lblListItem);
-
-
-                String datagardenname = gardenname.getText().toString();
-                String[] datagardenname2 = datagardenname.split(" ") ;
-
-                Toast.makeText(UploadPage.this, datagardenname2[0], Toast.LENGTH_SHORT).show();
-
-                return true;  // i missed this
-            }
-        });
-
-        Button checkbutt = (Button) findViewById(R.id.checkbutt) ;
-        checkbutt.setOnClickListener(new Button.OnClickListener() {
+        Button butGo = (Button) findViewById(R.id.butGo) ;
+        butGo.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
 
                 listAdapter.getCheckedItems() ;
@@ -132,6 +150,22 @@ public class UploadPage extends AppCompatActivity {
                 for (Pair<Long,Long> c:checkedItems)
                 {
                     Log.d("checkItem:",c.first+" "+c.second);
+                    int i   = c.first.intValue() ;
+                    int i2 = c.second.intValue() ;
+
+                    Log.d("checkItem2:", String.valueOf(listAdapter.getGroup(i)));
+                    Log.d("checkItem2:", String.valueOf(listAdapter.getChild(i,i2))) ;
+
+                    String dataprovince = String.valueOf(listAdapter.getGroup(i)) ;
+                    String[] dataprovince2 = dataprovince.split(" ") ;
+
+                    String datagarden = String.valueOf(listAdapter.getChild(i,i2)) ;
+                    String[] datagarden2 = datagarden.split(" ") ;
+
+
+
+                    new loadjson(dataprovince2[0],datagarden2[0]).execute();
+
                 }
 
 //                listView.getItemAtPosition(1) ;
@@ -146,7 +180,7 @@ public class UploadPage extends AppCompatActivity {
 
             }
         });
-        listAdapter.getCheckedItems() ;
+
 
 
 
@@ -193,9 +227,9 @@ public class UploadPage extends AppCompatActivity {
         });
 
 
-        Button butGo = (Button) findViewById(R.id.butGo) ;
-        butGo.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
+//        Button butGo = (Button) findViewById(R.id.butGo) ;
+//        butGo.setOnClickListener(new Button.OnClickListener() {
+//            public void onClick(View v) {
 //                loadingDialog = ProgressDialog.show(UploadPage.this, "กำลังอัพโหลดข้อมูล", "กรุณารอสักครู่", true, false);
 
 //                testaom();
@@ -203,11 +237,11 @@ public class UploadPage extends AppCompatActivity {
 //                testaom3();
 //                testaom4();
 
-                    new loadjson().execute();
+//                new loaddatajson().execute() ;
 
 //                Toast.makeText(UploadPage.this, "กำลังอัพโหลด", Toast.LENGTH_SHORT).show();
-            }
-        });
+//            }
+//        });
 
     }
 
@@ -416,8 +450,8 @@ public class UploadPage extends AppCompatActivity {
 //
 //    }
 
-    public void testaom5() throws FileNotFoundException {
-
+//    public void testaom5(String province,String garden) throws FileNotFoundException {
+//
 //        dbHelper = new DBHelper(this);
 //
 //
@@ -425,8 +459,9 @@ public class UploadPage extends AppCompatActivity {
 //        RequestParams params = new RequestParams();
 //        params.setForceMultipartEntityContentType(true);
 //
-//        params.put("imageJSON", dbHelper.UploadImage());
-//        Log.d("result",dbHelper.UploadImage());
+//
+//        params.put("imageJSON",dbHelper.UploadImage(province,garden));
+//
 //
 //
 //
@@ -523,8 +558,8 @@ public class UploadPage extends AppCompatActivity {
 //            }
 //
 //        });
-
-    }
+//
+//    }
 
 
     public void showUpload2(){
@@ -582,8 +617,8 @@ public class UploadPage extends AppCompatActivity {
                         "ON "+TABLE_garden_survey+"."+COL_Garden_ID+" = "+TABLE_farming+"."+COL_GardenID+" LEFT JOIN " + TABLE_survey+" "+
                         "ON "+TABLE_farming+"."+COL_Farming_ID+" = "+TABLE_survey+"."+COL_FarmingID + " LEFT JOIN " + TABLE_image+" "+
                         "ON "+TABLE_survey+"."+COL_Survey_ID+" = "+TABLE_image+"."+COL_SurveyID +
-                        " WHERE (" + TABLE_image + "." +  COL_Image_Status + " = '1' ) AND "
-                        + COL_Province + " = '"+cursor.getString(cursor.getColumnIndex(COL_Province))+"' group by "+TABLE_survey+"."+COL_Survey_ID ;
+                        " WHERE " + TABLE_image + "." +  COL_Image_Status + " = '1' AND "
+                        + COL_Province + " = '"+cursor.getString(cursor.getColumnIndex(COL_Province))+"' group by "+COL_Garden_Name ;
 
 
 
@@ -594,7 +629,7 @@ public class UploadPage extends AppCompatActivity {
                 if(cursor2.getCount() > 0){
                     while (cursor2.moveToNext()) {
 
-                        amphur.add(cursor2.getString(cursor2.getColumnIndex(TABLE_garden_survey+"."+COL_Garden_Name))) ;
+                        amphur.add(cursor2.getString(cursor2.getColumnIndex(COL_Garden_Name))) ;
 
 //                        String selectQuery3 = "SELECT * FROM " + TABLE_location_survey + " where " + dbHelper.COL_Amphur + " = '"+cursor2.getString(cursor2.getColumnIndex(dbHelper.COL_Amphur))+"' AND "+ COL_Province + " = '"+cursor.getString(cursor.getColumnIndex(COL_Province))+"' AND "+dbHelper.COL_Location_Status+ "= '1'";
 
@@ -603,9 +638,9 @@ public class UploadPage extends AppCompatActivity {
                                 "ON "+TABLE_garden_survey+"."+COL_Garden_ID+" = "+TABLE_farming+"."+COL_GardenID+" LEFT JOIN " + TABLE_survey+" "+
                                 "ON "+TABLE_farming+"."+COL_Farming_ID+" = "+TABLE_survey+"."+COL_FarmingID + " LEFT JOIN " + TABLE_image+" "+
                                 "ON "+TABLE_survey+"."+COL_Survey_ID+" = "+TABLE_image+"."+COL_SurveyID +
-                                " WHERE ("+ TABLE_image + "." +  COL_Image_Status + " = '1' ) AND "
-                                + COL_Province + " = '"+cursor.getString(cursor.getColumnIndex(COL_Province))+"' AND "
-                                + TABLE_garden_survey+"."+COL_Garden_Name + " = '"+cursor2.getString(cursor2.getColumnIndex(TABLE_garden_survey+"."+COL_Garden_Name))+"'";
+                                " WHERE "+ TABLE_image + "." +  COL_Image_Status + " = '1' AND "
+                                + COL_Province + " = '"+cursor2.getString(cursor2.getColumnIndex(COL_Province))+"' AND "
+                                + COL_Garden_Name + " = '"+cursor2.getString(cursor2.getColumnIndex(COL_Garden_Name))+"'";
 
 
 
@@ -656,6 +691,16 @@ public class UploadPage extends AppCompatActivity {
 
     public class loadjson extends AsyncTask<Void, Void, Void> {
 
+        private  String a  ;
+        private  String b ;
+
+
+        public loadjson(String province , String garden){
+            a = province ;
+            b = garden ;
+        }
+
+
         private final ProgressDialog dialog = new ProgressDialog(
                 UploadPage.this);
         protected void onPreExecute() {
@@ -681,13 +726,19 @@ public class UploadPage extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
+//
+//            Handler mainHandler = new Handler(Looper.getMainLooper());
+//            Runnable myRunnable = new Runnable() {
+//                @Override
+//                public void run() {
+                    onPreExecute();
 
 
             SyncHttpClient client = new SyncHttpClient();
             RequestParams params = new RequestParams();
 
 
-            params.put("imageJSON", dbHelper.UploadImage());
+            params.put("imageJSON", dbHelper.UploadImage(a,b));
             Log.d("result", String.valueOf(params));
 
 
@@ -739,10 +790,16 @@ public class UploadPage extends AppCompatActivity {
                     // called when request is retried
                 }
 
+
+
             });
+//                }
+//            };
+//            mainHandler.post(myRunnable);
             return null;
         }
     }
+
 
 }
 

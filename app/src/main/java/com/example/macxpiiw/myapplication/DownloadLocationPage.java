@@ -71,6 +71,7 @@ public class DownloadLocationPage extends AppCompatActivity {
         init();
 
         listView = (ExpandableListView)findViewById(R.id.lvExp);
+
         showUpload();
         listAdapter = new ExpandableListAdapter(this,listDataHeader,listHash);
 //        listView.setAdapter(listAdapter);
