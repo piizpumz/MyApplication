@@ -46,6 +46,8 @@ public class DownloadLocationPage extends AppCompatActivity {
     private List<JSONObject> collectItems;
     private List<String> showItems;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
 
 
     private DBHelper dbHelper ;
@@ -154,6 +156,17 @@ public class DownloadLocationPage extends AppCompatActivity {
                 // your code here
             }
 
+        });
+
+
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshdownload);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                showUpload();
+                listView.setAdapter(listAdapter);
+
+            }
         });
 
 

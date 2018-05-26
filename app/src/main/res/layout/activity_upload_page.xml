@@ -17,6 +17,12 @@
 
 
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/butGo">
+
 
     <ExpandableListView
         android:layout_margin="10dp"
@@ -25,7 +31,12 @@
         android:layout_height="365dp"
         android:layout_above="@+id/butGo"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="2dp"></ExpandableListView>
+        android:layout_marginBottom="2dp">
+    </ExpandableListView>
+
+
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
 

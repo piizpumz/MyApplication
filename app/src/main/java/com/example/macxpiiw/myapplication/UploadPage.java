@@ -141,14 +141,14 @@ public class UploadPage extends AppCompatActivity {
 
 
 
-//        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
-//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                new loaddata().execute();
-//                swipeRefreshLayout.setRefreshing(false);
-//            }
-//        });
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new loaddata().execute();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
 
 
