@@ -41,7 +41,9 @@ public class DownloadPlantPage extends AppCompatActivity {
     private MySQLConnect mySQLConnect;
     private List<JSONObject> items;
     private List<JSONObject> collectItems;
+    private List<JSONObject> collectItems2;
     private List<String> showItems;
+
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -70,6 +72,8 @@ public class DownloadPlantPage extends AppCompatActivity {
         mySQLConnect = new MySQLConnect(DownloadPlantPage.this);
         items = mySQLConnect.getData(1);
         update();
+
+
 
 
         listView = (ExpandableListView)findViewById(R.id.lvExp);
@@ -449,6 +453,7 @@ public class DownloadPlantPage extends AppCompatActivity {
 
 
     }
+
 
 
 }

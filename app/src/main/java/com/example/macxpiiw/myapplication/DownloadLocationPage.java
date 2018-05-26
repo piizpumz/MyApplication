@@ -51,7 +51,7 @@ public class DownloadLocationPage extends AppCompatActivity {
 
 
     private ExpandableListView listView;
-    private ExpandableListAdapter listAdapter;
+    private ExpandableListAdapter2 listAdapter;
     private List<String> listDataHeader;
     private HashMap<String,List<String>> listHash;
 
@@ -73,7 +73,7 @@ public class DownloadLocationPage extends AppCompatActivity {
         listView = (ExpandableListView)findViewById(R.id.lvExp);
 
         showUpload();
-        listAdapter = new ExpandableListAdapter(this,listDataHeader,listHash);
+        listAdapter = new ExpandableListAdapter2(this,listDataHeader,listHash);
 //        listView.setAdapter(listAdapter);
 
         addBox = (Spinner) findViewById(R.id.addBox);

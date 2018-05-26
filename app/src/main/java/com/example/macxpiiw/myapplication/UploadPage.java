@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -118,6 +119,7 @@ public class UploadPage extends AppCompatActivity {
     private HashMap<String,List<String>> listHash;
     ProgressDialog loadingDialog;
 
+
     DBHelper controller = new DBHelper(this);
 
     public DBHelper dbHelper ;
@@ -134,9 +136,10 @@ public class UploadPage extends AppCompatActivity {
 
 
         listView = (ExpandableListView)findViewById(R.id.lvExp);
-        showUpload2();
-        listAdapter = new ExpandableListAdapter(this,listDataHeader,listHash);
-        listView.setAdapter(listAdapter);
+        new loaddata().execute();
+
+
+
 
 
         Button butGo = (Button) findViewById(R.id.butGo) ;
@@ -677,15 +680,12 @@ public class UploadPage extends AppCompatActivity {
                 loopaom++ ;
                 Log.d("amphur", String.valueOf(amphur));
             }
+
         }
-
-
 
 
         Log.d("string", String.valueOf(listDataHeader));
         Log.d("count2", String.valueOf(count2));
-
-
 
     }
 
@@ -756,9 +756,10 @@ public class UploadPage extends AppCompatActivity {
                     // called when response HTTP status is "200 OK"
                     try {
 
-
+                        Log.d("logresponse", String.valueOf(response));
                         JSONObject jsonObject = new JSONObject(new String(response));
                         JSONArray result = jsonObject.getJSONArray("result");
+
                         String s = "0";
                         for (int i = 0; i < result.length(); i++) {
                             JSONObject obj = (JSONObject) result.get(i);
@@ -772,7 +773,11 @@ public class UploadPage extends AppCompatActivity {
 
                     } catch (JSONException e) {
                         // TODO Auto-generated catch block
-
+                        try {
+                            Log.d("aomjson", new String(response,"UTF-8"));
+                        } catch (UnsupportedEncodingException e1) {
+                            e1.printStackTrace();
+                        }
                         e.printStackTrace();
                     }
 
@@ -796,6 +801,50 @@ public class UploadPage extends AppCompatActivity {
 //                }
 //            };
 //            mainHandler.post(myRunnable);
+            return null;
+        }
+    }
+
+    public class loaddata extends AsyncTask<Void, Void, Void> {
+
+        private final ProgressDialog dialog = new ProgressDialog(
+                UploadPage.this);
+        protected void onPreExecute() {
+            this.dialog.setTitle("กำลังตรวจสอบข้อมูล");
+            this.dialog.setMessage("กรุณารอสักครู่...");
+            this.dialog.setCancelable(false);
+            this.dialog.show();
+        }
+
+
+
+
+
+        protected void onPostExecute(Void result) {
+
+            Log.d("debug", String.valueOf(result));
+            if (this.dialog.isShowing()) {
+                this.dialog.dismiss();
+            }
+
+        }
+
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+
+            showUpload2();
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        listAdapter = new ExpandableListAdapter(UploadPage.this,listDataHeader,listHash);
+                        listView.setAdapter(listAdapter);
+                    }
+                });
+
+
             return null;
         }
     }
