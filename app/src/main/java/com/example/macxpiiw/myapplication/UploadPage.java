@@ -729,9 +729,17 @@ public class UploadPage extends AppCompatActivity {
         protected void onPostExecute(Void result) {
 
             Log.d("debug", String.valueOf(result));
+
             if (this.dialog.isShowing()) {
                 this.dialog.dismiss();
             }
+
+            runOnUiThread(new Runnable() {
+                public void run() {
+
+                    Toast.makeText(UploadPage.this, "อัพโหลดเรียบร้อย", Toast.LENGTH_SHORT).show();
+                }
+            });
 
         }
 
@@ -797,8 +805,10 @@ public class UploadPage extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                public void onFailure(final int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                     // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+
+
 
                 }
 
@@ -813,6 +823,8 @@ public class UploadPage extends AppCompatActivity {
 //                }
 //            };
 //            mainHandler.post(myRunnable);
+
+
             return null;
         }
     }
