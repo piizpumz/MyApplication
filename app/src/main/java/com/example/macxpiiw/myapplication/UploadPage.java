@@ -118,6 +118,7 @@ public class UploadPage extends AppCompatActivity {
     private List<String> listDataHeader;
     private HashMap<String,List<String>> listHash;
     ProgressDialog loadingDialog;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
 
     DBHelper controller = new DBHelper(this);
@@ -137,6 +138,17 @@ public class UploadPage extends AppCompatActivity {
 
         listView = (ExpandableListView)findViewById(R.id.lvExp);
         new loaddata().execute();
+
+
+
+//        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
+//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                new loaddata().execute();
+//                swipeRefreshLayout.setRefreshing(false);
+//            }
+//        });
 
 
 

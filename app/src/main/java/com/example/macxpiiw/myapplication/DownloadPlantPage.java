@@ -52,7 +52,7 @@ public class DownloadPlantPage extends AppCompatActivity {
 
 
     private ExpandableListView listView;
-    private ExpandableListAdapter listAdapter;
+    private ExpandableListAdapter2 listAdapter;
     private List<String> listDataHeader;
     private HashMap<String,List<String>> listHash;
 
@@ -78,7 +78,7 @@ public class DownloadPlantPage extends AppCompatActivity {
 
         listView = (ExpandableListView)findViewById(R.id.lvExp);
         showPlant(items);
-        listAdapter = new ExpandableListAdapter(this,listDataHeader,listHash);
+        listAdapter = new ExpandableListAdapter2(this,listDataHeader,listHash);
        listView.setAdapter(listAdapter);
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
@@ -86,7 +86,7 @@ public class DownloadPlantPage extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 showPlant(items);
-                listAdapter = new ExpandableListAdapter(DownloadPlantPage.this,listDataHeader,listHash);
+                listAdapter = new ExpandableListAdapter2(DownloadPlantPage.this,listDataHeader,listHash);
                 listView.setAdapter(listAdapter);
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -99,7 +99,7 @@ public class DownloadPlantPage extends AppCompatActivity {
 
                 listView = (ExpandableListView)findViewById(R.id.lvExp);
                 showPlant(items);
-                listAdapter = new ExpandableListAdapter(DownloadPlantPage.this,listDataHeader,listHash);
+                listAdapter = new ExpandableListAdapter2(DownloadPlantPage.this,listDataHeader,listHash);
                 listView.setAdapter(listAdapter);
 
                 collectItems = new ArrayList<JSONObject>();

@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -54,6 +55,7 @@ public class DownloadLocationPage extends AppCompatActivity {
     private ExpandableListAdapter2 listAdapter;
     private List<String> listDataHeader;
     private HashMap<String,List<String>> listHash;
+
 
 
 
@@ -153,6 +155,8 @@ public class DownloadLocationPage extends AppCompatActivity {
             }
 
         });
+
+
 
 
 
