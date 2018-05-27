@@ -119,6 +119,7 @@ public class UploadPage extends AppCompatActivity {
     private HashMap<String,List<String>> listHash;
     ProgressDialog loadingDialog;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private Button checkAllButton;
 
 
     DBHelper controller = new DBHelper(this);
@@ -139,7 +140,7 @@ public class UploadPage extends AppCompatActivity {
         listView = (ExpandableListView)findViewById(R.id.lvExp);
         new loaddata().execute();
 
-
+        checkAllButton = (Button) findViewById(R.id.button2);
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -708,8 +709,8 @@ public class UploadPage extends AppCompatActivity {
 
 
         public loadjson(String province , String garden){
-            a = province ;
-            b = garden ;
+            this.a = province ;
+            this.b = garden ;
         }
 
 
@@ -734,12 +735,6 @@ public class UploadPage extends AppCompatActivity {
                 this.dialog.dismiss();
             }
 
-            runOnUiThread(new Runnable() {
-                public void run() {
-
-                    Toast.makeText(UploadPage.this, "อัพโหลดเรียบร้อย", Toast.LENGTH_SHORT).show();
-                }
-            });
 
         }
 
@@ -751,7 +746,7 @@ public class UploadPage extends AppCompatActivity {
 //            Runnable myRunnable = new Runnable() {
 //                @Override
 //                public void run() {
-                    onPreExecute();
+
 
 
             SyncHttpClient client = new SyncHttpClient();
@@ -809,7 +804,6 @@ public class UploadPage extends AppCompatActivity {
                     // called when response HTTP status is "4XX" (eg. 401, 403, 404)
 
 
-
                 }
 
                 @Override
@@ -865,6 +859,14 @@ public class UploadPage extends AppCompatActivity {
                     public void run() {
                         listAdapter = new ExpandableListAdapter(UploadPage.this,listDataHeader,listHash);
                         listView.setAdapter(listAdapter);
+                        checkAllButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                listAdapter.checkAllCheckBox();
+
+                            }
+                        });
+
                     }
                 });
 

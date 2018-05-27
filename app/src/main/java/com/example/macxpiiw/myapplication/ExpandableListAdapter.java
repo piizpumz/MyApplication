@@ -1,5 +1,6 @@
 package com.example.macxpiiw.myapplication;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.Pair;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -26,12 +28,17 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private List<String> listDataHeader;
     private HashMap<String,List<String>> listHashMap;
 
+    private ArrayList<Pair<Integer,ArrayList<CheckBox>>> checkBoxs2 = new ArrayList<>();
+
     private final Set<Pair<Long, Long>> mCheckedItems = new HashSet<Pair<Long, Long>>();
+    CheckBox cb;
 
     public ExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<String>> listHashMap) {
         this.context = context;
         this.listDataHeader = listDataHeader;
         this.listHashMap = listHashMap;
+
+
     }
 
     @Override
@@ -80,9 +87,49 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         TextView lblListHeader = (TextView)view.findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
+
+        if (checkBoxs2.size()!=0) {
+            if (checkBoxs2.size()>i){
+            if (checkBoxs2.get(i) == null) {
+                checkBoxs2.add(new Pair<Integer, ArrayList<CheckBox>>(i, new ArrayList<CheckBox>()));
+            }
+            }
+            else
+                checkBoxs2.add(new Pair<Integer, ArrayList<CheckBox>>(i, new ArrayList<CheckBox>()));
+        }
+        else {
+
+                checkBoxs2.add(new Pair<Integer, ArrayList<CheckBox>>(i, new ArrayList<CheckBox>()));
+
+            }
+
         return view;
     }
+    private OnCheckAll onCheckAll = new OnCheckAll() {
+        @Override
+        public void onCheckAll() {
 
+            for (Pair<Integer,ArrayList<CheckBox>> p:checkBoxs2)
+            {
+                for (CheckBox c:p.second)
+                {
+                    c.performClick();
+                }
+            }
+
+
+        }
+    };
+    interface OnCheckAll
+    {
+        void onCheckAll();
+    }
+
+
+    public void checkAllCheckBox()
+    {
+        onCheckAll.onCheckAll();
+    }
     @Override
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
         final String childText = (String)getChild(i,i1);
@@ -97,7 +144,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         txtListChild.setText(childText);
 
 
-        final CheckBox cb = (CheckBox) view.findViewById(R.id.myCheckBox);
+        cb = (CheckBox) view.findViewById(R.id.myCheckBox);
         // add tag to remember groupId/childId
         final Pair<Long, Long> tag = new Pair<Long, Long>(
                 getGroupId(i),
@@ -119,6 +166,23 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 }
             }
         });
+
+
+
+        Pair<Integer,ArrayList<CheckBox>> c3 = checkBoxs2.get(i);
+        ArrayList<CheckBox> ccc = c3.second;
+        if (ccc.size()>i1){
+            if (ccc.get(i1)!=null)
+                ccc.set(i1,cb);
+            else
+                c3.second.add(cb);
+        }
+        else
+        {
+            c3.second.add(cb);
+        }
+
+
 
 
         return view;

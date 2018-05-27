@@ -171,6 +171,18 @@ public class DownloadLocationPage extends AppCompatActivity {
 
 
 
+        //        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
+//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                        showUpload();
+//
+//                swipeRefreshLayout.setRefreshing(false);
+//            }
+//        });
+
+
+
 
 
 
