@@ -25,6 +25,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.macxpiiw.myapplication.Fragment.Page2;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -78,9 +80,26 @@ public class DownloadLocationPage extends AppCompatActivity {
 
         showUpload();
         listAdapter = new ExpandableListAdapter2(this,listDataHeader,listHash);
-//        listView.setAdapter(listAdapter);
+        listView.setAdapter(listAdapter);
 
         addBox = (Spinner) findViewById(R.id.addBox);
+
+
+
+        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+
+                String text = String.valueOf(listAdapter.getGroup(i)) ;
+                String[] pressTxt = text.split(" ") ;
+
+                gotoLocation(pressTxt[0]);
+
+                Toast.makeText(DownloadLocationPage.this, "" + listAdapter.getChild(i, i1), Toast.LENGTH_SHORT).show();
+
+                return true;
+            }
+        });
 
 
         addBox.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -164,25 +183,12 @@ public class DownloadLocationPage extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 showUpload();
+                listAdapter = new ExpandableListAdapter2(DownloadLocationPage.this,listDataHeader,listHash);
                 listView.setAdapter(listAdapter);
+                swipeRefreshLayout.setRefreshing(false); ;
 
             }
         });
-
-
-
-        //        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
-//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                        showUpload();
-//
-//                swipeRefreshLayout.setRefreshing(false);
-//            }
-//        });
-
-
-
 
 
 
@@ -229,12 +235,12 @@ public class DownloadLocationPage extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onResume() {
-
-        super.onResume();
-        listView.setAdapter(listAdapter);
-    }
+//    @Override
+//    public void onResume() {
+//
+//        super.onResume();
+//        listView.setAdapter(listAdapter);
+//    }
 
 
     public void init() {
@@ -480,6 +486,18 @@ public class DownloadLocationPage extends AppCompatActivity {
 
 
     }
+
+
+    private void gotoLocation(String tumbon){
+        Intent goToLocation = new Intent(this, FarmPage.class);
+        goToLocation.putExtra("TUMBON" , tumbon);
+        startActivity(goToLocation);
+
+    }
+
+
+
+
 
 
 

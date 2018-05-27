@@ -106,7 +106,7 @@ import static com.example.macxpiiw.myapplication.DBHelper.TABLE_plant;
 import static com.example.macxpiiw.myapplication.DBHelper.TABLE_survey;
 import static com.loopj.android.http.AsyncHttpClient.log;
 
-public class UploadPage extends AppCompatActivity {
+public class UploadPage2 extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView ;
     private TextView txtResult ;
     private TextView txtResult2 ;
@@ -130,7 +130,7 @@ public class UploadPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload_page);
+        setContentView(R.layout.activity_upload_page2);
         getSupportActionBar().setTitle("อัพโหลด");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -213,27 +213,27 @@ public class UploadPage extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.farm_menu){
-                    Intent intent1 = new Intent(UploadPage.this , FarmPage.class);
+                    Intent intent1 = new Intent(UploadPage2.this , FarmPage.class);
                     intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent1);
 
                 } else if (item.getItemId() == R.id.survey_menu){
-                    Intent intent2 = new Intent(UploadPage.this , SurveyPage.class);
+                    Intent intent2 = new Intent(UploadPage2.this , SurveyPage.class);
                     intent2.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent2);
 
                 } else if (item.getItemId() == R.id.home_menu){
-                    Intent intent3 = new Intent(UploadPage.this , HomePage.class);
+                    Intent intent3 = new Intent(UploadPage2.this , HomePage.class);
                     intent3.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent3);
 
                 } else if (item.getItemId() == R.id.download_menu){
-                    Intent intent4 = new Intent(UploadPage.this , DownloadPage.class);
+                    Intent intent4 = new Intent(UploadPage2.this , DownloadPage.class);
                     intent4.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent4);
 
                 } else if (item.getItemId() == R.id.upload_menu){
-                    Intent intent5 = new Intent(UploadPage.this , Login.class);
+                    Intent intent5 = new Intent(UploadPage2.this , Login.class);
                     intent5.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent5);
 
@@ -261,6 +261,7 @@ public class UploadPage extends AppCompatActivity {
 //        });
 
     }
+
 
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
@@ -734,7 +735,7 @@ public class UploadPage extends AppCompatActivity {
 
 
         private final ProgressDialog dialog = new ProgressDialog(
-                UploadPage.this);
+                UploadPage2.this);
         protected void onPreExecute() {
             this.dialog.setTitle("กำลังอัพโหลดไฟล์");
             this.dialog.setMessage("กรุณารอสักครู่...");
@@ -776,7 +777,7 @@ public class UploadPage extends AppCompatActivity {
             Log.d("result", String.valueOf(params));
 
 
-            client.post("http://158.108.144.4/RDSSATCC/sp_61_DiseaseSurvey/test12345678.php", params, new AsyncHttpResponseHandler() {
+            client.post("http://158.108.144.4/RDSSATCC/sp_61_DiseaseSurvey/test123456789.php", params, new AsyncHttpResponseHandler() {
 
                 @Override
                 public void onStart() {
@@ -845,7 +846,7 @@ public class UploadPage extends AppCompatActivity {
     public class loaddata extends AsyncTask<Void, Void, Void> {
 
         private final ProgressDialog dialog = new ProgressDialog(
-                UploadPage.this);
+                UploadPage2.this);
         protected void onPreExecute() {
             this.dialog.setTitle("กำลังตรวจสอบข้อมูล");
             this.dialog.setMessage("กรุณารอสักครู่...");
@@ -873,21 +874,21 @@ public class UploadPage extends AppCompatActivity {
 
             showUpload2();
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        listAdapter = new ExpandableListAdapter(UploadPage.this,listDataHeader,listHash);
-                        listView.setAdapter(listAdapter);
-                        checkAllButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                listAdapter.checkAllCheckBox();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    listAdapter = new ExpandableListAdapter(UploadPage2.this,listDataHeader,listHash);
+                    listView.setAdapter(listAdapter);
+                    checkAllButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            listAdapter.checkAllCheckBox();
 
-                            }
-                        });
+                        }
+                    });
 
-                    }
-                });
+                }
+            });
 
 
             return null;
@@ -896,5 +897,6 @@ public class UploadPage extends AppCompatActivity {
 
 
 }
+
 
 

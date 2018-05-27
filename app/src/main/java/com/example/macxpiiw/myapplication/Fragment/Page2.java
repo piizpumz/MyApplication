@@ -40,7 +40,6 @@ public class Page2 extends Fragment {
     private String filter = "";
     private SearchView searchView ;
     private FloatingActionButton fab_btn;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

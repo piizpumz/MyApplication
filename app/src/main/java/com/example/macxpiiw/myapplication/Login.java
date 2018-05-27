@@ -102,7 +102,7 @@ public class Login extends AppCompatActivity{
                 else if(goUpload.equals("user")){
 
                     Toast.makeText(Login.this, "Login OK  : USER", Toast.LENGTH_SHORT).show();
-                    Intent newActivity = new Intent(Login.this,UploadPage.class);
+                    Intent newActivity = new Intent(Login.this,UploadPage2.class);
                     startActivity(newActivity);
 
                 }
