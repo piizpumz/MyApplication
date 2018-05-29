@@ -1,110 +1,60 @@
 package com.example.macxpiiw.myapplication;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.SyncHttpClient;
 
 import cz.msebera.android.httpclient.Header;
 
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Amphur;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Category;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_D_M_Y_Farming;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_D_M_Y_Survey;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Dew;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_FarmingID;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Farming_ID;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Farming_Status;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_GardenID;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Garden_ID;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Garden_Name;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Garden_Size;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Garden_Status;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Image_ID;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Image_Pic;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Image_Status;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Image_Type;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Incidence;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Latitude;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Level_sea;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Light;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_LocationID;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Location_ID;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Location_Name;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Location_Status;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Longitude;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Moisture;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Moo;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Note;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_PlantID;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Plant_Common_Name;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Plant_ID;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Plant_IDServer;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Point;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Post_Code;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Province;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Rain;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_SamplePoint;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Sample_ID;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Severity;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_SurveyID;
 import static com.example.macxpiiw.myapplication.DBHelper.COL_Survey_ID;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Survey_Status;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Temp;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Time_Survey;
-import static com.example.macxpiiw.myapplication.DBHelper.COL_Tumbon;
 import static com.example.macxpiiw.myapplication.DBHelper.TABLE_farming;
 import static com.example.macxpiiw.myapplication.DBHelper.TABLE_garden_survey;
 import static com.example.macxpiiw.myapplication.DBHelper.TABLE_image;
 import static com.example.macxpiiw.myapplication.DBHelper.TABLE_location_survey;
-import static com.example.macxpiiw.myapplication.DBHelper.TABLE_plant;
 import static com.example.macxpiiw.myapplication.DBHelper.TABLE_survey;
-import static com.loopj.android.http.AsyncHttpClient.log;
 
 public class UploadPage2 extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView ;
@@ -121,6 +71,9 @@ public class UploadPage2 extends AppCompatActivity {
     ProgressDialog loadingDialog;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Button checkAllButton;
+
+
+    private String userid ;
 
 
     DBHelper controller = new DBHelper(this);
@@ -153,7 +106,7 @@ public class UploadPage2 extends AppCompatActivity {
         });
 
 
-
+            userid = getIntent().getStringExtra("USERID");
 
 
         Button butGo = (Button) findViewById(R.id.butGo) ;
@@ -280,6 +233,8 @@ public class UploadPage2 extends AppCompatActivity {
         return true;
 
     }
+
+
 
 
 
@@ -722,20 +677,21 @@ public class UploadPage2 extends AppCompatActivity {
 
     }
 
-    public class loadjson extends AsyncTask<Void, Void, Void> {
+    public class loadjson extends AsyncTask<Void, Void, String> {
 
-        private  String a  ;
-        private  String b ;
+        private String a;
+        private String b;
 
 
-        public loadjson(String province , String garden){
-            this.a = province ;
-            this.b = garden ;
+        public loadjson(String province, String garden) {
+            this.a = province;
+            this.b = garden;
         }
 
 
         private final ProgressDialog dialog = new ProgressDialog(
                 UploadPage2.this);
+
         protected void onPreExecute() {
             this.dialog.setTitle("กำลังอัพโหลดไฟล์");
             this.dialog.setMessage("กรุณารอสักครู่...");
@@ -744,15 +700,83 @@ public class UploadPage2 extends AppCompatActivity {
         }
 
 
+        protected void onPostExecute(String result) {
+
+//            Log.d("debug", String.valueOf(result));
+            if (result == "1") {
+
+                if (this.dialog.isShowing()) {
+                    this.dialog.dismiss();
+
+                    Toast.makeText(getApplicationContext(), "อัพโหลด" + a + " " + b + " สำเร็จ", Toast.LENGTH_LONG).show();
+                }
 
 
+            }
+            if (result == "2") {
 
-        protected void onPostExecute(Void result) {
+                if (this.dialog.isShowing()) {
+                    this.dialog.dismiss();
 
-            Log.d("debug", String.valueOf(result));
+                    Toast.makeText(getApplicationContext(), "อัพโหลด" + a + " " + b + " ไม่สำเร็จ", Toast.LENGTH_LONG).show();
+                }
 
-            if (this.dialog.isShowing()) {
-                this.dialog.dismiss();
+
+            }
+            if (result == "3") {
+
+                if (this.dialog.isShowing()) {
+                    this.dialog.dismiss();
+                }
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(UploadPage2.this);
+                builder.setMessage("อินเตอร์เน็ตหรือเซิฟเวอร์มีปัญหาไม่สามารถเชื่อมต่อได้");
+                builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                        Intent relocation = new Intent(UploadPage2.this, MainActivity.class);
+                        relocation.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        relocation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        UploadPage2.this.startActivity(relocation);
+
+
+                    }
+                });
+
+                builder.create().show();
+
+
+            }
+            if (result == "4") {
+
+                if (this.dialog.isShowing()) {
+                    this.dialog.dismiss();
+
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(UploadPage2.this);
+                    builder.setMessage("อินเตอร์เน็ตหรือเซิฟเวอร์มีปัญหาไม่สามารถเชื่อมต่อได้");
+                    builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+
+                            Intent relocation = new Intent(UploadPage2.this, MainActivity.class);
+                            relocation.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            relocation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            UploadPage2.this.startActivity(relocation);
+
+
+                        }
+                    });
+
+                    builder.create().show();
+
+
+                }
+
+
             }
 
 
@@ -760,7 +784,7 @@ public class UploadPage2 extends AppCompatActivity {
 
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected String doInBackground(Void... voids) {
 //
 //            Handler mainHandler = new Handler(Looper.getMainLooper());
 //            Runnable myRunnable = new Runnable() {
@@ -768,12 +792,26 @@ public class UploadPage2 extends AppCompatActivity {
 //                public void run() {
 
 
+//                }
+//            };
+//            mainHandler.post(myRunnable);
+
+
+            return testaom6();
+        }
+
+
+        public String testaom6() {
+
+
+            final String[] responseString = {""};
+
 
             SyncHttpClient client = new SyncHttpClient();
             RequestParams params = new RequestParams();
 
 
-            params.put("imageJSON", dbHelper.UploadImage(a,b));
+            params.put("imageJSON", dbHelper.UploadImage(a, b, userid));
             Log.d("result", String.valueOf(params));
 
 
@@ -801,18 +839,30 @@ public class UploadPage2 extends AppCompatActivity {
 
                             dbHelper.updateSyncStatusImage(obj.get("id").toString(), obj.get("id2").toString(), obj.get("id3").toString(), obj.get("id4").toString(), obj.get("id5").toString(), obj.get("id6").toString(), obj.get("status").toString());
 
+                            if(obj.get("status").toString()=="1"){
+
+                                responseString[0] = "2";
+
+                            }
+
                         }
 
                         Log.d("aomjson", String.valueOf(jsonObject));
 
 
+
+                        responseString[0] = "1";
+
+
                     } catch (JSONException e) {
                         // TODO Auto-generated catch block
                         try {
-                            Log.d("aomjson", new String(response,"UTF-8"));
+                            Log.d("aomjson", new String(response, "UTF-8"));
                         } catch (UnsupportedEncodingException e1) {
                             e1.printStackTrace();
                         }
+
+                        responseString[0] = "2";
                         e.printStackTrace();
                     }
 
@@ -822,24 +872,21 @@ public class UploadPage2 extends AppCompatActivity {
                 @Override
                 public void onFailure(final int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                     // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-
+                    responseString[0] = "3";
 
                 }
 
                 @Override
                 public void onRetry(int retryNo) {
                     // called when request is retried
+                    responseString[0] = "4";
                 }
 
 
-
             });
-//                }
-//            };
-//            mainHandler.post(myRunnable);
 
 
-            return null;
+            return responseString[0] ;
         }
     }
 

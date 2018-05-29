@@ -55,6 +55,7 @@ public class Login extends AppCompatActivity{
 
     String result = "0";
 
+    String userlogin = "0" ;
 
 
     @Override
@@ -96,6 +97,7 @@ public class Login extends AppCompatActivity{
 
                     Toast.makeText(Login.this, "Login OK  : ADMIN", Toast.LENGTH_SHORT).show();
                     Intent newActivity = new Intent(Login.this,UploadPage.class);
+                    newActivity.putExtra("USERID" , userlogin);
                     startActivity(newActivity);
 
                 }
@@ -103,6 +105,7 @@ public class Login extends AppCompatActivity{
 
                     Toast.makeText(Login.this, "Login OK  : USER", Toast.LENGTH_SHORT).show();
                     Intent newActivity = new Intent(Login.this,UploadPage2.class);
+                    newActivity.putExtra("USERID" , userlogin);
                     startActivity(newActivity);
 
                 }
@@ -138,6 +141,7 @@ public class Login extends AppCompatActivity{
             c = new JSONObject(resultServer);
             status = c.getString("status");
             result = c.getString("result");
+            userlogin = c.getString("UserID");
 
 
         } catch (JSONException e) {
@@ -146,7 +150,7 @@ public class Login extends AppCompatActivity{
 
 
         if(result == "pass" && status == "admin"){
-            Log.e("Log", result+status);
+            Log.e("Log", result+status+userlogin);
 
             return status ;
 
@@ -154,7 +158,7 @@ public class Login extends AppCompatActivity{
 
         }
         else if(result == "pass" && status == "user"){
-            Log.e("Log2", result+status);
+            Log.e("Log2", result+status+userlogin);
             return status ;
 
         }

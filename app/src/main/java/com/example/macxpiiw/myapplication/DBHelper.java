@@ -1682,7 +1682,7 @@ public class DBHelper extends SQLiteOpenHelper {
 //
 //    }
 
-    public String UploadImage(String province , String garden){
+    public String UploadImage(String province , String garden,String userid){
         final ArrayList<HashMap<String, String>> wordList;
         String encoded_string ;
         wordList = new ArrayList<HashMap<String, String>>();
@@ -1752,6 +1752,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 map.put("id_Plant", cursor.getString(44));
                 map.put(COL_Plant_IDServer, cursor.getString(cursor.getColumnIndex(COL_Plant_IDServer)));
                 map.put(COL_Plant_Common_Name, cursor.getString(cursor.getColumnIndex(COL_Plant_Common_Name)));
+                map.put("upload_user",userid) ;
+                map.put("id_disease",cursor.getString(cursor.getColumnIndex(COL_DiseaseID))) ;
 
 
                 wordList.add(map);
