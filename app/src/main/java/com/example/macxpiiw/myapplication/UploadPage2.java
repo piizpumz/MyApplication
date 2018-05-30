@@ -73,7 +73,7 @@ public class UploadPage2 extends AppCompatActivity {
     private Button checkAllButton;
 
 
-    private String userid ;
+    private String userlogin ;
 
 
     DBHelper controller = new DBHelper(this);
@@ -106,7 +106,7 @@ public class UploadPage2 extends AppCompatActivity {
         });
 
 
-            userid = getIntent().getStringExtra("USERID");
+        userlogin = getIntent().getStringExtra("USERID");
 
 
         Button butGo = (Button) findViewById(R.id.butGo) ;
@@ -811,7 +811,7 @@ public class UploadPage2 extends AppCompatActivity {
             RequestParams params = new RequestParams();
 
 
-            params.put("imageJSON", dbHelper.UploadImage(a, b, userid));
+            params.put("imageJSON", dbHelper.UploadImage(a, b, userlogin));
             Log.d("result", String.valueOf(params));
 
 

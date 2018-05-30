@@ -1,25 +1,17 @@
 package com.example.macxpiiw.myapplication;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,11 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
-import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpEntity;
 import cz.msebera.android.httpclient.HttpResponse;
 import cz.msebera.android.httpclient.NameValuePair;
@@ -56,6 +45,8 @@ public class Login extends AppCompatActivity{
     String result = "0";
 
     String userlogin = "0" ;
+
+    String userid = "0" ;
 
 
     @Override
@@ -89,31 +80,31 @@ public class Login extends AppCompatActivity{
             public void onClick(View v) {
                 String userid= user.getText().toString().trim();
                 String password = pass.getText().toString().trim();
-                String goUpload = checkLogin(userid,password)  ;
+                new checklogin(userid,password).execute()  ;
 
-                Log.e("login", "..."+goUpload+"...");
-
-                if(goUpload.equals("admin")){
-
-                    Toast.makeText(Login.this, "Login OK  : ADMIN", Toast.LENGTH_SHORT).show();
-                    Intent newActivity = new Intent(Login.this,UploadPage.class);
-                    newActivity.putExtra("USERID" , userlogin);
-                    startActivity(newActivity);
-
-                }
-                else if(goUpload.equals("user")){
-
-                    Toast.makeText(Login.this, "Login OK  : USER", Toast.LENGTH_SHORT).show();
-                    Intent newActivity = new Intent(Login.this,UploadPage2.class);
-                    newActivity.putExtra("USERID" , userlogin);
-                    startActivity(newActivity);
-
-                }
-                else{
-
-                    Toast.makeText(Login.this, "กรอกรหัสผ่านผิดผลาด ", Toast.LENGTH_SHORT).show();
-
-                }
+//                Log.e("login", "..."+goUpload+"...");
+//
+//                if(goUpload.equals("admin")){
+//
+//                    Toast.makeText(Login.this, "Login OK  : ADMIN", Toast.LENGTH_SHORT).show();
+//                    Intent newActivity = new Intent(Login.this,UploadPage.class);
+//                    newActivity.putExtra("USERID" , userlogin);
+//                    startActivity(newActivity);
+//
+//                }
+//                else if(goUpload.equals("user")){
+//
+//                    Toast.makeText(Login.this, "Login OK  : USER", Toast.LENGTH_SHORT).show();
+//                    Intent newActivity = new Intent(Login.this,UploadPage2.class);
+//                    newActivity.putExtra("USERID" , userlogin);
+//                    startActivity(newActivity);
+//
+//                }
+//                else{
+//
+//                    Toast.makeText(Login.this, "กรอกรหัสผ่านผิดผลาด ", Toast.LENGTH_SHORT).show();
+//
+//                }
             }
         });
     }
@@ -141,7 +132,8 @@ public class Login extends AppCompatActivity{
             c = new JSONObject(resultServer);
             status = c.getString("status");
             result = c.getString("result");
-            userlogin = c.getString("UserID");
+            userid = c.getString("UserID") ;
+            userlogin = c.getString("Username");
 
 
         } catch (JSONException e) {
@@ -162,6 +154,12 @@ public class Login extends AppCompatActivity{
             return status ;
 
         }
+
+        else if(result == "pass" && status == "guest") {
+            Log.e("Log2", result + status + userlogin);
+            return status;
+        }
+
         else {
             Log.e("Log3", result+status);
 
@@ -225,6 +223,91 @@ public class Login extends AppCompatActivity{
         }
 
         return str.toString();
+
+    }
+
+
+    public class checklogin extends AsyncTask<Void, Integer, String> {
+
+        private final ProgressDialog dialog = new ProgressDialog(
+                Login.this);
+
+        String userid ;
+        String password ;
+
+        public checklogin(String userid, String password) {
+
+            this.userid = userid ;
+            this.password = password ;
+
+        }
+
+
+        protected void onPreExecute() {
+            this.dialog.setTitle("กำลังเข้าสู่ระบบ");
+            this.dialog.setMessage("กรุณารอสักครู่...");
+            this.dialog.setCancelable(false);
+            this.dialog.show();
+        }
+
+
+
+
+
+        protected void onPostExecute(String result) {
+
+            Log.d("debug", String.valueOf(result));
+            if (this.dialog.isShowing()) {
+                this.dialog.dismiss();
+            }
+
+            if(result.equals("admin")||result.equals("user")){
+
+                Toast.makeText(Login.this, "Login OK  : "+result, Toast.LENGTH_SHORT).show();
+                Intent newActivity = new Intent(Login.this,UploadPage.class);
+                newActivity.putExtra("USERID" , userlogin);
+                startActivity(newActivity);
+
+            }
+            else if(result.equals("guest")){
+
+                Toast.makeText(Login.this, "Login OK  : "+result, Toast.LENGTH_SHORT).show();
+                Intent newActivity = new Intent(Login.this,UploadPage2.class);
+                newActivity.putExtra("USERID" , userlogin);
+                startActivity(newActivity);
+
+            }
+            else if(result.equals("fail")){
+
+                Toast.makeText(Login.this, "กรอกรหัสผ่านผิดพลาด ", Toast.LENGTH_SHORT).show();
+
+            }
+            else{
+                Toast.makeText(Login.this, "เกิดความผิดพลาด กรุณาลองใหม่ ", Toast.LENGTH_SHORT).show();
+
+            }
+
+
+
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            Log.d("test",String.valueOf(values[0]));
+            super.onProgressUpdate(values);
+            Log.d("test",String.valueOf(values[0]));
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+
+
+            return checkLogin(userid,password);
+        }
+
+
+
 
     }
 

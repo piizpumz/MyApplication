@@ -114,26 +114,29 @@ public class DownloadPlantPage extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                AlertDialog.Builder builder =  new AlertDialog.Builder(DownloadPlantPage.this);
-                builder.setTitle( "ดาวน์โหลดพันธุ์ข้าวสำเร็จ");
-                builder.setMessage("ท่านต้องการไปที่หน้าแปลงสำรวจหรือไหม");
-                builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        goBackHome();
-                        dialog.dismiss();
 
-                    }
-                });
+                if(items.size()!=0) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(DownloadPlantPage.this);
+                    builder.setTitle("ดาวน์โหลดพันธุ์ข้าวสำเร็จ");
+                    builder.setMessage("ท่านต้องการไปที่หน้าแปลงสำรวจหรือไหม");
+                    builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            goBackHome();
+                            dialog.dismiss();
 
-                builder.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+                        }
+                    });
 
-                    }
-                });
-                builder.create().show();
+                    builder.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+
+                        }
+                    });
+                    builder.create().show();
+                }
 
             }
         });
