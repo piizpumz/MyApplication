@@ -147,10 +147,6 @@ public class UploadPage extends AppCompatActivity {
 //                    Log.d("checklog2", String.valueOf(listView.getItemAtPosition(i)));
 //                }
 
-
-
-
-
             }
         });
 

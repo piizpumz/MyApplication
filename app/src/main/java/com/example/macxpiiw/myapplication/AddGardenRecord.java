@@ -88,13 +88,15 @@ public class AddGardenRecord extends AppCompatActivity {
         btn_PickLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ActivityCompat.checkSelfPermission(AddGardenRecord.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
-                    return;
-                }
 
-                client.getLastLocation().addOnSuccessListener(AddGardenRecord.this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
+
+                    if (ActivityCompat.checkSelfPermission(AddGardenRecord.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
+                        return;
+                    }
+                try{
+                    client.getLastLocation().addOnSuccessListener(AddGardenRecord.this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
 
                             Double lo = location.getLongitude();
                             Double la = location.getLatitude();
@@ -103,19 +105,15 @@ public class AddGardenRecord extends AppCompatActivity {
 
                             mLatitudeEditText.setText(x);
                             mLongitudeEditText.setText(y);
-
-                            Log.d("TestGPS" , "ค่าLatitude" + lo );
-                            Log.d("TestGPS" , "ค่าLatitude" + la );
-                        if(location != null) {
-                            Log.d("TestGPS", "ค่าLatitude" + location.toString());
                         }
+                    });
 
-                        else {
-                            Log.d("TestGPS", "ไม่เข้า");
-                        }
+                }catch (Exception e){
+                    Toast.makeText(AddGardenRecord.this , "กรุณาเปิด GPS ในเครื่องของคุณ" , Toast.LENGTH_SHORT).show();
+                }
 
-                    }
-                });
+
+
 
             }
         });
