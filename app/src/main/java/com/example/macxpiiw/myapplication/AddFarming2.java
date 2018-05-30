@@ -190,14 +190,18 @@ public class AddFarming2 extends AppCompatActivity {
         }
     }
 
-    private void addplant(){
+    private void addplant() {
         String addplant = editText_plant.getText().toString().trim();
-        dbHelper = new DBHelper(this);
-        dbHelper.saveNewPlant(addplant);
-        ArrayList<String> listplant = dbHelper.getallPlant();
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this,R.layout.spinner_for_plantname,R.id.for_PlanName , listplant);
-        mPlantSpinner.setAdapter(adapter1);
+        if (addplant.isEmpty()) {
+            Toast.makeText(this, "กรุณาลองใหม่", Toast.LENGTH_SHORT).show();
+        } else {
+            dbHelper = new DBHelper(this);
+            dbHelper.saveNewPlant(addplant);
+            ArrayList<String> listplant = dbHelper.getallPlant();
+            ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, R.layout.spinner_for_plantname, R.id.for_PlanName, listplant);
+            mPlantSpinner.setAdapter(adapter1);
 
+        }
     }
 
 
