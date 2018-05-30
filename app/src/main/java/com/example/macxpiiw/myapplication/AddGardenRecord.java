@@ -93,24 +93,26 @@ public class AddGardenRecord extends AppCompatActivity {
                     if (ActivityCompat.checkSelfPermission(AddGardenRecord.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
                         return;
                     }
-                try{
+
                     client.getLastLocation().addOnSuccessListener(AddGardenRecord.this, new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
 
-                            Double lo = location.getLongitude();
-                            Double la = location.getLatitude();
-                            String x =la.toString();
-                            String y =lo.toString();
+                            if(location != null) {
+                                Double lo = location.getLongitude();
+                                Double la = location.getLatitude();
+                                String x = la.toString();
+                                String y = lo.toString();
 
-                            mLatitudeEditText.setText(x);
-                            mLongitudeEditText.setText(y);
+                                mLatitudeEditText.setText(x);
+                                mLongitudeEditText.setText(y);
+                            }
+                            else{
+                                Toast.makeText(AddGardenRecord.this , "กรุณาเปิด Location ในเครื่องของคุณ" , Toast.LENGTH_LONG).show();
+                            }
                         }
                     });
 
-                }catch (Exception e){
-                    Toast.makeText(AddGardenRecord.this , "กรุณาเปิด GPS ในเครื่องของคุณ" , Toast.LENGTH_SHORT).show();
-                }
 
 
 
