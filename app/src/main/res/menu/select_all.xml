@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/select_all"
-        android:title="SELECTALL"
+        android:title="เลือกทั้งหมด"
         app:showAsAction="always"/>
 
 </menu>

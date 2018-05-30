@@ -85,22 +85,17 @@ public class AddGarden2 extends AppCompatActivity {
                     @Override
                     public void onSuccess(Location location) {
 
-                        Double lo = location.getLongitude();
-                        Double la = location.getLatitude();
-                        String x =la.toString();
-                        String y =lo.toString();
-
-                        mLatitudeEditText.setText(x);
-                        mLongitudeEditText.setText(y);
-
-                        Log.d("TestGPS" , "ค่าLatitude" + lo );
-                        Log.d("TestGPS" , "ค่าLatitude" + la );
                         if(location != null) {
-                            Log.d("TestGPS", "ค่าLatitude" + location.toString());
-                        }
+                            Double lo = location.getLongitude();
+                            Double la = location.getLatitude();
+                            String x = la.toString();
+                            String y = lo.toString();
 
-                        else {
-                            Log.d("TestGPS", "ไม่เข้า");
+                            mLatitudeEditText.setText(x);
+                            mLongitudeEditText.setText(y);
+                        }
+                        else{
+                            Toast.makeText(AddGarden2.this , "กรุณาเปิด google map ในเครื่องของคุณ" , Toast.LENGTH_LONG).show();
                         }
 
                     }

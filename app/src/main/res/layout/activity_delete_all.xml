@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:design="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="10dp"
+    tools:context="com.example.macxpiiw.myapplication.DeleteAll">
+
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#D3D3D3"
+        design:menu="@menu/menu_navigation" />
+
+
+    <Button
+        android:padding="10dp"
+        android:background="#DC143C"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/delete_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ลบข้อมูลทั้งหมด"
+        android:textSize="24dp"
+        tools:layout_editor_absoluteX="132dp"
+        tools:layout_editor_absoluteY="231dp" />
+
+</RelativeLayout>

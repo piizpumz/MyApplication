@@ -7,10 +7,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:largeHeap="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -88,16 +88,16 @@
             android:name=".DownloadLocationPage"
             android:parentActivityName=".DownloadPage" />
         <activity android:name=".FilePage" />
-
-        <activity android:name=".Login"
-            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".Login"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".AddGarden2"
             android:parentActivityName=".FarmPage" />
         <activity
             android:name=".AddFarming2"
-            android:parentActivityName=".FarmPage"/>
-
+            android:parentActivityName=".FarmPage" />
+        <activity android:name=".DeleteAll"></activity>
     </application>
 
 </manifest>

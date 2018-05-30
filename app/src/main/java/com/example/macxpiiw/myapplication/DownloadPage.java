@@ -9,9 +9,10 @@ import android.support.v7.widget.CardView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 public class DownloadPage extends AppCompatActivity implements View.OnClickListener {
-    private CardView todownload_plant, todownload_location;
+    private CardView todownload_plant, todownload_location ,todelete;
     private BottomNavigationView bottomNavigationView ;
 
     private  MySQLConnect mySQLConnect ;
@@ -26,9 +27,11 @@ public class DownloadPage extends AppCompatActivity implements View.OnClickListe
 
         todownload_plant = (CardView) findViewById(R.id.to_download_plant);
         todownload_location = (CardView) findViewById(R.id.to_download_location);
+        todelete = (CardView) findViewById(R.id.to_delete);
 
         todownload_plant.setOnClickListener(this);
         todownload_location.setOnClickListener(this);
+        todelete.setOnClickListener(this);
 
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
@@ -84,6 +87,9 @@ public class DownloadPage extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.to_download_location:
                 i = new Intent(this, DownloadLocationPage.class);startActivity(i);
+                break;
+            case R.id.to_delete:
+                i = new Intent(this , DeleteAll.class );startActivity(i);
                 break;
 
         }

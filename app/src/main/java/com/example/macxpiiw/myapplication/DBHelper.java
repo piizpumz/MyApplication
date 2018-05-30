@@ -823,7 +823,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void saveNewImage(Image image) {
 
-        for(int aom = 0 ; aom <15 ; aom++) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         byte[] x = image.getImage();
@@ -849,7 +848,7 @@ public class DBHelper extends SQLiteOpenHelper {
             db.insert(TABLE_image, null, values);
             db.close();
         }
-    }
+
 
     public Cursor getData(String sql){
         SQLiteDatabase db = getReadableDatabase();
@@ -1893,6 +1892,17 @@ public class DBHelper extends SQLiteOpenHelper {
         return Count;
     }
 
+    public void Delete_All(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        db.execSQL("DELETE FROM "+TABLE_location_survey);
+        db.execSQL("DELETE FROM "+TABLE_garden_survey);
+        db.execSQL("DELETE FROM "+TABLE_farming);
+        db.execSQL("DELETE FROM "+TABLE_survey);
+        db.execSQL("DELETE FROM "+TABLE_image);
+        db.execSQL("DELETE FROM "+TABLE_plant);
+
+    }
 
 
 

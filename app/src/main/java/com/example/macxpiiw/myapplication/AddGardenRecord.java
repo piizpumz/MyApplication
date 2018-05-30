@@ -108,7 +108,7 @@ public class AddGardenRecord extends AppCompatActivity {
                                 mLongitudeEditText.setText(y);
                             }
                             else{
-                                Toast.makeText(AddGardenRecord.this , "กรุณาเปิด Location ในเครื่องของคุณ" , Toast.LENGTH_LONG).show();
+                                Toast.makeText(AddGardenRecord.this , "กรุณาเปิด google map ในเครื่องของคุณ" , Toast.LENGTH_LONG).show();
                             }
                         }
                     });
