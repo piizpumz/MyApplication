@@ -185,72 +185,72 @@ public class GardenAdapter extends RecyclerView.Adapter<GardenAdapter.ViewHolder
 
 
 
-        holder.layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Dialog dialog = new Dialog(mContext);
-//                dialog.setTitle("แปลง : " + garden.getGarden_name());
-                dialog.setContentView(R.layout.custom_dialog_garden);
-                dialog.setCancelable(true);
-                TextView DialogOption0 = (TextView) dialog.findViewById(R.id.option0);
-                Button DialogOption1 = (Button) dialog.findViewById(R.id.option1);
-                Button DialogOption2 = (Button) dialog.findViewById(R.id.option2);
-                Button DialogOption3 = (Button) dialog.findViewById(R.id.option3);
-
-
-                DialogOption0.setText("แปลง : " + garden.getGarden_name());
-
-                DialogOption1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        goToAddFarming(garden.getId());
-                        dialog.dismiss();
-                    }
-                });
-
-                DialogOption2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        gotoUpdateGarden(garden.getId());
-                        dialog.dismiss();
-                    }
-                });
-
-                DialogOption3.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        final AlertDialog.Builder builder =  new AlertDialog.Builder(mContext);
-                        builder.setTitle("ยืนยันการลบ");
-                        builder.setMessage("ท่าแแน่ใจที่จะลบแปลงนี้หรือไม่ ?");
-
-                        builder.setPositiveButton("ยกเลิก", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-
-                        builder.setNegativeButton("ยืนยน", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                DBHelper dbHelper = new DBHelper(mContext);
-                                dbHelper.deleteGardenRecord(garden.getId(),mContext);
-                                mGardenList.remove(position);
-                                mRecyclerV.removeViewAt(position);
-                                notifyItemRemoved(position);
-                                notifyItemRangeChanged(position, mGardenList.size());
-                                notifyDataSetChanged();
-                                dialog.dismiss();
-                            }
-                        });
-                        builder.create().show();
-                        dialog.dismiss();
-                    }
-                });
-
-                dialog.show();
-            }
-        });
+//        holder.layout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                final Dialog dialog = new Dialog(mContext);
+////                dialog.setTitle("แปลง : " + garden.getGarden_name());
+//                dialog.setContentView(R.layout.custom_dialog_garden);
+//                dialog.setCancelable(true);
+//                TextView DialogOption0 = (TextView) dialog.findViewById(R.id.option0);
+//                Button DialogOption1 = (Button) dialog.findViewById(R.id.option1);
+//                Button DialogOption2 = (Button) dialog.findViewById(R.id.option2);
+//                Button DialogOption3 = (Button) dialog.findViewById(R.id.option3);
+//
+//
+//                DialogOption0.setText("แปลง : " + garden.getGarden_name());
+//
+//                DialogOption1.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        goToAddFarming(garden.getId());
+//                        dialog.dismiss();
+//                    }
+//                });
+//
+//                DialogOption2.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        gotoUpdateGarden(garden.getId());
+//                        dialog.dismiss();
+//                    }
+//                });
+//
+//                DialogOption3.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        final AlertDialog.Builder builder =  new AlertDialog.Builder(mContext);
+//                        builder.setTitle("ยืนยันการลบ");
+//                        builder.setMessage("ท่าแแน่ใจที่จะลบแปลงนี้หรือไม่ ?");
+//
+//                        builder.setPositiveButton("ยกเลิก", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                            }
+//                        });
+//
+//                        builder.setNegativeButton("ยืนยน", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                DBHelper dbHelper = new DBHelper(mContext);
+//                                dbHelper.deleteGardenRecord(garden.getId(),mContext);
+//                                mGardenList.remove(position);
+//                                mRecyclerV.removeViewAt(position);
+//                                notifyItemRemoved(position);
+//                                notifyItemRangeChanged(position, mGardenList.size());
+//                                notifyDataSetChanged();
+//                                dialog.dismiss();
+//                            }
+//                        });
+//                        builder.create().show();
+//                        dialog.dismiss();
+//                    }
+//                });
+//
+//                dialog.show();
+//            }
+//        });
 
 
     }
