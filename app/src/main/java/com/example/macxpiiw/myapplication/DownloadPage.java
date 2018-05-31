@@ -58,7 +58,7 @@ public class DownloadPage extends AppCompatActivity implements View.OnClickListe
                     startActivity(intent3);
 
                 } else if (item.getItemId() == R.id.download_menu){
-                    Intent intent4 = new Intent(DownloadPage.this , DownloadPage.class);
+                    Intent intent4 = new Intent(DownloadPage.this , Login2.class);
                     intent4.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent4);
 

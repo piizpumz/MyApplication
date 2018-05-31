@@ -217,7 +217,7 @@ public class DownloadLocationPage extends AppCompatActivity {
                     startActivity(intent1);
 
                 } else if (item.getItemId() == R.id.download_menu){
-                    Intent intent1 = new Intent(DownloadLocationPage.this , DownloadPage.class);
+                    Intent intent1 = new Intent(DownloadLocationPage.this , Login2.class);
                     intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent1);
 

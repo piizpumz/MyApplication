@@ -75,7 +75,7 @@ public class ImagePage extends AppCompatActivity {
                     startActivity(intent3);
 
                 } else if (item.getItemId() == R.id.download_menu){
-                    Intent intent4 = new Intent(ImagePage.this , DownloadPage.class);
+                    Intent intent4 = new Intent(ImagePage.this , Login2.class);
                     intent4.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent4);
 

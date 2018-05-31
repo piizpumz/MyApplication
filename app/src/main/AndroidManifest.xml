@@ -97,7 +97,8 @@
         <activity
             android:name=".AddFarming2"
             android:parentActivityName=".FarmPage" />
-        <activity android:name=".DeleteAll"></activity>
+        <activity android:name=".DeleteAll" />
+        <activity android:name=".Login2"></activity>
     </application>
 
 </manifest>
