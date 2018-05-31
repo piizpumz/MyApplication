@@ -822,31 +822,30 @@ public class DBHelper extends SQLiteOpenHelper {
     //start Image
 
     public void saveNewImage(Image image) {
+for(int aom = 0 ;aom < 15 ; aom++ ) {
 
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        byte[] x = image.getImage();
-
-
-
-        Bitmap bmp = BitmapFactory.decodeByteArray(x, 0, x.length);
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 1;
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+    SQLiteDatabase db = this.getWritableDatabase();
+    ContentValues values = new ContentValues();
+    byte[] x = image.getImage();
 
 
+    Bitmap bmp = BitmapFactory.decodeByteArray(x, 0, x.length);
+    BitmapFactory.Options options = new BitmapFactory.Options();
+    options.inSampleSize = 1;
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    bmp.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
 
 
-            values.put(COL_SurveyID, image.getSurveyID());
-            values.put(COL_Sample_ID, image.getSampleID());
-            values.put(COL_Image_Type, image.getType());
-            values.put(COL_Note, image.getNote());
-            values.put(COL_Image_Pic, x);
-            values.put(COL_DiseaseID, image.getDisease());
-            values.put(COL_Image_Status, "1");
-            db.insert(TABLE_image, null, values);
-            db.close();
+    values.put(COL_SurveyID, image.getSurveyID());
+    values.put(COL_Sample_ID, image.getSampleID());
+    values.put(COL_Image_Type, image.getType());
+    values.put(COL_Note, image.getNote());
+    values.put(COL_Image_Pic, x);
+    values.put(COL_DiseaseID, image.getDisease());
+    values.put(COL_Image_Status, "1");
+    db.insert(TABLE_image, null, values);
+    db.close();
+}
         }
 
 

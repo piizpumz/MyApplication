@@ -127,10 +127,10 @@ public class UploadPage2 extends AppCompatActivity {
                     Log.d("checkItem2:", String.valueOf(listAdapter.getChild(i,i2))) ;
 
                     String dataprovince = String.valueOf(listAdapter.getGroup(i)) ;
-                    String[] dataprovince2 = dataprovince.split(" ") ;
+                    String[] dataprovince2 = dataprovince.split(":") ;
 
                     String datagarden = String.valueOf(listAdapter.getChild(i,i2)) ;
-                    String[] datagarden2 = datagarden.split(" ") ;
+                    String[] datagarden2 = datagarden.split(":") ;
 
 
 
@@ -597,7 +597,7 @@ public class UploadPage2 extends AppCompatActivity {
 
 
 
-                listDataHeader.add(cursor.getString(cursor.getColumnIndex(COL_Province))+" (ยังไม่ได้อัพโหลด "+cursor4.getCount()+" รูป)");
+                listDataHeader.add(cursor.getString(cursor.getColumnIndex(COL_Province))+":(ยังไม่ได้อัพโหลด "+cursor4.getCount()+" รูป)");
 
 
 //                String selectQuery2 = "SELECT * FROM " + TABLE_location_survey + " where " + COL_Province + " = '"+cursor.getString(cursor.getColumnIndex(COL_Province))+"' AND "+dbHelper.COL_Location_Status+ "= '1' group by "+dbHelper.COL_Amphur;
@@ -659,7 +659,7 @@ public class UploadPage2 extends AppCompatActivity {
                 List<String> result = new ArrayList<String>() ;
                 for(int i = 0 ;  i < amphur.size(); i++){
 
-                    result.add(amphur.get(i)+" ("+count2.get(i)+")") ;
+                    result.add(amphur.get(i)+":("+count2.get(i)+")") ;
 
                 }
 

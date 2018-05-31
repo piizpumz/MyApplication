@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                i = new Intent(this, ImagePage.class);startActivity(i);
 //                break;
             case R.id.download_card:
-                i = new Intent(this, DownloadPage.class);startActivity(i);
+                i = new Intent(this, Login2.class);startActivity(i);
                 break;
             case R.id.upload_card:
                 i = new Intent(this, Login.class);startActivity(i);

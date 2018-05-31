@@ -102,7 +102,7 @@ public class FarmingAdapter extends RecyclerView.Adapter<FarmingAdapter.ViewHold
 
         holder.farmingFarmingIDTxtV.setText("การเพาะปลูกที่ : " + farming.getId() + " (" + Count + " การสำรวจ)");
         holder.farmingDMY_FarmingTxtV.setText("วันที่เพาะปลูก : " + farming.getD_m_y_farming());
-        holder.farmingGardenIDTxtV.setText("ชื่อเกษตรกร : " + NameGarden + "(หมู้บ้าน:" + NameLocation + ")");
+        holder.farmingGardenIDTxtV.setText("ชื่อเกษตรกร : " + NameGarden + "(หมู่บ้าน:" + NameLocation + ")");
         holder.farmingPlantIDTxtV.setText("พันธุ์ข้าวที่ปลูก : " + NamePlant);
 
 
