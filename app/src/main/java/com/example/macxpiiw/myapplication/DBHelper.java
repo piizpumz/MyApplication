@@ -822,7 +822,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //start Image
 
     public void saveNewImage(Image image) {
-for(int aom = 0 ;aom < 15 ; aom++ ) {
+
 
     SQLiteDatabase db = this.getWritableDatabase();
     ContentValues values = new ContentValues();
@@ -845,7 +845,7 @@ for(int aom = 0 ;aom < 15 ; aom++ ) {
     values.put(COL_Image_Status, "1");
     db.insert(TABLE_image, null, values);
     db.close();
-}
+
         }
 
 
