@@ -138,8 +138,15 @@ public class AddGarden2 extends AppCompatActivity {
 
         if (Empty) {
             Garden garden = new Garden(garden_name, longitude, latitude, level_sea, garden_size, location , status);
-            dbHelper.saveNewGarden2(garden);
-            finish();
+
+            Boolean check = dbHelper.cheak_garden(garden);
+            if(check) {
+                dbHelper.saveNewGarden2(garden);
+                finish();
+            }
+            else {
+                Toast.makeText(this, "มีแปลงนี้อยู่แล้ว", Toast.LENGTH_SHORT).show();
+            }
 //            goBackHome();
         }
     }

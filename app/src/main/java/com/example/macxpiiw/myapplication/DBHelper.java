@@ -235,17 +235,15 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(COL_Location_Name , location.getLocation_name());
-        values.put(COL_Moo , location.getMoo());
-        values.put(COL_Tumbon , location.getTumbon());
-        values.put(COL_Amphur , location.getAmphur());
-        values.put(COL_Province , location.getProvince());
-        values.put(COL_Post_Code , location.getPost_code());
-        values.put(COL_Location_Status , "1");
-
-
-        db.insert(TABLE_location_survey,null, values);
-        db.close();
+            values.put(COL_Location_Name, location.getLocation_name());
+            values.put(COL_Moo, location.getMoo());
+            values.put(COL_Tumbon, location.getTumbon());
+            values.put(COL_Amphur, location.getAmphur());
+            values.put(COL_Province, location.getProvince());
+            values.put(COL_Post_Code, location.getPost_code());
+            values.put(COL_Location_Status, "1");
+            db.insert(TABLE_location_survey, null, values);
+            db.close();
     }
 
     public List<Location> locationList(String filter) {
@@ -1901,6 +1899,142 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DELETE FROM "+TABLE_image);
         db.execSQL("DELETE FROM "+TABLE_plant);
 
+    }
+
+
+
+
+
+    public boolean cheak_location(Location location) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+
+        Boolean Check = true;
+        String name = "";
+        String tumbon = "";
+        String query = "SELECT * FROM " + TABLE_location_survey;
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                name = cursor.getString(cursor.getColumnIndex(COL_Location_Name));
+                tumbon = cursor.getString(cursor.getColumnIndex(COL_Tumbon));
+
+                if (location.getLocation_name().equals(name)) {
+                    if (location.getTumbon().equals(tumbon)) {
+                        Check = false;
+                    }
+                }
+
+            }
+
+        }
+        return Check;
+    }
+
+    public boolean cheak_garden(Garden garden){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+
+        Boolean Check = true;
+        String name = "";
+        String Latitude = "";
+        String Longitude = "";
+        String query = "SELECT * FROM " + TABLE_garden_survey;
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                name = cursor.getString(cursor.getColumnIndex(COL_Garden_Name));
+                Latitude = cursor.getString(cursor.getColumnIndex(COL_Latitude));
+                Longitude = cursor.getString(cursor.getColumnIndex(COL_Longitude));
+
+                if (garden.getGarden_name().equals(name)) {
+                    if (garden.getLatitude().equals(Latitude)) {
+                        if (garden.getLongitude().equals(Longitude)){
+                            Check = false;
+                        }
+                    }
+                }
+
+            }
+
+        }
+        return Check;
+    }
+
+    public boolean cheak_farming(Farming farming){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+
+        Boolean Check = true;
+        String name = "";
+        String date = "";
+        String query = "SELECT * FROM " + TABLE_farming;
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                name = cursor.getString(cursor.getColumnIndex(COL_GardenID));
+                date = cursor.getString(cursor.getColumnIndex(COL_D_M_Y_Farming));
+
+
+                if (String.valueOf(farming.getGardenid()).equals(name)) {
+                    if (farming.getD_m_y_farming().equals(date)) {
+                            Check = false;
+
+                    }
+                }
+
+            }
+
+        }
+        return Check;
+    }
+
+    public boolean cheak_survey(Survey survey){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+
+        Boolean Check = true;
+        String farming = "";
+        String time = "";
+        String date = "";
+        String query = "SELECT * FROM " + TABLE_survey;
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                farming = cursor.getString(cursor.getColumnIndex(COL_FarmingID));
+                time = cursor.getString(cursor.getColumnIndex(COL_Time_Survey));
+                date = cursor.getString(cursor.getColumnIndex(COL_D_M_Y_Survey));
+                Log.d("lookid farming" , farming);
+                Log.d("lookid time" , time);
+                Log.d("lookid date" , date);
+
+                Log.d("555" , String.valueOf(survey.getFarmingID()));
+
+
+
+                if (String.valueOf(survey.getFarmingID()).equals(farming)) {
+                    Log.d("Log1" , "x");
+                    if (survey.getTime_survey().equals(time)) {
+                        Log.d("Log2" ,"ewewew");
+                        if (survey.getD_m_y_survey().equals(date)){
+                            Log.d("Log3" ,"eee");
+                                    Check = false;
+                        }
+                    }
+                }
+
+            }
+
+        }
+        return Check;
     }
 
 

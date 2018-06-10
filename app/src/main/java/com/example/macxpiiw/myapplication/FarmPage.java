@@ -29,7 +29,7 @@ public class FarmPage extends AppCompatActivity /*implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farm_page);
-        getSupportActionBar().setTitle("แปลงสำรวจ");
+        getSupportActionBar().setTitle("แปลงสำรวจพื้นฐาน");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 

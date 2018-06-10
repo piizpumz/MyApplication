@@ -184,8 +184,15 @@ public class AddFarming2 extends AppCompatActivity {
 
 
             Farming farming = new Farming(dateeee, gardenid, plantid , status);
-            dbHelper.saveNewFarming2(farming);
-            finish();
+
+            Boolean check = dbHelper.cheak_farming(farming);
+            if (check) {
+                dbHelper.saveNewFarming2(farming);
+                finish();
+            }
+            else {
+                Toast.makeText(this, "มีเพาะปลูกนี้อยู่แล้ว", Toast.LENGTH_SHORT).show();
+            }
 //            goBackHome();
         }
     }

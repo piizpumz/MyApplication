@@ -179,16 +179,21 @@ public class AddFarmingRecord extends AppCompatActivity {
 
 
         if (Empty) {
-
             String[] Date = d_m_y_farming.split("-");
             String dateeee = Date[2] + "-"+Date[1]+"-"+Date[0];
             String[] name = gardenid.split(",");
             String status = null ;
 
-
             Farming farming = new Farming(dateeee, name[0], plantid , status);
-            dbHelper.saveNewFarming(farming);
-            finish();
+
+            Boolean check = dbHelper.cheak_farming(farming);
+            if (check) {
+                dbHelper.saveNewFarming(farming);
+                finish();
+            }
+            else {
+                Toast.makeText(this, "มีเพาะปลูกนี้อยู่แล้ว", Toast.LENGTH_SHORT).show();
+            }
 //            goBackHome();
         }
     }

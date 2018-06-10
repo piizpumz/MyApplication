@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -102,9 +103,16 @@ public class AddSurveyRecord extends AppCompatActivity {
         dbHelper = new DBHelper(this);
 
         Survey survey = new Survey(d_m_y_survey , time_survey , temp , moisture , rain , light , dew , category , sample_point ,point ,farmingID , incidence , severity , status);
-        dbHelper.saveNewSurvey(survey);
-        finish();
-        goBackHome();
+
+        Boolean check = dbHelper.cheak_survey(survey);
+        if(check){
+            dbHelper.saveNewSurvey(survey);
+            finish();
+            goBackHome();
+        }
+        else {
+            Toast.makeText(this, "มีการสำรวจนี้อยู่แล้ว", Toast.LENGTH_SHORT).show();
+        }
     }
     private void goBackHome(){
         startActivity(new Intent(AddSurveyRecord.this, SurveyPage.class));
