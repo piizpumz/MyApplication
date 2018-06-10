@@ -22,33 +22,6 @@
             android:layout_height="wrap_content">
 
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/home_card"
-                android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:layout_margin="10dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center">
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:background="@drawable/cerclebackgroundpink"
-                        android:src="@drawable/ic_error_outline_black_24dp"
-                        android:padding="10dp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:layout_marginTop="10dp"
-                        android:text="แนะนำการใช้(ควรอ่าน)"/>
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -76,7 +49,7 @@
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:layout_marginTop="10dp"
-                            android:text="แปลงสำรวจ"/>
+                            android:text="แปลงสำรวจพื้นฐาน"/>
 
                     </LinearLayout>
 
@@ -175,9 +148,36 @@
 
                 </android.support.v7.widget.CardView>
 
+
+
             </LinearLayout>
 
+            <android.support.v7.widget.CardView
+                android:id="@+id/home_card"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_margin="10dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:background="@drawable/cerclebackgroundpink"
+                        android:src="@drawable/ic_error_outline_black_24dp"
+                        android:padding="10dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"
+                        android:text="แนะนำการใช้(ควรอ่าน)"/>
 
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
 
 
 
