@@ -184,6 +184,57 @@ public class GardenAdapter extends RecyclerView.Adapter<GardenAdapter.ViewHolder
         });
 
 
+        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setMessage("ต้องการจะลบหรือแก้ไข รูปภาพ?");
+                builder.setPositiveButton("ลบ", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        final AlertDialog.Builder builder =  new AlertDialog.Builder(mContext);
+                        builder.setTitle("ยืนยันการลบ");
+                        builder.setMessage("ท่าแแน่ใจที่จะลบแปลง " +garden.getGarden_name()+ " หรือไม่ ?");
+
+                        builder.setPositiveButton("ยกเลิก", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        builder.setNegativeButton("ยืนยน", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                DBHelper dbHelper = new DBHelper(mContext);
+                                dbHelper.deleteGardenRecord(garden.getId(),mContext);
+                                mGardenList.remove(position);
+                                mRecyclerV.removeViewAt(position);
+                                notifyItemRemoved(position);
+                                notifyItemRangeChanged(position, mGardenList.size());
+                                notifyDataSetChanged();
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.create().show();
+
+                    }
+                });
+
+                builder.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+
+                    }
+                });
+                builder.create().show();
+
+                return false;
+            }
+        });
+
+
 
 //        holder.layout.setOnClickListener(new View.OnClickListener() {
 //            @Override

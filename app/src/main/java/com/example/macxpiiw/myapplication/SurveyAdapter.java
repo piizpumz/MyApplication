@@ -200,6 +200,52 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
             }
         });
 
+
+        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setMessage("ต้องการจะลบหรือแก้ไข รูปภาพ?");
+                builder.setPositiveButton("ลบ", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                        builder.setTitle("ยืนยันการลบ");
+                        builder.setMessage("หากลบการสำรวจ รุปภาพที่อยู่ในการสำรวจนี้จะถูกลบออกด้วย ท่านแน่ใจที่จะลบ?");
+
+                        builder.setPositiveButton("ยกเลิก", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+
+                            }
+                        });
+
+                        builder.setNegativeButton("ยืนยน", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                goToDelete(position, survey.getId());
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.create().show();
+
+                    }
+                });
+
+                builder.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+
+                    }
+                });
+                builder.create().show();
+
+                return false;
+            }
+        });
+
 //        holder.layout.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {

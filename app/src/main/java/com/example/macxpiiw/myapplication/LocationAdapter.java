@@ -156,7 +156,56 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
                 });
 
 
-//        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
+                                                 @Override
+                                                 public boolean onLongClick(View view) {
+                                                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                                                     builder.setMessage("ต้องการจะลบหรือแก้ไข รูปภาพ?");
+                                                     builder.setPositiveButton("ลบ", new DialogInterface.OnClickListener() {
+                                                         @Override
+                                                         public void onClick(DialogInterface dialog, int which) {
+                                                             final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                                                             builder.setTitle("ยืนยันการลบ");
+                                                             builder.setMessage("ท่าแแน่ใจที่จะลบ " + location.getLocation_name() + " หรือไม่ ?");
+
+                                                             builder.setPositiveButton("ยกเลิก", new DialogInterface.OnClickListener() {
+                                                                 @Override
+                                                                 public void onClick(DialogInterface dialog, int which) {
+                                                                     dialog.dismiss();
+                                                                 }
+                                                             });
+
+                                                             builder.setNegativeButton("ยืนยน", new DialogInterface.OnClickListener() {
+                                                                 @Override
+                                                                 public void onClick(DialogInterface dialog, int which) {
+                                                                     DBHelper dbHelper = new DBHelper(mContext);
+                                                                     dbHelper.deleteLocationRecord(location.getId(), mContext);
+                                                                     mLocationList.remove(position);
+                                                                     mRecyclerV.removeViewAt(position);
+                                                                     notifyItemRemoved(position);
+                                                                     notifyItemRangeChanged(position, mLocationList.size());
+                                                                     notifyDataSetChanged();
+                                                                     dialog.dismiss();
+                                                                 }
+                                                             });
+                                                             builder.create().show();
+
+
+                                                         }
+                                                     });
+
+                                                     builder.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
+                                                         @Override
+                                                         public void onClick(DialogInterface dialog, int which) {
+                                                             dialog.dismiss();
+
+                                                         }
+                                                     });
+                                                     builder.create().show();
+
+                                                     return false;
+                                                 }
+                                             });
 //
 //
 //            @Override
