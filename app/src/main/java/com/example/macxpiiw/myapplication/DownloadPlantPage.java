@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -87,6 +88,16 @@ public class DownloadPlantPage extends AppCompatActivity {
 
 
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                new loaddata().execute() ;
+            }
+        }, 1000);
+
+
+
+
 
 
 
@@ -137,7 +148,7 @@ public class DownloadPlantPage extends AppCompatActivity {
                 if(items.size()!=0) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(DownloadPlantPage.this);
                     builder.setTitle("ดาวน์โหลดพันธุ์ข้าวสำเร็จ");
-                    builder.setMessage("ท่านต้องการไปที่หน้าแปลงสำรวจหรือไหม");
+                    builder.setMessage("ท่านต้องการไปที่หน้าแปลงสำรวจพื้นฐานหรือไม่");
                     builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
