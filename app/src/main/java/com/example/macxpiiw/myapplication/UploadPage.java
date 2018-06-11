@@ -778,6 +778,8 @@ public class UploadPage extends AppCompatActivity {
 
             }
 
+            new loaddata().execute();
+
 
 
 

@@ -1,28 +1,36 @@
 package com.example.macxpiiw.myapplication;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,13 +43,14 @@ public class DownloadPlantPage extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView ;
 
 
+
+
     private Button addButt;
     private TextView dataView;
     private Button btn_importAll ;
     private MySQLConnect mySQLConnect;
     private List<JSONObject> items;
     private List<JSONObject> collectItems;
-    private List<JSONObject> collectItems2;
     private List<String> showItems;
 
 
@@ -65,13 +74,21 @@ public class DownloadPlantPage extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
+
 //        btn_importAll = (Button) findViewById(R.id.import_all);
         addButt = (Button) findViewById(R.id.addButt);
         dataView = (TextView) findViewById(R.id.dataView);
         dbHelper = new DBHelper(this);
         mySQLConnect = new MySQLConnect(DownloadPlantPage.this);
+
+
         items = mySQLConnect.getData(1);
-        update();
+
+
+
+
+
+
 
 
 
@@ -82,10 +99,12 @@ public class DownloadPlantPage extends AppCompatActivity {
        listView.setAdapter(listAdapter);
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 showPlant(items);
+                new loaddata().execute() ;
                 listAdapter = new ExpandableListAdapter2(DownloadPlantPage.this,listDataHeader,listHash);
                 listView.setAdapter(listAdapter);
                 swipeRefreshLayout.setRefreshing(false);
@@ -395,7 +414,7 @@ public class DownloadPlantPage extends AppCompatActivity {
         db.close();
 
         listDataHeader.add("พันธุ์ข้าวในเครื่อง ("+cursor.getCount()+")");
-        listDataHeader.add("พันธุ์ข้าวในเซิฟ ("+(collectItems.size()-1)+")");
+        listDataHeader.add("พันธุ์ข้าวในเซิฟ ("+collectItems.size()+")");
 
 
 
@@ -405,57 +424,141 @@ public class DownloadPlantPage extends AppCompatActivity {
 
     }
 
-    public int showDownload(ArrayList<JSONObject> collectItems) throws JSONException {
 
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        ContentValues values2 = new ContentValues();
-        int countDownload = 0  ;
+    public class loaddata extends AsyncTask<Void, Void, Integer> {
 
+        int numSync = 0;
+        private List<JSONObject> collectItems2;
 
-        if(collectItems.size() == 0){
-            Toast.makeText(DownloadPlantPage.this, "ไม่เคยลงพื้นที่สำรวจในจังหวัดนี้", Toast.LENGTH_SHORT).show();
-            Log.d("size", String.valueOf(collectItems.size()));
+        private final ProgressDialog dialog = new ProgressDialog(
+                DownloadPlantPage.this);
+        protected void onPreExecute() {
+            this.dialog.setTitle("กำลังตรวจสอบข้อมูล");
+            this.dialog.setMessage("กรุณารอสักครู่...");
+            this.dialog.setCancelable(false);
+            this.dialog.show();
         }
-        else {
-            Log.d("size2", String.valueOf(collectItems.size()));
-            for (int j = 0; j < collectItems.size(); j++) {
 
-                String select = "select * from " + dbHelper.TABLE_location_survey + " WHERE " + dbHelper.COL_Location_Name + " = '" + collectItems.get(j).getString("Location_Name") +
-                        "' AND " + dbHelper.COL_Moo + " = '" + collectItems.get(j).getString("Moo") +
-                        "' AND " + dbHelper.COL_Tumbon + " = '" + collectItems.get(j).getString("Tumbon") + "' AND " + dbHelper.COL_Amphur + " = '" + collectItems.get(j).getString("Amphur") +
-                        "' AND " + dbHelper.COL_Province + " = '" + collectItems.get(j).getString("Province") + "' AND " + dbHelper.COL_Post_Code + " = '" + collectItems.get(j).getString("Post_Code")+"'";
-                Cursor cursor = db.rawQuery(select, null);
-                if (cursor.getCount() != 0) {
-                    Log.d("select", select);
 
-                } else {
 
-                    countDownload ++ ;
 
+
+        protected void onPostExecute(Integer result) {
+
+            Log.d("debug", String.valueOf(result));
+
+
+            if(result==9999){
+
+                if (this.dialog.isShowing()) {
+                    this.dialog.dismiss();
                 }
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(DownloadPlantPage.this);
+                builder.setMessage("เกิดข้อผิดพลาด");
+                builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                    }
+                });
+
+                builder.create().show();
+
+            }
+            else{
+
+                if (this.dialog.isShowing()) {
+                    this.dialog.dismiss();
+                }
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(DownloadPlantPage.this);
+                builder.setMessage("มีจำนวนที่ต้องดาวน์โหลด "+result+" พันธุ์");
+                builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                    }
+                });
+
+                builder.create().show();
 
             }
 
+
+
         }
 
-//
-//        AlertDialog.Builder builder =  new AlertDialog.Builder(DownloadLocationPage.this);
-//        builder.setMessage("มีจำนวนที่ต้องดาวน์โหลดในจังหวัด "+collectItems.get(0).getString("Location_Name")+"จำนวน "+countDownload);
-//        builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//
-//            }
-//        });
-//
-//        builder.create().show();
+
+        @Override
+        protected Integer doInBackground(Void... voids) {
+
+            collectItems2 = new ArrayList<JSONObject>();
+            for (int i = 0; i < items.size(); i++) {
+
+                collectItems2.add(items.get(i));
+
+            }
+            try {
+                numSync = SaveAllPlant2((ArrayList<JSONObject>) collectItems2);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
 
-        return countDownload ;
+
+
+            return numSync;
+        }
+
+
+        public int SaveAllPlant2(ArrayList<JSONObject> collectItems2) throws JSONException {
+
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+            int countDownload = 0 ;
+
+
+            if(collectItems2.size() == 0){
+//                Toast.makeText(DownloadPlantPage.this, "ดาวน์โหลดพันธุ์ข้าวไม่สำเร็จ", Toast.LENGTH_SHORT).show();
+                Log.d("size", String.valueOf(collectItems2.size()));
+                countDownload = 9999 ;
+
+            }else {
+
+//            Toast.makeText(DownloadPlantPage.this, "ดาวน์โหลดพันธุ์ข้าวสำเร็จทั้งหมด "+collectItems.size()+" พันธุ์", Toast.LENGTH_SHORT).show();
+                Log.d("size2",String.valueOf(collectItems2.size()));
+                for (int j = 0; j < collectItems2.size(); j++) {
+
+                    String select = "select * from " + dbHelper.TABLE_plant + " WHERE " + dbHelper.COL_Plant_Common_Name + " = '" + collectItems2.get(j).getString("Plant_Common_Name") + "'";
+                    Cursor cursor = db.rawQuery(select, null);
+
+                    if (cursor.getCount() != 0) {
+                        Log.d("select", select);
+
+                    } else {
+
+                        countDownload++;
+                    }
+
+
+                }
+
+
+            }
+
+            Log.d("count", String.valueOf(countDownload));
+            return countDownload ;
+
+        }
 
 
     }
+
+
+
 
 
 

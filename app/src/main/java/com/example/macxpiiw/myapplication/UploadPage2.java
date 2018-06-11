@@ -779,6 +779,8 @@ public class UploadPage2 extends AppCompatActivity {
 
             }
 
+            new loaddata().execute();
+
 
         }
 
