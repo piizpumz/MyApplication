@@ -10,7 +10,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -87,20 +86,9 @@ public class DownloadPlantPage extends AppCompatActivity {
 
 
 
+        new loaddata2().execute() ;
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                new loaddata().execute() ;
-            }
-        }, 1000);
-
-
-
-
-
-
-
+        new loaddata().execute();
 
 
 
@@ -145,10 +133,18 @@ public class DownloadPlantPage extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+
                 if(items.size()!=0) {
+
+                    showPlant(items);
+                    listAdapter = new ExpandableListAdapter2(DownloadPlantPage.this,listDataHeader,listHash);
+                    listView.setAdapter(listAdapter);
+                    swipeRefreshLayout.setRefreshing(false);
+
+
                     AlertDialog.Builder builder = new AlertDialog.Builder(DownloadPlantPage.this);
                     builder.setTitle("ดาวน์โหลดพันธุ์ข้าวสำเร็จ");
-                    builder.setMessage("ท่านต้องการไปที่หน้าแปลงสำรวจพื้นฐานหรือไม่");
+                    builder.setMessage("ท่านต้องการไปที่หน้าแปลงสำรวจหรือไม่");
                     builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -380,12 +376,6 @@ public class DownloadPlantPage extends AppCompatActivity {
 //    }
 
     public void showPlant(List<JSONObject> items) {
-        DBHelper dbHelper = new DBHelper(this);
-        String selectQuery = "SELECT " + dbHelper.COL_Plant_Common_Name + " FROM " + dbHelper.TABLE_plant;
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-
 
         listDataHeader = new ArrayList<String>();
         ArrayList<String> plantName = new ArrayList<String>();
@@ -414,23 +404,13 @@ public class DownloadPlantPage extends AppCompatActivity {
 
 
 
-        if (cursor.getCount() > 0) {
-            while (cursor.moveToNext()) {
-                plantName.add(cursor.getString(cursor.getColumnIndex(dbHelper.COL_Plant_Common_Name)));
-                String test = cursor.getString(cursor.getColumnIndex(dbHelper.COL_Plant_Common_Name)) ;
-                Log.d("showplant", test);
-            }
 
-        }
-        db.close();
-
-        listDataHeader.add("พันธุ์ข้าวในเครื่อง ("+cursor.getCount()+")");
         listDataHeader.add("พันธุ์ข้าวในเซิฟ ("+collectItems.size()+")");
 
 
 
-        listHash.put(listDataHeader.get(0), plantName);
-        listHash.put(listDataHeader.get(1), plantName2);
+
+        listHash.put(listDataHeader.get(0), plantName2);
 
 
     }
@@ -563,6 +543,65 @@ public class DownloadPlantPage extends AppCompatActivity {
             Log.d("count", String.valueOf(countDownload));
             return countDownload ;
 
+        }
+
+
+    }
+
+    public class loaddata2 extends AsyncTask<Void, Void, Integer> {
+
+        private final ProgressDialog dialog = new ProgressDialog(
+                DownloadPlantPage.this);
+        protected void onPreExecute() {
+            this.dialog.setTitle("กำลังตรวจสอบข้อมูล");
+            this.dialog.setMessage("กรุณารอสักครู่...");
+            this.dialog.setCancelable(false);
+            this.dialog.show();
+        }
+
+
+
+        protected void onPostExecute(Integer result) {
+
+            Log.d("debug", String.valueOf(result));
+
+
+
+                if (this.dialog.isShowing()) {
+                    this.dialog.dismiss();
+                }
+
+            showPlant(items);
+            listAdapter = new ExpandableListAdapter2(DownloadPlantPage.this,listDataHeader,listHash);
+            listView.setAdapter(listAdapter);
+            swipeRefreshLayout.setRefreshing(false);
+
+
+
+
+        }
+
+
+        @Override
+        protected Integer doInBackground(Void... voids) {
+
+
+            do{
+
+
+
+            }while(checkSum()==0);
+
+
+
+            return null;
+        }
+
+
+        public int checkSum(){
+
+            int sum = items.size() ;
+            return sum ;
         }
 
 

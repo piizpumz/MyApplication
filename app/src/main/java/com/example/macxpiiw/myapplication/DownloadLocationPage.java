@@ -277,6 +277,10 @@ public class DownloadLocationPage extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                showUpload();
+                listAdapter = new ExpandableListAdapter2(DownloadLocationPage.this,listDataHeader,listHash);
+                listView.setAdapter(listAdapter);
             }
         });
     }
