@@ -46,7 +46,7 @@ public class DownloadPlantPage extends AppCompatActivity {
 
 
     private Button addButt;
-    private TextView dataView;
+
     private Button btn_importAll ;
     private MySQLConnect mySQLConnect;
     private List<JSONObject> items;
@@ -77,7 +77,7 @@ public class DownloadPlantPage extends AppCompatActivity {
 
 //        btn_importAll = (Button) findViewById(R.id.import_all);
         addButt = (Button) findViewById(R.id.addButt);
-        dataView = (TextView) findViewById(R.id.dataView);
+
         dbHelper = new DBHelper(this);
         mySQLConnect = new MySQLConnect(DownloadPlantPage.this);
 
@@ -217,21 +217,7 @@ public class DownloadPlantPage extends AppCompatActivity {
 
     }
 
-    public void update(){
 
-//        for (int i = 0; i < collectItems.size(); i++){
-//            try {
-//                showItems.add(collectItems.get(i).getString("Plant_ID")+","+collectItems.get(i).getString("Plant_Common_Name"));
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-        String x = dbHelper.getTime() ;
-
-        dataView.setText(x);
-
-
-    }
 
     public void SaveAllPlant(ArrayList<JSONObject> collectItems) throws JSONException {
 

@@ -42,7 +42,6 @@ public class DownloadLocationPage extends AppCompatActivity {
 
     private Spinner addBox ;
     Button addButt;
-    private TextView dataView ;
     private MySQLConnect mySQLConnect ;
     private List<JSONObject> items ;
     private List<JSONObject> collectItems;
@@ -247,7 +246,6 @@ public class DownloadLocationPage extends AppCompatActivity {
         addBox = (Spinner) findViewById(R.id.addBox);
 
         addButt = (Button) findViewById(R.id.addButt);
-        dataView = (TextView) findViewById(R.id.dataView);
         dbHelper = new DBHelper(this);
         mySQLConnect = new MySQLConnect(DownloadLocationPage.this);
         items = mySQLConnect.getData(2);
