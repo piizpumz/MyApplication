@@ -146,6 +146,10 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
             }
         });
 
+        if(CountPic == 0){
+            holder.btn_ViewPic.setVisibility(View.INVISIBLE);
+        }
+
 
 //
         if (survey.getStatus() != null) {
