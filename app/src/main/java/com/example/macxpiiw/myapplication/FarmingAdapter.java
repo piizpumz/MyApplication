@@ -175,7 +175,7 @@ public class FarmingAdapter extends RecyclerView.Adapter<FarmingAdapter.ViewHold
             @Override
             public boolean onLongClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setMessage("ต้องการจะลบหรือแก้ไข รูปภาพ?");
+                builder.setMessage("ท่าแแน่ใจที่จะลบเพาะปลูกที่ " +farming.getId()+ " หรือไม่");
                 builder.setPositiveButton("ลบ", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

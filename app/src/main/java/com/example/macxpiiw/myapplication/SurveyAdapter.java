@@ -1,7 +1,6 @@
 package com.example.macxpiiw.myapplication;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,11 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -27,8 +23,6 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
     private List<Survey> mSurveyList;
     private Context mContext;
     private RecyclerView mRecyclerV;
-
-
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -61,8 +55,8 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
             layout = v;
 //
             surveySurveyID = (TextView) v.findViewById(R.id.survey_id);
-            surveyDMYTxtV= (TextView) v.findViewById(R.id.dmy_survey);
-            surveyTimeTxtV= (TextView) v.findViewById(R.id.time_survey);
+            surveyDMYTxtV = (TextView) v.findViewById(R.id.dmy_survey);
+            surveyTimeTxtV = (TextView) v.findViewById(R.id.time_survey);
             surveyIncidenceTxtV = (TextView) v.findViewById(R.id.incidence);
             surveySeverityTxtV = (TextView) v.findViewById(R.id.severity);
 //            surveyTempTxtV= (TextView) v.findViewById(R.id.temp);
@@ -76,12 +70,11 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
             surveyFarmingIDTxtV = (TextView) v.findViewById(R.id.farmingid);
 
 
-
             cardView = (CardView) v.findViewById(R.id.cardView);
             btn_ViewPic = (Button) v.findViewById(R.id.btn_view_pic);
-            btn1= (Button) v.findViewById(R.id.btn1);
-            btn2= (Button) v.findViewById(R.id.btn2);
-            btn3= (Button) v.findViewById(R.id.btn3);
+            btn1 = (Button) v.findViewById(R.id.btn1);
+            btn2 = (Button) v.findViewById(R.id.btn2);
+            btn3 = (Button) v.findViewById(R.id.btn3);
 
         }
     }
@@ -97,7 +90,7 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
         notifyItemRemoved(position);
     }
 
-    public SurveyAdapter(List<Survey> myDataset, Context context , RecyclerView recyclerView){
+    public SurveyAdapter(List<Survey> myDataset, Context context, RecyclerView recyclerView) {
         mSurveyList = myDataset;
         mContext = context;
         mRecyclerV = recyclerView;
@@ -114,7 +107,6 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
         return vh;
 
     }
-
 
 
     @Override
@@ -146,7 +138,7 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
             }
         });
 
-        if(CountPic == 0){
+        if (CountPic == 0) {
             holder.btn_ViewPic.setVisibility(View.INVISIBLE);
         }
 
@@ -209,13 +201,13 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
             @Override
             public boolean onLongClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setMessage("ต้องการจะลบหรือแก้ไข รูปภาพ?");
+                builder.setMessage("ต้องการจะลบการสำรวจหรือไม่??");
                 builder.setPositiveButton("ลบ", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                         builder.setTitle("ยืนยันการลบ");
-                        builder.setMessage("หากลบการสำรวจ รุปภาพที่อยู่ในการสำรวจนี้จะถูกลบออกด้วย ท่านแน่ใจที่จะลบ?");
+                        builder.setMessage("คุณต้องการที่จะยืนยันการสำรวจหรือไหม");
 
                         builder.setPositiveButton("ยกเลิก", new DialogInterface.OnClickListener() {
                             @Override
@@ -334,32 +326,30 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
 //    }
 
 
-
-
-    private void goToUpdateSurvey(long surveyId){
+    private void goToUpdateSurvey(long surveyId) {
         Intent goToUpdate = new Intent(mContext, UpdateSurveyRecord.class);
         goToUpdate.putExtra("SURVEY_ID", surveyId);
         mContext.startActivity(goToUpdate);
 
     }
 
-    private void goToViewImage(long surveyId){
-        Intent goToImage = new Intent(mContext , ImagePage.class);
-        goToImage.putExtra("SURVEY_ID" , surveyId);
+    private void goToViewImage(long surveyId) {
+        Intent goToImage = new Intent(mContext, ImagePage.class);
+        goToImage.putExtra("SURVEY_ID", surveyId);
         mContext.startActivity(goToImage);
     }
 
 
-    private void goToAddImage(long imageId){
+    private void goToAddImage(long imageId) {
         Intent goToadd = new Intent(mContext, AddImageRecord.class);
-        goToadd.putExtra("SURVEY_ID" , imageId);
+        goToadd.putExtra("SURVEY_ID", imageId);
         mContext.startActivity(goToadd);
     }
 
-    private void goToDelete(int position , long id){
+    private void goToDelete(int position, long id) {
         DBHelper dbHelper = new DBHelper(mContext);
         Survey survey = null;
-        dbHelper.deleteSurveyRecord(id,mContext);
+        dbHelper.deleteSurveyRecord(id, mContext);
 
         mSurveyList.remove(position);
         mRecyclerV.removeViewAt(position);

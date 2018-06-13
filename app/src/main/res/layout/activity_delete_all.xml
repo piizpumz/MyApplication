@@ -17,18 +17,26 @@
         android:background="#D3D3D3"
         design:menu="@menu/menu_navigation" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/delete_all"
+        android:text="ท่านต้องการลบข้อมูลแปลงสำรวจพื้นฐาน , ข้อมูลการสำรวจและรูปภาพ ที่เก็บไว้ในมือถือหรือไม่? เพื่อให้มีพื่นที่สำรวจเก็บข้อมูลให้ หากใช่กด [ลบข้อมูล]"
+        android:textColor="#000"
+        android:textSize="24dp" />
+
 
     <Button
-        android:padding="10dp"
-        android:background="#DC143C"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
         android:id="@+id/delete_all"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@id/bottomNavigationView"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        android:background="@color/colorPrimaryDark"
+        android:padding="10dp"
         android:text="ลบข้อมูลทั้งหมด"
-        android:textSize="24dp"
-        tools:layout_editor_absoluteX="132dp"
-        tools:layout_editor_absoluteY="231dp" />
+        android:textSize="24dp" />
 
 </RelativeLayout>

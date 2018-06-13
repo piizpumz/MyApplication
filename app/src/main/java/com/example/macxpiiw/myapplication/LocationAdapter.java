@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.example.macxpiiw.myapplication.Location;
 
 import java.util.List;
@@ -39,12 +40,11 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         private Button btn3;
 
 
-
         public View layout;
 
         public ViewHolder(View v) {
             super(v);
-            layout =v;
+            layout = v;
             locationLocation_NameTxtV = (TextView) v.findViewById(R.id.locationname);
             locationMooTxtV = (TextView) v.findViewById(R.id.moo);
             locationTumbonTxtV = (TextView) v.findViewById(R.id.tumbon);
@@ -52,28 +52,25 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
             locationProvinceTxtV = (TextView) v.findViewById(R.id.province);
 //          locationPostCodeTxtV = (TextView) v.findViewById(R.id.postcode);
             cardView = (CardView) v.findViewById(R.id.cardView);
-            btn1= (Button) v.findViewById(R.id.btn1);
-            btn2= (Button) v.findViewById(R.id.btn2);
-            btn3= (Button) v.findViewById(R.id.btn3);
-
-
-
+            btn1 = (Button) v.findViewById(R.id.btn1);
+            btn2 = (Button) v.findViewById(R.id.btn2);
+            btn3 = (Button) v.findViewById(R.id.btn3);
 
 
         }
     }
 
-    public void add(int position, Location location){
-        mLocationList.add(position , location);
+    public void add(int position, Location location) {
+        mLocationList.add(position, location);
         notifyItemInserted(position);
     }
 
-    public void remove(int position){
+    public void remove(int position) {
         mLocationList.remove(position);
         notifyItemRemoved(position);
     }
 
-    public LocationAdapter(List<Location> myDataset , Context context , RecyclerView recyclerView){
+    public LocationAdapter(List<Location> myDataset, Context context, RecyclerView recyclerView) {
         mLocationList = myDataset;
         mContext = context;
         mRecyclerV = recyclerView;
@@ -89,8 +86,8 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         holder.locationLocation_NameTxtV.setText("ชื่อหมู่บ้าน : " + location.getLocation_name() + " (" + Count + " แปลง)");
         holder.locationMooTxtV.setText("หมู่ที่ : " + location.getMoo());
         holder.locationTumbonTxtV.setText("ตำบล : " + location.getTumbon());
-        holder.locationAmphurTxtV.setText("อำเภอ : "+ location.getAmphur());
-        holder.locationProvinceTxtV.setText("จังหวัด : "+ location.getProvince());
+        holder.locationAmphurTxtV.setText("อำเภอ : " + location.getAmphur());
+        holder.locationProvinceTxtV.setText("จังหวัด : " + location.getProvince());
 
 
         holder.btn2.setVisibility(View.INVISIBLE);
@@ -99,7 +96,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
 
 //
-        if (location.getStatus()!=null) {
+        if (location.getStatus() != null) {
             if (location.getStatus().equals("1")) {
 
                 holder.cardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
@@ -110,26 +107,63 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         }
 
 
-                holder.btn1.setOnClickListener(new View.OnClickListener() {
+        holder.btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToAddGarden(location.getId());
+            }
+        });
+
+        holder.btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToUpdateLocation(location.getId());
+            }
+        });
+
+        holder.btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle("ยืนยันการลบ");
+                builder.setMessage("ท่าแแน่ใจที่จะลบ " + location.getLocation_name() + " หรือไม่ ?");
+
+                builder.setPositiveButton("ยกเลิก", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        goToAddGarden(location.getId());
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                     }
                 });
 
-                holder.btn2.setOnClickListener(new View.OnClickListener() {
+                builder.setNegativeButton("ยืนยน", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        goToUpdateLocation(location.getId());
+                    public void onClick(DialogInterface dialog, int which) {
+                        DBHelper dbHelper = new DBHelper(mContext);
+                        dbHelper.deleteLocationRecord(location.getId(), mContext);
+                        mLocationList.remove(position);
+                        mRecyclerV.removeViewAt(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, mLocationList.size());
+                        notifyDataSetChanged();
+                        dialog.dismiss();
                     }
                 });
+                builder.create().show();
+            }
+        });
 
-                holder.btn3.setOnClickListener(new View.OnClickListener() {
+
+        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setMessage("ท่าแแน่ใจที่จะลบ " + location.getLocation_name() + " หรือไม่ ?");
+                builder.setPositiveButton("ลบ", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onClick(DialogInterface dialog, int which) {
                         final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                         builder.setTitle("ยืนยันการลบ");
-                        builder.setMessage("ท่าแแน่ใจที่จะลบ " + location.getLocation_name() + " หรือไม่ ?");
+                        builder.setMessage("คุณต้องการที่จะยืนยันการลบพื้นที่ " + location.getLocation_name() + " หรือไม่ ?");
 
                         builder.setPositiveButton("ยกเลิก", new DialogInterface.OnClickListener() {
                             @Override
@@ -152,60 +186,23 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
                             }
                         });
                         builder.create().show();
+
+
                     }
                 });
 
+                builder.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
 
-        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
-                                                 @Override
-                                                 public boolean onLongClick(View view) {
-                                                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                                                     builder.setMessage("ต้องการจะลบหรือแก้ไข รูปภาพ?");
-                                                     builder.setPositiveButton("ลบ", new DialogInterface.OnClickListener() {
-                                                         @Override
-                                                         public void onClick(DialogInterface dialog, int which) {
-                                                             final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                                                             builder.setTitle("ยืนยันการลบ");
-                                                             builder.setMessage("ท่าแแน่ใจที่จะลบ " + location.getLocation_name() + " หรือไม่ ?");
+                    }
+                });
+                builder.create().show();
 
-                                                             builder.setPositiveButton("ยกเลิก", new DialogInterface.OnClickListener() {
-                                                                 @Override
-                                                                 public void onClick(DialogInterface dialog, int which) {
-                                                                     dialog.dismiss();
-                                                                 }
-                                                             });
-
-                                                             builder.setNegativeButton("ยืนยน", new DialogInterface.OnClickListener() {
-                                                                 @Override
-                                                                 public void onClick(DialogInterface dialog, int which) {
-                                                                     DBHelper dbHelper = new DBHelper(mContext);
-                                                                     dbHelper.deleteLocationRecord(location.getId(), mContext);
-                                                                     mLocationList.remove(position);
-                                                                     mRecyclerV.removeViewAt(position);
-                                                                     notifyItemRemoved(position);
-                                                                     notifyItemRangeChanged(position, mLocationList.size());
-                                                                     notifyDataSetChanged();
-                                                                     dialog.dismiss();
-                                                                 }
-                                                             });
-                                                             builder.create().show();
-
-
-                                                         }
-                                                     });
-
-                                                     builder.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
-                                                         @Override
-                                                         public void onClick(DialogInterface dialog, int which) {
-                                                             dialog.dismiss();
-
-                                                         }
-                                                     });
-                                                     builder.create().show();
-
-                                                     return false;
-                                                 }
-                                             });
+                return false;
+            }
+        });
 //
 //
 //            @Override
@@ -282,33 +279,33 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     @Override
     public LocationAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.single_location_row, parent , false);
+        View v = inflater.inflate(R.layout.single_location_row, parent, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
 
 
-    private void goToUpdateLocation(long locationId){
+    private void goToUpdateLocation(long locationId) {
         Intent goToupdate = new Intent(mContext, UpdateLocationRecord.class);
-        goToupdate.putExtra("Location_ID" , locationId);
+        goToupdate.putExtra("Location_ID", locationId);
         mContext.startActivity(goToupdate);
     }
 
-    private void goToAddGarden(long locationId){
+    private void goToAddGarden(long locationId) {
         Intent gotoAdd = new Intent(mContext, AddGarden2.class);
-        gotoAdd.putExtra("Location_ID" , locationId);
+        gotoAdd.putExtra("Location_ID", locationId);
         mContext.startActivity(gotoAdd);
     }
 
-    private void goToGarden(long locationId){
-        Intent gotoGarden = new Intent(mContext , GardenPage.class);
-        gotoGarden.putExtra("Location_ID" , locationId);
+    private void goToGarden(long locationId) {
+        Intent gotoGarden = new Intent(mContext, GardenPage.class);
+        gotoGarden.putExtra("Location_ID", locationId);
         mContext.startActivity(gotoGarden);
     }
 
     @Override
     public int getItemCount() {
-        return  mLocationList.size();
+        return mLocationList.size();
     }
 
 

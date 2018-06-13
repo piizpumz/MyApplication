@@ -1995,7 +1995,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return Check;
     }
 
-    public boolean cheak_survey(Survey survey){
+    public boolean check_survey(Survey survey){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 

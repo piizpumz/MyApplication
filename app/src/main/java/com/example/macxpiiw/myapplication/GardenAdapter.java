@@ -188,7 +188,7 @@ public class GardenAdapter extends RecyclerView.Adapter<GardenAdapter.ViewHolder
             @Override
             public boolean onLongClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setMessage("ต้องการจะลบหรือแก้ไข รูปภาพ?");
+                builder.setMessage("ท่าแแน่ใจที่จะลบแปลง " +garden.getGarden_name()+ " หรือไม่ ?");
                 builder.setPositiveButton("ลบ", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

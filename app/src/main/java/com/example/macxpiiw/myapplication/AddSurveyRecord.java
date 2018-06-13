@@ -4,14 +4,12 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AddSurveyRecord extends AppCompatActivity {
@@ -104,7 +102,7 @@ public class AddSurveyRecord extends AppCompatActivity {
 
         Survey survey = new Survey(d_m_y_survey , time_survey , temp , moisture , rain , light , dew , category , sample_point ,point ,farmingID , incidence , severity , status);
 
-        Boolean check = dbHelper.cheak_survey(survey);
+        Boolean check = dbHelper.check_survey(survey);
         if(check){
             dbHelper.saveNewSurvey(survey);
             finish();
