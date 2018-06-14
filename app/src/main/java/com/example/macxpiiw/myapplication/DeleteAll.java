@@ -113,6 +113,7 @@ public class DeleteAll extends AppCompatActivity {
 
             Log.d("debug", String.valueOf(result));
 
+            String alert5 ;
 
             if (this.dialog.isShowing()) {
                 this.dialog.dismiss();
@@ -121,8 +122,17 @@ public class DeleteAll extends AppCompatActivity {
 
             AlertDialog.Builder builder =  new AlertDialog.Builder(DeleteAll.this);
 
+            if(result.get(4)==0){
 
-            String alert5 = "รูปจำนวน "+result.get(4)+" ยังไม่ได้อัพโหลด";
+
+                alert5 = "";
+
+
+            }
+
+            else {
+                alert5 = "รูปจำนวน " + result.get(4) + " ยังไม่ได้อัพโหลด";
+            }
             String alert6 = "ถ้าคุณยืนยัน ข้อมูลทั้งหมดของคุณจะถูกลบออกจากแอปพลิเคชัน(ข้อมูลบน Server จะไม่ถูกลบ) คุณต้องการลบหรือไหม";
 
 
@@ -140,13 +150,18 @@ public class DeleteAll extends AppCompatActivity {
                 }
             });
 
-            builder.setNegativeButton("ไปยังหน้าหน้าอัพโหลด", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
 
-                }
-            });
+
+            if(result.get(4)>0) {
+                builder.setNegativeButton("ไปยังหน้าอัพโหลด", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+
+                    }
+                });
+            }
+
             builder.create().show();
 
 

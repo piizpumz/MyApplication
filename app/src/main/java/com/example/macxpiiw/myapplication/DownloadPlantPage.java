@@ -391,7 +391,7 @@ public class DownloadPlantPage extends AppCompatActivity {
 
 
 
-        listDataHeader.add("พันธุ์ข้าวในเซิฟ ("+collectItems.size()+")");
+        listDataHeader.add("พันธุ์ข้าว ("+collectItems.size()+")");
 
 
 
