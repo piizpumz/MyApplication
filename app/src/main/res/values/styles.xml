@@ -22,7 +22,7 @@
     </style>
 
 
-    <style name="generalnotitle" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="generalnotitle" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowNoTitle">true</item>
     </style>
 

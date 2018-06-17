@@ -2,14 +2,14 @@ package com.example.macxpiiw.myapplication;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private CardView homecard , farmcard ,surveycard,imagecard,downloadcard,uploadcard;
+    private CardView homecard, farmcard, surveycard, imagecard, downloadcard, uploadcard;
 
 
     @Override
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().setTitle("สำรวจโรคข้าว");
 
         //defining cards
-        homecard =(CardView) findViewById(R.id.home_card);
+        homecard = (CardView) findViewById(R.id.home_card);
         farmcard = (CardView) findViewById(R.id.farm_card);
         surveycard = (CardView) findViewById(R.id.survey_card);
 //        imagecard = (CardView) findViewById(R.id.image_card);
@@ -45,22 +45,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (view.getId()) {
             case R.id.home_card:
-                i = new Intent(this, HomePage.class);startActivity(i);
+                i = new Intent(this, HomePage.class);
+                startActivity(i);
                 break;
             case R.id.farm_card:
-                i = new Intent(this, FarmPage.class);startActivity(i);
+                i = new Intent(this, FarmPage.class);
+                startActivity(i);
                 break;
             case R.id.survey_card:
-                i = new Intent(this, SurveyPage.class);startActivity(i);
+                i = new Intent(this, SurveyPage.class);
+                startActivity(i);
                 break;
 //            case R.id.image_card:
 //                i = new Intent(this, ImagePage.class);startActivity(i);
 //                break;
             case R.id.download_card:
-                i = new Intent(this, Login2.class);startActivity(i);
+                i = new Intent(this, Login2.class);
+                startActivity(i);
                 break;
             case R.id.upload_card:
-                i = new Intent(this, Login.class);startActivity(i);
+                i = new Intent(this, Login.class);
+                startActivity(i);
                 break;
 
         }
