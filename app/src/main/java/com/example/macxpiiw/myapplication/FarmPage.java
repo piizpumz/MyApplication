@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,7 @@ public class FarmPage extends AppCompatActivity /*implements View.OnClickListene
     private CardView tofarming, togarden , tolocation;
     private BottomNavigationView bottomNavigationView ;
     private TabLayout tab;
+    private Long change ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,33 @@ public class FarmPage extends AppCompatActivity /*implements View.OnClickListene
         getSupportActionBar().setTitle("แปลงสำรวจพื้นฐาน");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
+
+        try{
+            change =getIntent().getLongExtra("LALA" , 0);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        Log.d("testeiei"  , String.valueOf(change));
+
+        if (change == 0)
+        {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_id,new Page2()).commit();
+            Log.d("testeiei"  , "go1");
+        }
+
+        if (change == 1){
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_id,new page3()).commit();
+            Log.d("testeiei"  , "go2");
+
+        }
+
+        if (change == 2){
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_id,new Page4()).commit();
+            Log.d("testeiei"  , "go3");
+        }
 
 //        tofarming=(CardView) findViewById(R.id.to_farming);
 //        togarden=(CardView) findViewById(R.id.to_garden);
@@ -68,7 +97,7 @@ public class FarmPage extends AppCompatActivity /*implements View.OnClickListene
 
             }
         });
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_id,new Page2()).commit();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.frame_id,new Page2()).commit();
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
         BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);

@@ -134,6 +134,10 @@ public class AddLocationRecord extends AppCompatActivity {
             if(check) {
                 dbHelper.saveNewLocation(locaion);
                 finish();
+                Intent gotoPage = new Intent(this, FarmPage.class);
+                gotoPage.putExtra("eiei", 2);
+                startActivity(gotoPage);
+
             }
             else {
                 Toast.makeText(this, "มีชื่อหมู่บ้านนี้อยู่แล้ว", Toast.LENGTH_SHORT).show();

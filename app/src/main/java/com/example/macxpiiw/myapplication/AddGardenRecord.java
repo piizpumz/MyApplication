@@ -151,8 +151,12 @@ public class AddGardenRecord extends AppCompatActivity {
 
             Boolean check = dbHelper.cheak_garden(garden);
             if(check){
-                dbHelper.saveNewGarden(garden);
-                finish();
+                Long x = Long.valueOf(1);
+                dbHelper.saveNewGarden2(garden);
+                Intent gotoPage = new Intent(this, FarmPage.class);
+                gotoPage.putExtra("LALA", x);
+                startActivity(gotoPage);
+
             }
             else {
                 Toast.makeText(this, "มีแปลงนี้อยู่แล้ว", Toast.LENGTH_SHORT).show();
