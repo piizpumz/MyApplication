@@ -187,8 +187,11 @@ public class AddFarming2 extends AppCompatActivity {
 
             Boolean check = dbHelper.cheak_farming(farming);
             if (check) {
+                Long x = Long.valueOf(2);
                 dbHelper.saveNewFarming2(farming);
-                finish();
+                Intent gotoPage = new Intent(this, FarmPage.class);
+                gotoPage.putExtra("LALA", x);
+                startActivity(gotoPage);
             }
             else {
                 Toast.makeText(this, "มีเพาะปลูกนี้อยู่แล้ว", Toast.LENGTH_SHORT).show();

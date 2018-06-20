@@ -37,30 +37,7 @@ public class FarmPage extends AppCompatActivity /*implements View.OnClickListene
 
 
 
-        try{
-            change =getIntent().getLongExtra("LALA" , 0);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
 
-        Log.d("testeiei"  , String.valueOf(change));
-
-        if (change == 0)
-        {
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_id,new Page2()).commit();
-            Log.d("testeiei"  , "go1");
-        }
-
-        if (change == 1){
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_id,new page3()).commit();
-            Log.d("testeiei"  , "go2");
-
-        }
-
-        if (change == 2){
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_id,new Page4()).commit();
-            Log.d("testeiei"  , "go3");
-        }
 
 //        tofarming=(CardView) findViewById(R.id.to_farming);
 //        togarden=(CardView) findViewById(R.id.to_garden);
@@ -69,6 +46,9 @@ public class FarmPage extends AppCompatActivity /*implements View.OnClickListene
 //        tofarming.setOnClickListener(this);
 //        togarden.setOnClickListener(this);
 //        tolocation.setOnClickListener(this);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_id,new Page2()).commit();
+
         tab =  (TabLayout)findViewById(R.id.tablayout);
         tab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -97,6 +77,32 @@ public class FarmPage extends AppCompatActivity /*implements View.OnClickListene
 
             }
         });
+
+        try{
+            change =getIntent().getLongExtra("LALA" , 0);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        Log.d("testeiei"  , String.valueOf(change));
+
+        if (change == 0)
+        {
+            Log.d("testeiei"  , "go1");
+        }
+
+        if (change == 1){
+            tab.getTabAt(1).select();
+            Log.d("testeiei"  , "go2");
+
+        }
+
+        if (change == 2){
+            tab.getTabAt(2).select();
+            Log.d("testeiei"  , "go3");
+        }
+
+
 //        getSupportFragmentManager().beginTransaction().replace(R.id.frame_id,new Page2()).commit();
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);

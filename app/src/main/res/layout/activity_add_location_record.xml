@@ -27,7 +27,7 @@
                     android:id="@+id/addLocation_Name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="ชื่อหมูบ้าน"
+                    android:hint="ชื่อหมู่บ้าน"
                     android:inputType="text"
                     android:layout_marginBottom="20dp"/>
             </android.support.design.widget.TextInputLayout>
